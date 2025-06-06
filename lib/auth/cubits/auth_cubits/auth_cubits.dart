@@ -18,7 +18,7 @@ class AuthCubits extends Cubit<AuthStates> {
       // final responseData =
       await Api().post(
         //10.0.2.2:8000
-        url: "http://127.0.0.1:8000/api/register",
+        url: "http://10.0.2.2:8000/api/register",
         body: {
           "full_name": fullNameController.text,
           "email": emailController.text,

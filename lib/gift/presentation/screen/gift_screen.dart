@@ -81,6 +81,12 @@ class GiftScreen extends StatelessWidget {
                       if (value!.isEmpty) {
                         return "رقم المُهدى إليه مطلوب";
                       }
+                      if (!value.startsWith("09")) {
+                        return "يجب أن يبدأ الرقم ب 09";
+                      }
+                      if (value.length != 10) {
+                        return "يجب أن يتكون الرقم من 10 أرقام";
+                      }
                       return null;
                     }),
               ),

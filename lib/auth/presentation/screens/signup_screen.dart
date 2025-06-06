@@ -132,6 +132,9 @@ class SignUpScreen extends StatelessWidget {
                               if (value.length != 10) {
                                 return "رقم الهاتف يجب أن يكون 10 أرقام";
                               }
+                              if (!value.startsWith("09")) {
+                                return "يجب أن يبدأ الرقم ب 09";
+                              }
                               return null;
                             },
                           ),
@@ -148,6 +151,7 @@ class SignUpScreen extends StatelessWidget {
                               if (value.length < 8) {
                                 return "يجب أن تحتوي على 8 أحرف على الأقل";
                               }
+
                               return null;
                             },
                           ),

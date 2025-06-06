@@ -11,6 +11,7 @@ class VoluntaryScreen extends StatefulWidget {
   @override
   State<VoluntaryScreen> createState() => _VoluntaryScreenState();
 }
+
 class _VoluntaryScreenState extends State<VoluntaryScreen> {
   final formKey = GlobalKey<FormState>();
 
@@ -57,7 +58,8 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   mycontroller: phoneController,
                   valid: (value) {
                     if (value!.isEmpty) return "رقم الهاتف مطلوب";
-                    if (value.length != 10) return "رقم الهاتف يجب أن يكون 10 أرقام";
+                    if (value.length != 10)
+                      return "رقم الهاتف يجب أن يكون 10 أرقام";
                     return null;
                   },
                 ),
@@ -94,7 +96,8 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   hint: "المدينة / الموقع الحالي",
                   inputType: TextInputType.streetAddress,
                   mycontroller: locationController,
-                  valid: (value) => value!.isEmpty ? "الموقع الحالي مطلوب" : null,
+                  valid: (value) =>
+                      value!.isEmpty ? "الموقع الحالي مطلوب" : null,
                 ),
                 const SizedBox(height: 10),
                 Customtextfields(
@@ -104,7 +107,8 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   valid: (value) {
                     if (value!.isEmpty) return "عدد الساعات مطلوب";
                     final hours = int.tryParse(value);
-                    if (hours == null || hours <= 0) return "أدخل عدد صحيح موجب";
+                    if (hours == null || hours <= 0)
+                      return "أدخل عدد صحيح موجب";
                     return null;
                   },
                 ),
@@ -131,7 +135,8 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   items: const [
                     DropdownMenuItem(value: 'highschool', child: Text('ثانوي')),
                     DropdownMenuItem(value: 'university', child: Text('جامعي')),
-                    DropdownMenuItem(value: 'postgraduate', child: Text('دراسات عليا')),
+                    DropdownMenuItem(
+                        value: 'postgraduate', child: Text('دراسات عليا')),
                   ],
                   onChanged: (value) {
                     setState(() {
@@ -144,10 +149,12 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   text: 'مجالات التطوع:',
                   selectedValue: selectedDomain,
                   items: const [
-                    DropdownMenuItem(value: 'education', child: Text('التعليم')),
-                    DropdownMenuItem(value: 'health', child: Text('الصحة')),
-                    DropdownMenuItem(value: 'technology', child: Text('التقنية والدعم الفني')),
-                    DropdownMenuItem(value: 'humanitarian', child: Text('المساعدات الإنسانية')),
+                    DropdownMenuItem(value: 'education', child: Text('تعليمي')),
+                    DropdownMenuItem(value: 'health', child: Text('صحي')),
+                    DropdownMenuItem(
+                        value: 'technology', child: Text("عن بُعد")),
+                    DropdownMenuItem(
+                        value: 'humanitarian', child: Text("ميداني")),
                   ],
                   onChanged: (value) {
                     setState(() {
