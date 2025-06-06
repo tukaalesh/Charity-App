@@ -1,3 +1,4 @@
+import 'package:charity_app/auth/presentation/widgets/alert_dialog.dart';
 import 'package:charity_app/auth/presentation/widgets/auth_button.dart';
 import 'package:charity_app/constants/image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
@@ -73,6 +74,11 @@ class WalletScreen extends StatelessWidget {
                           if (value!.isEmpty) {
                             return "رقم حساب البنك مطلوب ";
                           }
+
+                          if (value.startsWith("-")) {
+                            return "الرقم لا يمكن أن يكون سالبًا";
+                          }
+
                           return null;
                         }),
                     const SizedBox(
@@ -83,10 +89,16 @@ class WalletScreen extends StatelessWidget {
                         inputType: TextInputType.number,
                         mycontroller: bankAccountCtrl,
                         valid: (value) {
-                        if (value!.isEmpty) {
+                          if (value!.isEmpty) {
                             return "المبلغ المراد شحنه مطلوب";
                           }
-                        return null;
+                          if (value.startsWith("0")) {
+                            return " يرجى إدخال الرقم بطريقة صحيحة";
+                          }
+                          if (value.startsWith("-")) {
+                            return "الرقم لا يمكن أن يكون سالبًا";
+                          }
+                          return null;
                         }),
                   ],
                 ),
@@ -95,7 +107,9 @@ class WalletScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(15.0),
                 child: Authbutton(
                     buttonText: "تأكيد",
-                    onPressed: () {},
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {}
+                    },
                     color: colorScheme.secondary),
               )
             ],
