@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 class WalletScreen extends StatelessWidget {
   WalletScreen({super.key});
   TextEditingController bankAccountCtrl = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -30,65 +32,74 @@ class WalletScreen extends StatelessWidget {
           elevation: 0,
         ),
         backgroundColor: colorScheme.surface,
-        body: ListView(
-          children: [
-            SizedBox(
-                width: double.infinity,
-                height: size.height * 0.44,
-                child: walletImage),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 20,
-                ),
-                Icon(
-                  Icons.warning,
-                  color: colorScheme.secondary,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  r" رصيدك الحالي : 500$",
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(13.0),
-              child: Column(
+        body: Form(
+          key: formKey,
+          child: ListView(
+            children: [
+              SizedBox(
+                  width: double.infinity,
+                  height: size.height * 0.44,
+                  child: walletImage),
+              Row(
                 children: [
-                  Customtextfields(
-                      hint: "رقم حساب البنك",
-                      inputType: TextInputType.number,
-                      mycontroller: bankAccountCtrl,
-                      valid: (value) {
-                        return null;
-                      }),
                   const SizedBox(
-                    height: 13,
+                    width: 20,
                   ),
-                  Customtextfields(
-                      hint: "المبلغ المراد شحنه",
-                      inputType: TextInputType.number,
-                      mycontroller: bankAccountCtrl,
-                      valid: (value) {
-                        return null;
-                      }),
+                  Icon(
+                    Icons.warning,
+                    color: colorScheme.secondary,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    r" رصيدك الحالي : 500$",
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface),
+                  ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Authbutton(
-                  buttonText: "تأكيد",
-                  onPressed: () {},
-                  color: colorScheme.secondary),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: Column(
+                  children: [
+                    Customtextfields(
+                        hint: "رقم حساب البنك",
+                        inputType: TextInputType.number,
+                        mycontroller: bankAccountCtrl,
+                        valid: (value) {
+                          if (value!.isEmpty) {
+                            return "رقم حساب البنك مطلوب ";
+                          }
+                          return null;
+                        }),
+                    const SizedBox(
+                      height: 13,
+                    ),
+                    Customtextfields(
+                        hint: "المبلغ المراد شحنه",
+                        inputType: TextInputType.number,
+                        mycontroller: bankAccountCtrl,
+                        valid: (value) {
+                        if (value!.isEmpty) {
+                            return "المبلغ المراد شحنه مطلوب";
+                          }
+                        return null;
+                        }),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Authbutton(
+                    buttonText: "تأكيد",
+                    onPressed: () {},
+                    color: colorScheme.secondary),
+              )
+            ],
+          ),
         ),
       ),
     );

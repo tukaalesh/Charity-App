@@ -101,6 +101,12 @@ class LoginScreen extends StatelessWidget {
                                 if (value!.isEmpty) {
                                   return "البريد الإلكتروني مطلوب";
                                 }
+                                bool isValidEmail =
+                                    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                        .hasMatch(value);
+                                if (!isValidEmail) {
+                                  return "الرجاء إدخال بريد إلكتروني صحيح";
+                                }
                                 return null;
                               }),
                           const SizedBox(height: 12),
