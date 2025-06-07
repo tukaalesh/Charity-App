@@ -101,6 +101,7 @@ class SettingDrawer extends StatelessWidget {
                   onTap: () => Navigator.pushNamed(context, 'Voluntary'),
                 ),
                 SettingsRowItem(
+                  onTap: () => Navigator.pushNamed(context, 'Wallet'),
                   text: "التبرع لاحقاً",
                   icon: Icon(Icons.bookmark_outline,
                       color: colorScheme.onSurface),

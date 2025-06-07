@@ -87,6 +87,11 @@ class GiftScreen extends StatelessWidget {
                       if (value.length != 10) {
                         return "يجب أن يتكون الرقم من 10 أرقام";
                       }
+                      if (value.startsWith(".") ||
+                          value.startsWith(",") ||
+                          value.startsWith("-")) {
+                        return "يُرجى إدخال الرقم بطريقة صحيحة";
+                      }
                       return null;
                     }),
               ),
@@ -159,6 +164,15 @@ class GiftScreen extends StatelessWidget {
                     valid: (value) {
                       if (value!.isEmpty) {
                         return "مبلغ التبرع مطلوب";
+                      }
+                      if (value.startsWith("0")) {
+                        return " يرجى إدخال الرقم بطريقة صحيحة";
+                      }
+
+                      if (value.startsWith(".") ||
+                          value.startsWith(",") ||
+                          value.startsWith("-")) {
+                        return "يُرجى إدخال الرقم بطريقة صحيحة";
                       }
                       return null;
                     },

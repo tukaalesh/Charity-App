@@ -1,4 +1,3 @@
-import 'package:charity_app/auth/presentation/widgets/alert_dialog.dart';
 import 'package:charity_app/auth/presentation/widgets/auth_button.dart';
 import 'package:charity_app/constants/image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
@@ -74,9 +73,14 @@ class WalletScreen extends StatelessWidget {
                           if (value!.isEmpty) {
                             return "رقم حساب البنك مطلوب ";
                           }
+                          if (value.length < 6) {
+                            return "في خطأ برقم حساب البنك";
+                          }
 
-                          if (value.startsWith("-")) {
-                            return "الرقم لا يمكن أن يكون سالبًا";
+                          if (value.startsWith(".") ||
+                              value.startsWith(",") ||
+                              value.startsWith("-")) {
+                            return "يُرجى إدخال الرقم بطريقة صحيحة";
                           }
 
                           return null;
@@ -92,11 +96,12 @@ class WalletScreen extends StatelessWidget {
                           if (value!.isEmpty) {
                             return "المبلغ المراد شحنه مطلوب";
                           }
-                          if (value.startsWith("0")) {
-                            return " يرجى إدخال الرقم بطريقة صحيحة";
-                          }
-                          if (value.startsWith("-")) {
-                            return "الرقم لا يمكن أن يكون سالبًا";
+
+                          if (value.startsWith(".") ||
+                              value.startsWith(",") ||
+                              value.startsWith("0") ||
+                              value.startsWith("-")) {
+                            return "يُرجى إدخال الرقم بطريقة صحيحة";
                           }
                           return null;
                         }),
