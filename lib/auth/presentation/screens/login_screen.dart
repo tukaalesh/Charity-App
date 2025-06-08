@@ -116,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                             inputType: TextInputType.visiblePassword,
                             mycontroller: passwordController,
                             color: colorScheme.secondary,
-                            isPassword: true,
+                            isPassword: true, 
                             valid: (value) {
                               if (value!.isEmpty) return "كلمة المرور مطلوبة";
                               if (value.length < 8) {
