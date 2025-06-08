@@ -58,8 +58,22 @@ class _VoluntaryScreenState extends State<VoluntaryScreen> {
                   mycontroller: phoneController,
                   valid: (value) {
                     if (value!.isEmpty) return "رقم الهاتف مطلوب";
-                    if (value.length != 10)
+                    if (value.length != 10) {
                       return "رقم الهاتف يجب أن يكون 10 أرقام";
+                    }
+                    if (!value.startsWith("09")) {
+                      return "يجب أن يبدأ الرقم ب 09";
+                    }
+                    if (value.contains(".") ||
+                        value.contains(",") ||
+                        value.contains("-")) {
+                      return "يُرجى إدخال الرقم بطريقة صحيحة";
+                    }
+                    if (value.startsWith(".") ||
+                        value.startsWith(",") ||
+                        value.startsWith("-")) {
+                      return "يُرجى إدخال الرقم بطريقة صحيحة";
+                    }
                     return null;
                   },
                 ),

@@ -79,6 +79,11 @@ class WalletScreen extends StatelessWidget {
                             return "في خطأ برقم حساب البنك";
                           }
 
+                          if (value.contains(".") ||
+                              value.contains(",") ||
+                              value.contains("-")) {
+                            return "يُرجى إدخال الرقم بطريقة صحيحة";
+                          }
                           if (value.startsWith(".") ||
                               value.startsWith(",") ||
                               value.startsWith("-")) {

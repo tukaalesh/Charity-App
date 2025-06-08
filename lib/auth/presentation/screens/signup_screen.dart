@@ -141,6 +141,11 @@ class SignUpScreen extends StatelessWidget {
                               if (!value.startsWith("09")) {
                                 return "يجب أن يبدأ الرقم ب 09";
                               }
+                              if (value.contains(".") ||
+                                  value.contains(",") ||
+                                  value.contains("-")) {
+                                return "يُرجى إدخال الرقم بطريقة صحيحة";
+                              }
                               if (value.startsWith(".") ||
                                   value.startsWith(",") ||
                                   value.startsWith("-")) {

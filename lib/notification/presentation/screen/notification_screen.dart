@@ -39,10 +39,10 @@ class NotificationScreen extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: isDark
-                        ? Color.fromARGB(255, 67, 67, 67)
+                        ? const Color.fromARGB(255, 67, 67, 67)
                         : const Color.fromARGB(255, 193, 193, 193),
                     blurRadius: 1,
-                    offset: Offset(0, 1),
+                    offset: const Offset(0, 1),
                   ),
                 ],
               ),

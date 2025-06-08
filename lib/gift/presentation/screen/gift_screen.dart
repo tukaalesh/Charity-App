@@ -92,6 +92,11 @@ class GiftScreen extends StatelessWidget {
                           value.startsWith("-")) {
                         return "يُرجى إدخال الرقم بطريقة صحيحة";
                       }
+                      if (value.contains(".") ||
+                          value.contains(",") ||
+                          value.contains("-")) {
+                        return "يُرجى إدخال الرقم بطريقة صحيحة";
+                      }
                       return null;
                     }),
               ),
@@ -168,7 +173,11 @@ class GiftScreen extends StatelessWidget {
                       if (value.startsWith("0")) {
                         return " يرجى إدخال الرقم بطريقة صحيحة";
                       }
-
+                      if (value.contains(".") ||
+                          value.contains(",") ||
+                          value.contains("-")) {
+                        return "يُرجى إدخال الرقم بطريقة صحيحة";
+                      }
                       if (value.startsWith(".") ||
                           value.startsWith(",") ||
                           value.startsWith("-")) {
