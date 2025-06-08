@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class WalletScreen extends StatelessWidget {
   WalletScreen({super.key});
-  TextEditingController bankAccountCtrl = TextEditingController();
+  TextEditingController bankAccountController = TextEditingController();
+  TextEditingController moneyController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -68,7 +70,7 @@ class WalletScreen extends StatelessWidget {
                     Customtextfields(
                         hint: "رقم حساب البنك",
                         inputType: TextInputType.number,
-                        mycontroller: bankAccountCtrl,
+                        mycontroller: bankAccountController,
                         valid: (value) {
                           if (value!.isEmpty) {
                             return "رقم حساب البنك مطلوب ";
@@ -91,7 +93,7 @@ class WalletScreen extends StatelessWidget {
                     Customtextfields(
                         hint: "المبلغ المراد شحنه",
                         inputType: TextInputType.number,
-                        mycontroller: bankAccountCtrl,
+                        mycontroller: moneyController,
                         valid: (value) {
                           if (value!.isEmpty) {
                             return "المبلغ المراد شحنه مطلوب";
