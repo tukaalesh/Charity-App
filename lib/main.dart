@@ -1,21 +1,23 @@
 import 'package:charity_app/auth/cubits/auth_cubits/auth_cubits.dart';
 import 'package:charity_app/auth/cubits/change_password/change_password_cubit.dart';
 import 'package:charity_app/auth/cubits/splash_cubits/splash_cubits.dart';
-import 'package:charity_app/auth/presentation/screens/change_password_screen.dart';
-import 'package:charity_app/auth/presentation/screens/login_screen.dart';
-import 'package:charity_app/auth/presentation/screens/pin_code_screen.dart';
-import 'package:charity_app/auth/presentation/screens/signup_screen.dart';
-import 'package:charity_app/auth/presentation/screens/splash_screen.dart';
-import 'package:charity_app/auth/presentation/screens/welcome_screen.dart';
+import 'package:charity_app/auth/screens/change_password_screen.dart';
+import 'package:charity_app/auth/screens/login_screen.dart';
+import 'package:charity_app/auth/screens/pin_code_screen.dart';
+import 'package:charity_app/auth/screens/signup_screen.dart';
+import 'package:charity_app/auth/screens/splash_screen.dart';
+import 'package:charity_app/auth/screens/welcome_screen.dart';
 import 'package:charity_app/core/theme/app_themes.dart';
-import 'package:charity_app/gift/presentation/screen/gift_screen.dart';
+import 'package:charity_app/feature/gift/cubit/send_gift_cubit.dart';
+import 'package:charity_app/feature/gift/screen/gift_screen.dart';
+import 'package:charity_app/feature/notification/screen/notification_screen.dart';
+import 'package:charity_app/feature/voluntary/screen/voluntary_screen.dart';
+import 'package:charity_app/feature/voluntary/screen/volunteering_fields.dart';
+import 'package:charity_app/feature/wallet/cubit/wallet_cubit.dart';
+import 'package:charity_app/feature/wallet/screen/wallet_screen.dart';
 import 'package:charity_app/home/cubit/theme_cubit/theme_cubits.dart';
-import 'package:charity_app/home/presentation/screens/home_screen.dart';
-import 'package:charity_app/home/presentation/screens/setting_screen.dart';
-import 'package:charity_app/notification/presentation/screen/notification_screen.dart';
-import 'package:charity_app/voluntary/presentation/screen/voluntary_screen.dart';
-import 'package:charity_app/voluntary/presentation/screen/volunteering_fields.dart';
-import 'package:charity_app/wallet/presentation/screen/wallet_screen.dart';
+import 'package:charity_app/home/screens/home_screen.dart';
+import 'package:charity_app/home/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SplashCubit()),
         BlocProvider(create: (context) => ThemeCubits(isDarkMode)),
         BlocProvider(create: (context) => ChangePasswordCubit()),
+        BlocProvider(create: (context) => WalletCubit()),
+        BlocProvider(create: (context) => SendGiftCubit()),
       ],
       child: BlocBuilder<ThemeCubits, bool>(
         builder: (context, isDarkMode) {
@@ -54,6 +58,12 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'IBMPlexSansArabic',
               ),
             ),
+            // builder: (context, child) {
+            //   return Directionality(
+            //     textDirection: TextDirection.rtl,
+            //     child: child!,
+            //   );
+            // },
             initialRoute: "Splash",
             routes: {
               "Splash": (context) => const SplashScreen(),
