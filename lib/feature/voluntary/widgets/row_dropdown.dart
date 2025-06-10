@@ -21,7 +21,7 @@ class RowDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorSheme = context.colorScheme;
+    final colorScheme = context.colorScheme; 
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,7 +31,7 @@ class RowDropdown extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 18,
-              color: colorSheme.onSurface,
+              color: colorScheme.onSurface,
             ),
             overflow: TextOverflow.ellipsis,
           ),
@@ -45,17 +45,17 @@ class RowDropdown extends StatelessWidget {
               value: selectedValue,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: colorSheme.surface,
+                fillColor: colorScheme.surface,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: colorSheme.primary,
+                    color: colorScheme.primary,
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(7),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: colorSheme.primary,
+                    color: colorScheme.primary,
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -65,9 +65,9 @@ class RowDropdown extends StatelessWidget {
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
-                color: colorSheme.primary,
+                color: colorScheme.primary,
               ),
-              dropdownColor: colorSheme.surface,
+              dropdownColor: colorScheme.surface,
               items: items,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: isRequired
@@ -77,7 +77,7 @@ class RowDropdown extends StatelessWidget {
                   : null,
               onChanged: onChanged,
               style: TextStyle(
-                color: colorSheme.onSurface,
+                color: colorScheme.onSurface,
                 fontSize: 16,
               ),
             ),

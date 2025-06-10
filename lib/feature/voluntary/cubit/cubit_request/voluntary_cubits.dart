@@ -1,5 +1,6 @@
 import 'package:charity_app/feature/voluntary/cubit/cubit_request/voluntary_states.dart';
 import 'package:charity_app/helper/api.dart';
+import 'package:charity_app/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VoluntaryCubits extends Cubit<VoluntaryState> {
@@ -16,20 +17,24 @@ class VoluntaryCubits extends Cubit<VoluntaryState> {
       required selectedDomain}) async {
     emit(LoadingState());
     try {
+      //  final token = sharedPreferences.get("token");
       await Api().post(
-        //ح عدلو بس ترد تبعتلي ياه حلا
-          url: "http://127.0.0.1:8000/api/",
+          //ح عدلو بس ترد تبعتلي ياه حلا
+          //حاسة فيه شي نت اوك
+          url: "",
           body: {
             "phone_number": phoneController.text,
             "age": birthDateController.text,
             "purpose_of_volunteering": goalController.text,
             "current_location": locationController.text,
             "volunteering_hours": hourController.text,
-            "gender": selectedGender.text,
-            "volunteering_domain": selectedDomain.text,
-            "education": selectedLevel.text,
+            //هون مافي .text
+            // بينما selectedGender أصلاً عبارة عن String مو TextEditingController.
+            "gender": selectedGender,
+            "volunteering_domain": selectedDomain,
+            "education": selectedLevel,
           },
-          token: 'token');
+          token: "$token");
       emit(SuccessState());
     } catch (ex) {
       // ignore: avoid_print
@@ -38,3 +43,4 @@ class VoluntaryCubits extends Cubit<VoluntaryState> {
     }
   }
 }
+          // url: "http://127.0.0.1:8000/api/donor/volunteerRequest",

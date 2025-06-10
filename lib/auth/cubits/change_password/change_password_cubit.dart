@@ -15,18 +15,18 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
     emit(LoadingStates());
 
     try {
-      final token = sharedPreferences.getString('token');
+      //final token = sharedPreferences.getString('token');
 
       final response = await Api().put(
-        url: "http://10.0.2.2:8000/api/editpassword",
+        url: "http://$localhost/api/editpassword",
         body: {
           "new_password": newPasswordController.text,
           "new_password_confirmation": confirmationNewPasswordController.text
         },
-        token: token,
+        token: "$token",
       );
 
-      //print('Response: $response');
+      print('Response: $response');
 
       if (response['message'] == 'password has been changed successfully') {
         emit(SuccessStates());

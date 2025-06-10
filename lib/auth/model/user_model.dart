@@ -14,6 +14,7 @@ class UserModel {
       fullName: jsonUserData[ "full_name"],
       email: jsonUserData['email'],
       phoneNumber: jsonUserData['phone_number'],
+      
     );
     
   }

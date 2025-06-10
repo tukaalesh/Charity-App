@@ -16,12 +16,12 @@ class SettingDrawer extends StatelessWidget {
     final isDark = context.isDarkMode;
     final theme = context.theme;
     final colorScheme = context.colorScheme;
-    final token = sharedPreferences.getString('token');
+    // final token = sharedPreferences.getString('token');
     return Drawer(
       backgroundColor: colorScheme.surface,
       child: FutureBuilder(
         future:
-            Api().get(url: "http://127.0.0.1:8000/api/getUser", token: token),
+            Api().get(url: "http://$localhost/api/getUser", token: "$token"),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: SpinKitCircle(color: colorScheme.primary));

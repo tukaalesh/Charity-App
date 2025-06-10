@@ -41,7 +41,9 @@ class Api {
       {required String url,
       @required dynamic body,
       @required String? token}) async {
-    Map<String, String> headers = {};
+    Map<String, String> headers = {
+      // 'Content-Type': 'application/json'
+      };
     if (token != null) {
       headers.addAll({'Authorization': 'Bearer $token'});
     }
@@ -50,7 +52,7 @@ class Api {
         await http.put(Uri.parse(url), body: body, headers: headers);
     if (response.statusCode == 201 || response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-    
+
       return data;
     } else {
       throw Exception(

@@ -11,7 +11,7 @@ class SendGiftCubit extends Cubit<SendGiftStates> {
       required phoneController,
       required moneyController}) async {
     emit(LoadingState());
-    final token = sharedPreferences.get('token');
+   // final token = sharedPreferences.get('token');
     try {
       await Api().post(
           url: "",

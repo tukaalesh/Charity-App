@@ -5,22 +5,27 @@ import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/voluntary/widgets/custom_text_field.dart';
 import 'package:charity_app/feature/wallet/cubit/wallet_cubit.dart';
 import 'package:charity_app/feature/wallet/cubit/wallet_states.dart';
+import 'package:charity_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-// ignore: must_be_immutable
 class WalletScreen extends StatelessWidget {
   WalletScreen({super.key});
-  TextEditingController bankAccountController = TextEditingController();
-  TextEditingController moneyController = TextEditingController();
 
+  final TextEditingController bankAccountController = TextEditingController();
+  final TextEditingController moneyController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final colorScheme = context.colorScheme;
+
+    // final String? balanceString = sharedPreferences.getString("balance");
+    final String balanceString = sharedPreferences.getString("balance") ?? '0';
+    double balanceValue = double.tryParse(balanceString) ?? 0.0;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -29,11 +34,13 @@ class WalletScreen extends StatelessWidget {
         body: BlocConsumer<WalletCubit, WalletStates>(
           listener: (context, state) {
             if (state is SuccessState) {
-              //بيضرب ايرور بدون هاد الشي تبع كلير سناك بار
+              balanceValue = state.newBalance;
+
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("$moneyController تم شحن المحفظة بمبلغ "),
-                backgroundColor: colorScheme.primary,
+                content:
+                    Text("تم شحن المحفظة بمبلغ ${moneyController.text} " r"$"),
+                backgroundColor: colorScheme.onSurface,
               ));
             }
             if (state is FailureState) {
@@ -62,18 +69,14 @@ class WalletScreen extends StatelessWidget {
                       child: walletImage),
                   Row(
                     children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 20),
                       Icon(
                         Icons.warning,
                         color: colorScheme.secondary,
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 20),
                       Text(
-                        r" رصيدك الحالي : 500$",
+                        "رصيدك الحالي: $balanceValue" r"$",
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
@@ -93,11 +96,10 @@ class WalletScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return "رقم حساب البنك مطلوب ";
                               }
-                              if (value.length < 6) {
+                              if (value.length != 16) {
                                 return "في خطأ برقم حساب البنك";
                               }
-                              if (value.endsWith(".") )
-                                  {
+                              if (value.endsWith(".")) {
                                 return "يُرجى إدخال الرقم بطريقة صحيحة";
                               }
                               if (value.contains(".") ||
@@ -110,12 +112,9 @@ class WalletScreen extends StatelessWidget {
                                   value.startsWith("-")) {
                                 return "يُرجى إدخال الرقم بطريقة صحيحة";
                               }
-
                               return null;
                             }),
-                        const SizedBox(
-                          height: 13,
-                        ),
+                        const SizedBox(height: 13),
                         Customtextfields(
                             hint: "المبلغ المراد شحنه",
                             inputType: TextInputType.number,
@@ -124,7 +123,6 @@ class WalletScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return "المبلغ المراد شحنه مطلوب";
                               }
-
                               if (value.startsWith(".") ||
                                   value.startsWith(",") ||
                                   value.startsWith("0") ||

@@ -20,7 +20,6 @@ class Customtextfields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
-  
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(

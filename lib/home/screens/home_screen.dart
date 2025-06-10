@@ -10,8 +10,12 @@ class HomeScreen extends StatelessWidget {
     final colorScheme = context.colorScheme;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorScheme.surface,
-      ),
+          backgroundColor: colorScheme.surface,
+          // colorScheme.surface
+          //  colorScheme.onSurface
+          // colorScheme.primary,
+          //  colorScheme.secondary
+          ),
       backgroundColor: colorScheme.surface,
       drawer: const SettingDrawer(),
     );

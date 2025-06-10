@@ -11,6 +11,7 @@ import 'package:charity_app/core/theme/app_themes.dart';
 import 'package:charity_app/feature/gift/cubit/send_gift_cubit.dart';
 import 'package:charity_app/feature/gift/screen/gift_screen.dart';
 import 'package:charity_app/feature/notification/screen/notification_screen.dart';
+import 'package:charity_app/feature/voluntary/cubit/cubit_request/voluntary_cubits.dart';
 import 'package:charity_app/feature/voluntary/screen/voluntary_screen.dart';
 import 'package:charity_app/feature/voluntary/screen/volunteering_fields.dart';
 import 'package:charity_app/feature/wallet/cubit/wallet_cubit.dart';
@@ -23,7 +24,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPreferences;
+//عرفتو على انو غلوبال مشان ماكل مره عرفو للتوكين  هيك فيني استدعيه بأي مكان بالتطبيق
+final token = sharedPreferences.get("token");
 
+//مشان مانموت ونحنا عم نعدل بين ايميوليتر و ويندوز
+const String localhost = "127.0.0.1:8000";
+
+// ignore: unused_local_variable, prefer_const_declarations
+// String localhost = "10.0.2.2:8000";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
@@ -47,6 +55,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ChangePasswordCubit()),
         BlocProvider(create: (context) => WalletCubit()),
         BlocProvider(create: (context) => SendGiftCubit()),
+        BlocProvider(create: (context) => VoluntaryCubits())
       ],
       child: BlocBuilder<ThemeCubits, bool>(
         builder: (context, isDarkMode) {

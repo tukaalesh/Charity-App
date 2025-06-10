@@ -1,4 +1,4 @@
-
+import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class Customtextfield extends StatefulWidget {
@@ -31,8 +31,8 @@ class _CustomtextfieldState extends State<Customtextfield> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark = context.isDarkMode;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextFormField(
@@ -86,7 +86,9 @@ class _CustomtextfieldState extends State<Customtextfield> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(7),
             borderSide: BorderSide(
-                color: isDark ? const Color(0xFF212121) : const Color(0xFFF3F4F6), width: 4),
+                color:
+                    isDark ? const Color(0xFF212121) : const Color(0xFFF3F4F6),
+                width: 4),
           ),
         ),
       ),
