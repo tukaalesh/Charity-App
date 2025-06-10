@@ -97,7 +97,7 @@ class WalletScreen extends StatelessWidget {
                                 return "رقم حساب البنك مطلوب ";
                               }
                               if (value.length != 16) {
-                                return "في خطأ برقم حساب البنك";
+                                return "يجب أن يحوي رقم حساب البنك على 16 رقم";
                               }
                               if (value.endsWith(".")) {
                                 return "يُرجى إدخال الرقم بطريقة صحيحة";

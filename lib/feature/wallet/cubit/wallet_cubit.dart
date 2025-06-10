@@ -22,7 +22,6 @@ class WalletCubit extends Cubit<WalletStates> {
 
       final newBalance = response['balance'];
       await sharedPreferences.setString('balance', newBalance.toString());
-      final message = response["message"];
       emit(SuccessState(double.tryParse(newBalance.toString()) ?? 0.0));
     } catch (ex) {
       emit(FailureState());
