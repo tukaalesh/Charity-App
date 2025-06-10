@@ -17,6 +17,9 @@ class SettingDrawer extends StatelessWidget {
     final theme = context.theme;
     final colorScheme = context.colorScheme;
     // final token = sharedPreferences.getString('token');
+    final String points = sharedPreferences.getString("points") ?? '0';
+    int totalpoints = int.tryParse(points) ?? 0;
+
     return Drawer(
       backgroundColor: colorScheme.surface,
       child: FutureBuilder(
@@ -136,7 +139,7 @@ class SettingDrawer extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 28.0, left: 10),
                         child: Text(
-                          '١٠٠٠ نقطة',
+                          '$totalpoints نقطة',
                           style: TextStyle(
                             color: colorScheme.secondary,
                             fontSize: 20,

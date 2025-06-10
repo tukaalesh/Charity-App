@@ -55,20 +55,17 @@ class AuthCubits extends Cubit<AuthStates> {
       );
       // final user = response['user'];
       final token = response['token'];
-      // final userName = response['user']['full_name'];
       final balance = response['user']['balance'];
-
-      // final role = user['role'];
-      // final balance = user['balance'];
-      // print(userName);
-
+      final points = response['user']['points'];
       await sharedPreferences.setString('token', token);
-      //  await sharedPreferences.setString('userName', userName);
-      // await sharedPreferences.setString('role', role);
+
       //الرصيد أنا معرفتو مرتين مرة هون ومرا جوا الكيوبت يلي  بالمحفظة
       //في فكرة أنو انا بدي الرصيد فورا يتحدث أنا وعم عبي ف هاد الشي عم يساعدني فيه الرصيد يلي جوا المحفظة
       //أما لما عم اعمل لوغ اوت عم يصفر الرصيد أو يرجعلي بنل  فعرفت كمان الرصيد يلي جوا اللوغ ان
       await sharedPreferences.setString('balance', balance.toString());
+      
+      await sharedPreferences.setString('points', points.toString());
+     
 
       emit(LoginSuccessState());
     } catch (e) {
