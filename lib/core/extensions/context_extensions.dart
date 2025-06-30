@@ -1,4 +1,4 @@
-import 'package:charity_app/home/cubit/theme_cubit/theme_cubits.dart';
+import 'package:charity_app/home/cubits/themeCubit/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

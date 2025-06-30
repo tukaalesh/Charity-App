@@ -13,10 +13,13 @@ Image pinCodeImage = Image.asset('assets/images/pin_code_image.png');
 
 Image walletImage = Image.asset('assets/images/wallet_image.png');
 
+Image emtpyImage = Image.asset('assets/images/emptyscreen.png');
+
 ImageProvider healthCare = const AssetImage('assets/images/healthcare.png');
 
-ImageProvider globalNetwork =const AssetImage('assets/images/global-network.png');
+ImageProvider globalNetwork =
+    const AssetImage('assets/images/global-network.png');
 
-ImageProvider training = const AssetImage('assets/images/training.png');
+ImageProvider learning = const AssetImage('assets/images/training.png');
 
 ImageProvider hand = const AssetImage('assets/images/hand.png');

@@ -19,7 +19,7 @@ class Authbutton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width / 1,
-      height: size.height * 0.09,
+      height: size.height * 0.075,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -27,11 +27,12 @@ class Authbutton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         child: Text(
           buttonText,
-          style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.surface),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: colorScheme.surface),
         ),
       ),
     );

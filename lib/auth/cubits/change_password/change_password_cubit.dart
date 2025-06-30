@@ -6,17 +6,16 @@ import 'package:charity_app/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
-  ChangePasswordCubit() : super(inilationStates());
+  ChangePasswordCubit() : super(ChangePasswordinilation());
 
   Future<void> changePasswordFunction({
     required newPasswordController,
     required confirmationNewPasswordController,
   }) async {
-    emit(LoadingStates());
+    emit(ChangePasswordLoading());
 
     try {
-      //final token = sharedPreferences.getString('token');
-
+      print("$token");
       final response = await Api().put(
         url: "http://$localhost/api/editpassword",
         body: {
@@ -26,16 +25,16 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
         token: "$token",
       );
 
-      print('Response: $response');
+      print(response);
 
-      if (response['message'] == 'password has been changed successfully') {
-        emit(SuccessStates());
+      if (response['message'] == "password has been changed successfully") {
+        emit(ChangePasswordSuccess());
       } else {
-        emit(FailureStates());
+        emit(ChangePasswordFailure());
       }
     } catch (ex) {
       print('Exception: $ex');
-      emit(FailureStates());
+      emit(ChangePasswordFailure());
     }
   }
 }

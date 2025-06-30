@@ -1,14 +1,17 @@
 abstract class WalletStates {}
 
 // ignore: camel_case_types
-class initialState extends WalletStates {}
+class Walletinitial extends WalletStates {}
 
-class LoadingState extends WalletStates {}
+class WalletLoading extends WalletStates {}
 
-class SuccessState extends WalletStates {
+class WalletSuccess extends WalletStates {
   //مشان ضغري يطلع الرصيد الجديد ضمن ui
   final double newBalance;
-  SuccessState(this.newBalance);
+  WalletSuccess(this.newBalance);
 }
 
-class FailureState extends WalletStates {}
+class WalletFailure extends WalletStates {
+  final String errorMessage;
+  WalletFailure(this.errorMessage);
+}

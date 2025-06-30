@@ -1,80 +1,108 @@
+import 'package:charity_app/auth/cubits/pin_code_cubit/pin_code_cubit.dart';
+import 'package:charity_app/auth/cubits/pin_code_cubit/pin_code_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
+import 'package:charity_app/feature/volunteer%20request/widgets/custom_text_field.dart';
+import 'package:charity_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-// ignore: must_be_immutable
 class PinCodeScreen extends StatelessWidget {
-  PinCodeScreen({super.key});
-  TextEditingController controller = TextEditingController();
+  PinCodeScreen({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController verificationController = TextEditingController();
+  final String? email = sharedPreferences.get("email")?.toString();
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.colorScheme;
-    GlobalKey<FormState> fromKey = GlobalKey();
-
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: colorScheme.surface,
-      body: Form(
-        key: fromKey,
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-                width: double.infinity,
-                height: size.height * 0.55,
-                child: pinCodeImage),
-            const Center(
-                child: Text('الرجاء إدخال رمز التحقق المرسل إلى رقم هاتفك')),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.all(12),
-              child: PinCodeTextField(
-                appContext: context,
-                length: 6,
-                controller: controller,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                cursorHeight: 24,
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+      body: BlocConsumer<PinCodeCubit, PinCodeStates>(
+        listener: (context, state) {
+          if (state is PinCodeSuccess) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacementNamed(context, 'LogIn');
+            });
+          } else if (state is PinCodeFailure) {
+            ScaffoldMessenger.of(context)
+              ..clearSnackBars()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Center(
+                      child:
+                          Text("رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى")),
                 ),
-                enableActiveFill: true,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  fieldHeight: 50,
-                  fieldWidth: 40,
-                  borderRadius: BorderRadius.circular(8),
-                  activeFillColor: Colors.white,
-                  inactiveFillColor: Colors.white,
-                  selectedFillColor: Colors.white,
-                  activeColor: colorScheme.secondary,
-                  inactiveColor: Colors.grey.shade200,
-                  selectedColor: colorScheme
-                      .secondary, //  يعني يلي عم اكتب فيه لون الحواف للحقل الفعال
-                  errorBorderColor: Colors.redAccent,
-                  fieldOuterPadding: const EdgeInsets.symmetric(horizontal: 6),
-                ),
-                onChanged: (value) {},
+              );
+          }
+        },
+        builder: (context, state) {
+          if (state is PinCodeLoading) {
+            return Center(
+              child: SpinKitCircle(
+                color: colorScheme.secondary,
+                size: 45,
+              ),
+            );
+          }
+
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: Form(
+              key: formKey,
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                children: [
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    height: size.height * 0.55,
+                    child: pinCodeImage,
+                  ),
+                  const Center(
+                    child: Text(
+                      "الرجاء إدخال رمز التحقق المرسل إلى بريدك الإلكتروني",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Customtextfields(
+                      hint: "رمز التأكيد مكون من 4 أرقام",
+                      inputType: TextInputType.number,
+                      mycontroller: verificationController,
+                      valid: (value) {
+                        if (value == null || value.length != 4) {
+                          return "يُرجى إدخال الرمز المكون من 4 أرقام";
+                        }
+                        return null;
+                      }),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Authbutton(
+                    buttonText: "تأكيد",
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<PinCodeCubit>(context).checkCode(
+                          email: email ?? "",
+                          code: verificationController.text,
+                        );
+                      }
+                    },
+                    color: colorScheme.secondary,
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10),
-              child: Authbutton(
-                  buttonText: "تأكيد",
-                  onPressed: () {},
-                  color: colorScheme.secondary),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

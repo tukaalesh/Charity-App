@@ -33,12 +33,11 @@ class SignUpScreen extends StatelessWidget {
           if (state is RegisterSuccessState) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Center(child: Text(" تم إنشاء الحساب بنجاح ")),
-                backgroundColor: colorScheme.secondary,
+              const SnackBar(
+                content: Center(child: Text(" تم إنشاء الحساب بنجاح ")),
               ),
             );
-            Navigator.pushNamed(context, 'LogIn');
+            Navigator.pushNamed(context, 'PinCode');
           } else if (state is RegisterFailureState) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -75,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
                     const Text(
                       'إنشاء حساب',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(
                       width: 60,
@@ -217,13 +216,16 @@ class SignUpScreen extends StatelessWidget {
                                 },
                                 child: Text(
                                   'تسجيل الدخول',
-                                  style:
-                                      TextStyle(color: colorScheme.secondary),
+                                  style: TextStyle(
+                                      color: colorScheme.secondary,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               Text(' لديك حساب بالفعل ؟ ',
-                                  style:
-                                      TextStyle(color: colorScheme.onSurface)),
+                                  style: TextStyle(
+                                      color: colorScheme.onSurface,
+                                      fontSize: 13)),
                             ],
                           ),
                         ],

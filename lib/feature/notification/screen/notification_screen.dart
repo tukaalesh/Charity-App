@@ -1,94 +1,81 @@
+import 'package:charity_app/constants/const_appBar.dart';
+import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
-import 'package:charity_app/home/widget/initial_circle.dart';
-import 'package:charity_app/main.dart';
+import 'package:charity_app/feature/notification/cubit/notification_cubit.dart';
+import 'package:charity_app/feature/notification/cubit/notification_state.dart';
+import 'package:charity_app/feature/notification/widget/notification_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userName = sharedPreferences.getString('userName') ?? "مستخدم";
-    final isDark = context.isDarkMode;
     final colorScheme = context.colorScheme;
 
-    return Scaffold(
-      backgroundColor: colorScheme.surface,
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-              child: Center(
-                child: Initialcircle(
-                  text: userName.substring(0, 1).toUpperCase(),
-                ),
-              ),
-            );
-          }
+    return BlocProvider(
+      create: (_) => NotificationCubit()..fetchNotifications(),
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          backgroundColor: colorScheme.surface,
+          appBar: const ConstAppBar(title: "الإشعارات"),
+          body: BlocBuilder<NotificationCubit, NotificationState>(
+            builder: (context, state) {
+              if (state is NotificationLoading) {
+                return Center(
+                  child: SpinKitCircle(color: colorScheme.primary),
+                );
+              }
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: isDark ? Colors.grey[850] : const Color(0xFFF3F4F6),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: isDark
-                        ? const Color.fromARGB(255, 67, 67, 67)
-                        : const Color.fromARGB(255, 193, 193, 193),
-                    blurRadius: 1,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              if (state is NotificationError) {
+                return const Center(child: Text("حدث خطأ أثناء جلب البيانات"));
+              }
+
+              if (state is NotificationSuccess) {
+                final notifications = state.notifications;
+
+                if (notifications.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(
+                        emtpyImage,
+                        const SizedBox(height: 10),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Text(
-                            'تم استلام تبرعك بنجاح',
+                            "لا توجد إشعارات حالياً.\nسنعرض لك هنا أي تحديثات أو تنبيهات فور توفرها",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: colorScheme.secondary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          'الآن',
-                          style: TextStyle(
-                            color: colorScheme.primary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                                fontSize: 13, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    // وصف الإشعار
-                    Text(
-                      'شكراً لك! تم استلام تبرعك لمشروع (اسم المشروع). جزاك الله خيراً 🙏🏼',
-                      style: TextStyle(
-                        color: isDark ? Colors.white70 : Colors.black87,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+                  );
+                }
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    final notification = notifications[index];
+                    return NotificationCard(
+                      title: notification.title,
+                      message: notification.message,
+                      time: notification.time,
+                    );
+                  },
+                );
+              }
+
+              return const Text("هناك مشكلة ما!");
+            },
+          ),
+        ),
       ),
     );
   }

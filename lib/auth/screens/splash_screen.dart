@@ -14,6 +14,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     final colorScheme = context.colorScheme;
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
@@ -31,16 +33,19 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: double.infinity,
+                width: screenSize.width / 1.55,
                 child: charityLogoImage,
               ),
-               Text(
+              Text(
                 'منصة وطنية للعمل الخيري',
-                style: TextStyle(fontSize: 18,color:colorScheme.onSurface ),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
-              SpinKitCircle(size: 46, color: colorScheme.secondary),
-             // const SizedBox(height: 24),
+              SpinKitCircle(size: 43, color: colorScheme.secondary),
+              // const SizedBox(height: 24),
             ],
           ),
         ),

@@ -32,16 +32,16 @@ class ChangePasswordScreen extends StatelessWidget {
         appBar: const ConstAppBar(title: "تغيير كلمة السر"),
         body: BlocConsumer<ChangePasswordCubit, ChangePasswordStates>(
           listener: (context, state) {
-            if (state is SuccessStates) {
+            if (state is ChangePasswordSuccess) {
               ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text(
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
                   "تم تغيير كلمة السر",
                 ),
-                backgroundColor: colorScheme.secondary,
+               
               ));
             }
-            if (state is FailureStates) {
+            if (state is ChangePasswordFailure) {
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content:
@@ -49,7 +49,7 @@ class ChangePasswordScreen extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            if (state is LoadingStates) {
+            if (state is ChangePasswordLoading) {
               return SpinKitCircle(
                 color: colorScheme.secondary,
                 size: 45,
@@ -69,19 +69,18 @@ class ChangePasswordScreen extends StatelessWidget {
                         child: resetPasswordImage,
                       ),
                       const SizedBox(height: 30),
-                      Center(
-                        child: Text(
-                          'ادخل كلمة السر الجديدة',
-                          style: TextStyle(
-                            color: colorScheme.onSurface,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                      // Center(
+                      //   child: Text(
+                      //     'ادخل كلمة السر الجديدة',
+                      //     style: TextStyle(
+                      //       color: colorScheme.onSurface,
+                      //       fontSize: 15,
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(height: 20),
                       Customtextfield(
-                        hint: 'ادخل كلمة المرور',
+                        hint: ' ادخل كلمة المرور الجديدة',
                         icon: Icon(BoxIcons.bx_lock_alt,
                             color: colorScheme.secondary),
                         inputType: TextInputType.visiblePassword,
@@ -89,7 +88,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         color: colorScheme.secondary,
                         isPassword: true,
                         valid: (value) {
-                          if (value!.isEmpty) return "كلمة المرور مطلوبة";
+                          if (value!.isEmpty) return " يرجى إدخال كلمة المرور";
                           if (value.length < 8) {
                             return "يجب أن تحتوي على 8 أحرف على الأقل";
                           }
@@ -98,7 +97,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Customtextfield(
-                        hint: "ادخل تأكيد كلمة المرور",
+                        hint: "ادخل تأكيد كلمة المرور الجديدة",
                         icon: Icon(BoxIcons.bx_lock_alt,
                             color: colorScheme.secondary),
                         inputType: TextInputType.visiblePassword,

@@ -22,3 +22,7 @@ class LoginFailureState extends AuthStates {
   final String error;
   LoginFailureState(this.error);
 }
+
+class LogOutSuccess extends AuthStates {}
+
+class LogOutFailure extends AuthStates {}

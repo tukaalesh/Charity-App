@@ -2,7 +2,7 @@ import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
-import 'package:charity_app/feature/voluntary/widgets/custom_text_field.dart';
+import 'package:charity_app/feature/volunteer%20request/widgets/custom_text_field.dart';
 import 'package:charity_app/feature/wallet/cubit/wallet_cubit.dart';
 import 'package:charity_app/feature/wallet/cubit/wallet_states.dart';
 import 'package:charity_app/main.dart';
@@ -33,7 +33,7 @@ class WalletScreen extends StatelessWidget {
         backgroundColor: colorScheme.surface,
         body: BlocConsumer<WalletCubit, WalletStates>(
           listener: (context, state) {
-            if (state is SuccessState) {
+            if (state is WalletSuccess) {
               balanceValue = state.newBalance;
 
               ScaffoldMessenger.of(context).clearSnackBars();
@@ -43,15 +43,15 @@ class WalletScreen extends StatelessWidget {
                 backgroundColor: colorScheme.onSurface,
               ));
             }
-            if (state is FailureState) {
+            if (state is WalletFailure) {
               ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("هناك مشكلة ما ! يُرجى المحاولة لاحقاً"),
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.errorMessage),
               ));
             }
           },
           builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is WalletLoading) {
               return Center(
                 child: SpinKitCircle(
                   color: colorScheme.secondary,
@@ -78,7 +78,7 @@ class WalletScreen extends StatelessWidget {
                       Text(
                         "رصيدك الحالي: $balanceValue" r"$",
                         style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: colorScheme.onSurface),
                       ),
@@ -96,8 +96,8 @@ class WalletScreen extends StatelessWidget {
                               if (value!.isEmpty) {
                                 return "رقم حساب البنك مطلوب ";
                               }
-                              if (value.length != 16) {
-                                return "يجب أن يحوي رقم حساب البنك على 16 رقم";
+                              if (value.length != 4) {
+                                return "يجب أن يحوي رقم حساب البنك على 4 رقم";
                               }
                               if (value.endsWith(".")) {
                                 return "يُرجى إدخال الرقم بطريقة صحيحة";

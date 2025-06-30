@@ -1,10 +1,12 @@
 abstract class SendGiftStates {}
 
 // ignore: camel_case_types
-class initialState extends SendGiftStates {}
+class SendGiftinitial extends SendGiftStates {}
 
-class LoadingState extends SendGiftStates {}
+class SendGiftLoading extends SendGiftStates {}
 
-class SuccessState extends SendGiftStates {}
+class SendGiftSuccess extends SendGiftStates {}
 
-class FailureState extends SendGiftStates {}
+class SendGiftFailure extends SendGiftStates {}
+
+class Insufficientbalance extends SendGiftStates {}

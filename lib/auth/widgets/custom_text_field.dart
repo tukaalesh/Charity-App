@@ -59,12 +59,11 @@ class _CustomtextfieldState extends State<Customtextfield> {
               : null,
           hintText: widget.hint,
           hintStyle: TextStyle(
-            color: isDark ? Colors.grey[400] : Colors.grey,
-          ),
+              color: isDark ? Colors.grey[400] : Colors.grey, fontSize: 14),
           filled: true,
           fillColor: isDark ? Colors.grey[850] : const Color(0xFFF3F4F6),
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+              const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: Colors.transparent),

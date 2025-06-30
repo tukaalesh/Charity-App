@@ -22,8 +22,8 @@ class ButtonOutlined extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: SizedBox(
-        width: size.width / 4.7,
-        height: size.height * 0.06,
+        width: size.width / 4.3,
+        height: size.height * 0.05,
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
@@ -33,7 +33,7 @@ class ButtonOutlined extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
             ),
             textStyle:
-                const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           child: Text(
             buttonText,

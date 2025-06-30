@@ -30,12 +30,13 @@ class LoginScreen extends StatelessWidget {
           if (state is LoginSuccessState) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
+              // ignore: prefer_const_constructors
               SnackBar(
                 content: const Center(child: Text("تم تسجيل الدخول بنجاح")),
-                backgroundColor: colorScheme.secondary,
               ),
             );
-            Navigator.pushNamed(context, 'Home');
+            Navigator.pushNamed(context, 'NavigationMain');
+            //     Navigator.pushNamed(context, 'Home');
           } else if (state is LoginFailureState) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -69,9 +70,9 @@ class LoginScreen extends StatelessWidget {
                         height: screenSize.width * 0.2,
                         child: charityLogoImage),
                     const Text(
-                      'تسجل دخول',
+                      'تسجيل الدخول',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(
                       width: 60,
@@ -116,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                             inputType: TextInputType.visiblePassword,
                             mycontroller: passwordController,
                             color: colorScheme.secondary,
-                            isPassword: true, 
+                            isPassword: true,
                             valid: (value) {
                               if (value!.isEmpty) return "كلمة المرور مطلوبة";
                               if (value.length < 8) {
@@ -149,13 +150,17 @@ class LoginScreen extends StatelessWidget {
                                 child: Text(
                                   'إنشاء حساب',
                                   style: TextStyle(
-                                      color: colorScheme.secondary,
-                                      fontWeight: FontWeight.bold),
+                                    color: colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
-                              Text('   ليس لديك حساب؟ ',
-                                  style:
-                                      TextStyle(color: colorScheme.onSurface)),
+                              Text(' ليس لديك حساب؟ ',
+                                  style: TextStyle(
+                                    color: colorScheme.onSurface,
+                                    fontSize: 13,
+                                  )),
                             ],
                           ),
                         ],

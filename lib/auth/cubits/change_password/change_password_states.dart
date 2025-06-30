@@ -1,10 +1,10 @@
 abstract class ChangePasswordStates {}
 
 // ignore: camel_case_types
-class inilationStates extends ChangePasswordStates {}
+class ChangePasswordinilation extends ChangePasswordStates {}
 
-class LoadingStates extends ChangePasswordStates {}
+class ChangePasswordLoading extends ChangePasswordStates {}
 
-class SuccessStates extends ChangePasswordStates {}
+class ChangePasswordSuccess extends ChangePasswordStates {}
 
-class FailureStates extends ChangePasswordStates {}
+class ChangePasswordFailure extends ChangePasswordStates {}

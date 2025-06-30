@@ -6,7 +6,7 @@ import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/gift/cubit/send_gift_cubit.dart';
 import 'package:charity_app/feature/gift/cubit/send_gift_states.dart';
 import 'package:charity_app/feature/gift/widget/button_out_line.dart';
-import 'package:charity_app/feature/voluntary/widgets/custom_text_field.dart';
+import 'package:charity_app/feature/volunteer%20request/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -29,22 +29,29 @@ class GiftScreen extends StatelessWidget {
           appBar: const ConstAppBar(title: "الهدية "),
           body: BlocConsumer<SendGiftCubit, SendGiftStates>(
               listener: (context, state) {
-            if (state is SuccessState) {
+            if (state is SendGiftSuccess) {
               //بيضرب ايرور بدون هاد الشي تبع كلير سناك بار
               ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text("تم إرسال طلب التطوع بنجاح"),
-                backgroundColor: colorScheme.primary,
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("تم إرسال الإهداء جزالك الله خيراً"),
               ));
             }
-            if (state is FailureState) {
+            if (state is Insufficientbalance) {
               ScaffoldMessenger.of(context).clearSnackBars();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("هناك مشكلة ما ! يُرجى المحاولة لاحقاً"),
+                content: Text(
+                    "لا يوجد لديك رصيد كافي للقيام بهذه العملية، الرجاء شحن المحفظة والمحاولة مرة أخرى"),
+              ));
+            }
+            if (state is SendGiftFailure) {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                    "لقد حدث خطأ! يبدو أن هذا المحتاج غير مسجل لدينا في التطبيق، يمكنك دعوته للتسجيل على صفحة الويب الخاصة بنا"),
               ));
             }
           }, builder: (context, state) {
-            if (state is LoadingState) {
+            if (state is SendGiftLoading) {
               return Center(
                 child: SpinKitCircle(
                   color: colorScheme.secondary,
@@ -60,7 +67,7 @@ class GiftScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 25.0, left: 5),
                     child: Text(
                       'كل تبرع هو بصمة خير تترك أثرًا في حياة شخص قريب هنا، بإمكانك أن تكون مصدر الأمل والفرح لمن تحب',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 14),
                     ),
                   ),
                   const SizedBox(
@@ -71,7 +78,7 @@ class GiftScreen extends StatelessWidget {
                     child: Text(
                       'بيانات المُهدى إليه ',
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           color: colorScheme.secondary,
                           fontWeight: FontWeight.bold),
                     ),
@@ -129,7 +136,7 @@ class GiftScreen extends StatelessWidget {
                     child: Text(
                       "مبلغ التبرع",
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           color: colorScheme.secondary,
                           fontWeight: FontWeight.bold),
                     ),
@@ -138,7 +145,7 @@ class GiftScreen extends StatelessWidget {
                     height: 9,
                   ),
                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(
                         width: 8,
@@ -167,14 +174,14 @@ class GiftScreen extends StatelessWidget {
                         borderColor: colorScheme.primary,
                         textColor: colorScheme.primary,
                       ),
-                      ButtonOutlined(
-                        buttonText: r'400 $',
-                        onPressed: () {
-                          moneyController.text = "400";
-                        },
-                        borderColor: colorScheme.primary,
-                        textColor: colorScheme.primary,
-                      ),
+                      // ButtonOutlined(
+                      //   buttonText: r'400 $',
+                      //   onPressed: () {
+                      //     moneyController.text = "400";
+                      //   },
+                      //   borderColor: colorScheme.primary,
+                      //   textColor: colorScheme.primary,
+                      // ),
                       const SizedBox(
                         width: 5,
                       ),
@@ -226,7 +233,6 @@ class GiftScreen extends StatelessWidget {
                                 phoneController: phoneController,
                                 moneyController: moneyController);
                           }
-                          print('hi tuka alhiloeh');
                         },
                         color: colorScheme.secondary),
                   )

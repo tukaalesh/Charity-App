@@ -2,6 +2,7 @@ import 'package:charity_app/auth/cubits/auth_cubits/auth_cubits.dart';
 import 'package:charity_app/auth/cubits/change_password/change_password_cubit.dart';
 import 'package:charity_app/auth/cubits/pin_code_cubit/pin_code_cubit.dart';
 import 'package:charity_app/auth/cubits/splash_cubits/splash_cubits.dart';
+import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/screens/change_password_screen.dart';
 import 'package:charity_app/auth/screens/login_screen.dart';
 import 'package:charity_app/auth/screens/pin_code_screen.dart';
@@ -29,7 +30,6 @@ import 'package:charity_app/home/cubits/donation_repositry.dart';
 import 'package:charity_app/home/cubits/navigation/navigation_cubit.dart';
 import 'package:charity_app/home/cubits/project_cubit/donation_cubit.dart';
 import 'package:charity_app/home/cubits/themeCubit/theme_cubit.dart';
-import 'package:charity_app/home/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/home/screens/home_page.dart';
 import 'package:charity_app/home/screens/navigation_main.dart';
 import 'package:charity_app/home/screens/setting_drawer.dart';
@@ -43,10 +43,9 @@ late SharedPreferences sharedPreferences;
 //عرفتو على انو غلوبال مشان ماكل مره عرفو للتوكين  هيك فيني استدعيه بأي مكان بالتطبيق
 final token = sharedPreferences.get("token");
 
-//مشان مانموت ونحنا عم نعدل بين ايميوليتر و ويندوز
+//مشان ونحنا عم نعدل بين ايميوليتر و ويندوز
 const String localhost = "127.0.0.1:8000";
-
-//const String localhost = "10.0.2.2:8000";
+// const String localhost = "192.168.1.100:8000";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
@@ -77,7 +76,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => MonthlyDonationCubit()),
         BlocProvider(create: (context) => ZakahCubit()),
         BlocProvider(create: (context) => UserCubit()),
-        BlocProvider(create: (context) => CancleMonthlyDonationCubit())
+        BlocProvider(create: (context) => CancleMonthlyDonationCubit()),
       ],
       child: BlocBuilder<ThemeCubits, bool>(
         builder: (context, isDarkMode) {
@@ -95,7 +94,7 @@ class MyApp extends StatelessWidget {
             //     child: child!,
             //   );
             // },
-            initialRoute: "Splash",
+            initialRoute: "LogIn",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),

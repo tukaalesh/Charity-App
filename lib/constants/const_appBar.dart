@@ -3,7 +3,7 @@
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-// PreferredSizeWidget 
+// PreferredSizeWidget
 //app bar يلي جوا السكافولد بيتوقع   الحجم يكون كبير بس لازم مايكون هيك لازم يكون حجم app bar widget مفس حجم appBar يلي جوا السكافولد
 class ConstAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ConstAppBar({super.key, required this.title});
@@ -22,7 +22,7 @@ class ConstAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           color: colorScheme.onSurface,
         ),
