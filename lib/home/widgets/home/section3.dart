@@ -23,7 +23,7 @@ class Section3 extends StatelessWidget {
         title: "استبيان التطوع",
         image: "assets/images/form.png",
         onTap: () {
-          Navigator.pushNamed(context, 'CompletedProjects');
+          Navigator.pushNamed(context, 'VolunteerForm');
         },
       ),
       SectionItem(
