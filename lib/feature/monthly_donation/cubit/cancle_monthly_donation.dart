@@ -12,12 +12,13 @@ class CancleMonthlyDonationCubit extends Cubit<CancleMonthlyDonationState> {
   void cancleMonthlyDonation() async {
     emit(loading());
     try {
+      final token = sharedPreferences.getString('token');
+
       final response = await Api().put(
         url: "http://$localhost/api/donor/cancelMonthlyDonation",
         token: "$token",
         body: null,
       );
-
       if (response['message'] == "الميزة غير مفعلة حالياً") {
         emit(alreadyCanceled());
       }

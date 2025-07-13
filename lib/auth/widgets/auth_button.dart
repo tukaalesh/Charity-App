@@ -19,7 +19,7 @@ class Authbutton extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width / 1,
-      height: size.height * 0.075,
+      height: size.height * 0.08,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

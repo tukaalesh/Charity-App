@@ -1,7 +1,7 @@
 import 'package:charity_app/auth/cubits/auth_cubits/auth_cubits.dart';
 import 'package:charity_app/auth/cubits/auth_cubits/auth_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
-import 'package:charity_app/auth/widgets/custom_text_field.dart';
+import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
 import 'package:flutter/material.dart';
@@ -42,59 +42,46 @@ class SignUpScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content:
-                    Center(child: Text("الإيميل أو رقم الهاتف مستخدم سابقاً")),
+                content: Text("حدث خطأ يُرجى المحاولة لاحقاً"),
               ),
             );
           }
         },
         builder: (context, state) {
-          if (state is LoadingStates) {
-            return Center(
-              child: SpinKitCircle(
-                color: colorScheme.secondary,
-                size: 45,
-              ),
-            );
-          }
+          final isLoading = state is LoadingStates;
 
-          return SafeArea(
-            child: ListView(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          return Stack(
+            children: [
+              SafeArea(
+                child: ListView(
                   children: [
-                    SizedBox(
-                        width: screenSize.width * 0.2,
-                        height: screenSize.width * 0.2,
-                        child: charityLogoImage),
-                    const Text(
-                      'إنشاء حساب',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: screenSize.width * 0.2,
+                            height: screenSize.width * 0.2,
+                            child: charityLogoImage),
+                        const Text(
+                          'إنشاء حساب',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        const SizedBox(width: 60),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 60,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                  ),
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Form(
-                    key: formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Customtextfield(
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            AuthCustomTextField(
                               hint: 'ادخل اسمك الثلاثي',
                               icon: const Icon(BoxIcons.bx_user),
                               inputType: TextInputType.name,
@@ -105,9 +92,10 @@ class SignUpScreen extends StatelessWidget {
                                   return "الاسم مطلوب";
                                 }
                                 return null;
-                              }),
-                          const SizedBox(height: 12),
-                          Customtextfield(
+                              },
+                            ),
+                            const SizedBox(height: 12),
+                            AuthCustomTextField(
                               hint: 'ادخل بريدك الإلكتروني',
                               icon: const Icon(BoxIcons.bx_envelope),
                               inputType: TextInputType.emailAddress,
@@ -124,117 +112,105 @@ class SignUpScreen extends StatelessWidget {
                                   return "الرجاء إدخال بريد إلكتروني صحيح";
                                 }
                                 return null;
-                              }),
-                          const SizedBox(height: 12),
-                          Customtextfield(
-                            hint: 'ادخل رقم هاتفك',
-                            icon: const Icon(BoxIcons.bx_phone),
-                            inputType: TextInputType.phone,
-                            mycontroller: phoneNumberController,
-                            color: colorScheme.secondary,
-                            valid: (value) {
-                              if (value!.isEmpty) return "رقم الهاتف مطلوب";
-                              if (value.length != 10) {
-                                return "رقم الهاتف يجب أن يكون 10 أرقام";
-                              }
-                              if (!value.startsWith("09")) {
-                                return "يجب أن يبدأ الرقم ب 09";
-                              }
-                              if (value.contains(".") ||
-                                  value.contains(",") ||
-                                  value.contains("-")) {
-                                return "يُرجى إدخال الرقم بطريقة صحيحة";
-                              }
-                              if (value.startsWith(".") ||
-                                  value.startsWith(",") ||
-                                  value.startsWith("-")) {
-                                return "يُرجى إدخال الرقم بطريقة صحيحة";
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          Customtextfield(
-                            hint: 'ادخل كلمة المرور',
-                            icon: const Icon(BoxIcons.bx_lock_alt),
-                            inputType: TextInputType.visiblePassword,
-                            mycontroller: passwordController,
-                            color: colorScheme.secondary,
-                            isPassword: true,
-                            valid: (value) {
-                              if (value!.isEmpty) return "كلمة المرور مطلوبة";
-                              if (value.length < 8) {
-                                return "يجب أن تحتوي على 8 أحرف على الأقل";
-                              }
-
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 12),
-                          Customtextfield(
-                            hint: 'ادخل تأكيد كلمة المرور',
-                            icon: const Icon(BoxIcons.bx_lock_alt),
-                            inputType: TextInputType.visiblePassword,
-                            mycontroller: passwordConfirmationController,
-                            color: colorScheme.secondary,
-                            isPassword: true,
-                            valid: (value) {
-                              if (value!.isEmpty) {
-                                return "يرجى تأكيد كلمة المرور";
-                              }
-                              if (value != passwordController.text) {
-                                return "كلمة المرور غير متطابقة";
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 25),
-                          Authbutton(
-                            buttonText: "إنشاء حساب",
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                BlocProvider.of<AuthCubits>(context)
-                                    .signUpFunction(
-                                  fullNameController: fullNameController,
-                                  emailController: emailController,
-                                  passwordConfirmationController:
-                                      passwordConfirmationController,
-                                  passwordController: passwordController,
-                                  phoneNumberController: phoneNumberController,
-                                );
-                              }
-                            },
-                            color: colorScheme.secondary,
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, 'LogIn');
-                                },
-                                child: Text(
-                                  'تسجيل الدخول',
-                                  style: TextStyle(
-                                      color: colorScheme.secondary,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
+                              },
+                            ),
+                            const SizedBox(height: 12),
+                            AuthCustomTextField(
+                              hint: 'ادخل كلمة المرور',
+                              icon: const Icon(BoxIcons.bx_lock_alt),
+                              inputType: TextInputType.visiblePassword,
+                              mycontroller: passwordController,
+                              color: colorScheme.secondary,
+                              isPassword: true,
+                              valid: (value) {
+                                if (value!.isEmpty) return "كلمة المرور مطلوبة";
+                                if (value.length < 8) {
+                                  return "يجب أن تحتوي على 8 أحرف على الأقل";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 12),
+                            AuthCustomTextField(
+                              hint: 'ادخل تأكيد كلمة المرور',
+                              icon: const Icon(BoxIcons.bx_lock_alt),
+                              inputType: TextInputType.visiblePassword,
+                              mycontroller: passwordConfirmationController,
+                              color: colorScheme.secondary,
+                              isPassword: true,
+                              valid: (value) {
+                                if (value!.isEmpty) {
+                                  return "يرجى تأكيد كلمة المرور";
+                                }
+                                if (value != passwordController.text) {
+                                  return "كلمة المرور غير متطابقة";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 25),
+                            Authbutton(
+                              buttonText: "إنشاء حساب",
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  BlocProvider.of<AuthCubits>(context)
+                                      .signUpFunction(
+                                    fullNameController: fullNameController,
+                                    emailController: emailController,
+                                    passwordConfirmationController:
+                                        passwordConfirmationController,
+                                    passwordController: passwordController,
+                                    phoneNumberController:
+                                        phoneNumberController,
+                                  );
+                                }
+                              },
+                              color: colorScheme.secondary,
+                            ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, 'LogIn');
+                                  },
+                                  child: Text(
+                                    'تسجيل الدخول',
+                                    style: TextStyle(
+                                        color: colorScheme.secondary,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              Text(' لديك حساب بالفعل ؟ ',
+                                Text(
+                                  ' لديك حساب بالفعل ؟ ',
                                   style: TextStyle(
                                       color: colorScheme.onSurface,
-                                      fontSize: 13)),
-                            ],
-                          ),
-                        ],
+                                      fontSize: 13),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              if (isLoading)
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.black.withOpacity(0.3),
+                  child: Center(
+                    child: SpinKitCircle(
+                      color: colorScheme.secondary,
+                      size: 45,
                     ),
                   ),
                 ),
-              ],
-            ),
+            ],
           );
         },
       ),

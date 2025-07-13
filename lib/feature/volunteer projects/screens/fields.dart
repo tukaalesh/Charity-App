@@ -22,7 +22,7 @@ class VolunteeringFields extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(
-                height: 60,
+                height: 10,
               ),
               Row(
                 children: [

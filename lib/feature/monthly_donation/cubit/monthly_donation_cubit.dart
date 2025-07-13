@@ -6,22 +6,43 @@ import 'package:charity_app/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MonthlyDonationCubit extends Cubit<MonthlyDonationStates> {
-  MonthlyDonationCubit() : super(initialState());
-  void enableMonthlyDonation({required moneyController}) async {
-    emit(loadingStates());
+  MonthlyDonationCubit() : super(MpthlyDonationinitial());
+  void enableMonthlyDonation({
+    required moneyController,
+    required String? selectedCategory,
+  }) async {
+    emit(MothlyDonationLoading());
     try {
+      final token = sharedPreferences.getString('token');
+
       final response = await Api().post(
           url: "http://$localhost/api/donor/monthlyDonation",
-          body: {"amount": moneyController.text},
+          body: {
+            "amount": moneyController.text,
+            "type": selectedCategory ?? "",
+          },
           token: "$token");
-      if (response['message'] == "تم تعديل مبلغ التبرع الشهري بنجاح") {
-        emit(editStates());
-      }
-      if (response['message'] == "تم تفعيل التبرع الشهري بنجاح") {
-        emit(successStates());
-      }
+      print(response);
+
+      emit(MothlyDonationSuccess());
+      // }
     } catch (ex) {
-      emit(failureStates());
+      print('ERROR CONTENT: ${ex.toString()}');
+
+      final errorString = ex.toString();
+
+      final match = RegExp(r'message: (.*?)\}').firstMatch(errorString);
+      final message = match?.group(1);
+
+      if (message != null) {
+        if (message ==
+            "إن هذه الميزة مفعلة لديك سابقاً، إذا كنت تريد تعديل المبلغ أو نوع التبرع، يمكنك إلغاء الميزة أولاً ثم إعادة تفعيلها من جديد") {
+          emit(MonthlyDonationUpdateFailed());
+          return;
+        }
+
+      }
+              emit(MothlyDonationFailure());
     }
   }
 }

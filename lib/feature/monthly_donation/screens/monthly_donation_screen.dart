@@ -3,7 +3,6 @@ import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/monthly_donation/cubit/cancle_monthly_donation.dart';
 import 'package:charity_app/feature/monthly_donation/cubit/cancle_monthly_states.dart';
-import 'package:charity_app/feature/monthly_donation/widget/botton_monthly_donation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -43,10 +42,11 @@ class MonthlyDonationScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 18),
                 const Padding(
-                  padding: EdgeInsets.only(left: 14.0, right: 16, bottom: 8),
+                  padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
                   child: Text(
                     "هل ترغب بأن تكون سببًا في استمرارية الخير؟ يمكنك التبرع بالمبلغ الذي تختاره لدعم المشاريع الخيرية والمساهمة في إحداث فرق",
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -59,13 +59,6 @@ class MonthlyDonationScreen extends StatelessWidget {
                       },
                       color: colorScheme.secondary),
                 ),
-
-                // BottonMonthlyDonation(
-                //   onPressed: () {
-                //     Navigator.pushNamed(context, 'EnableMonthlyOnation');
-                //   },
-                //   text: "تفعيل",
-                // ),
                 const SizedBox(height: 14),
                 if (state is loading)
                   SpinKitCircle(
@@ -84,14 +77,6 @@ class MonthlyDonationScreen extends StatelessWidget {
                         },
                         color: colorScheme.primary,
                       )),
-                // BottonMonthlyDonation(
-                //   onPressed: () {
-                //     context
-                //         .read<CancleMonthlyDonationCubit>()
-                //         .cancleMonthlyDonation();
-                //   },
-                //   text: "إلغاء التفعيل",
-                // ),
               ],
             ),
           );

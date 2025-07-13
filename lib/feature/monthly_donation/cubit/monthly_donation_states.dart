@@ -2,12 +2,12 @@
 
 abstract class MonthlyDonationStates {}
 
-class initialState extends MonthlyDonationStates {}
+class MpthlyDonationinitial extends MonthlyDonationStates {}
 
-class successStates extends MonthlyDonationStates {}
+class MothlyDonationSuccess extends MonthlyDonationStates {}
 
-class loadingStates extends MonthlyDonationStates {}
+class MothlyDonationLoading extends MonthlyDonationStates {}
 
-class editStates extends MonthlyDonationStates {}
+class MonthlyDonationUpdateFailed extends MonthlyDonationStates {}
 
-class failureStates extends MonthlyDonationStates {}
+class MothlyDonationFailure extends MonthlyDonationStates {}

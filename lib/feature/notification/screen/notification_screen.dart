@@ -34,29 +34,29 @@ class NotificationScreen extends StatelessWidget {
                 return const Center(child: Text("حدث خطأ أثناء جلب البيانات"));
               }
 
+              if (state is NotificationEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      emtpyImage,
+                      const SizedBox(height: 10),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "لا توجد إشعارات حالياً.\nسنعرض لك هنا أي تحديثات أو تنبيهات فور توفرها",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
               if (state is NotificationSuccess) {
                 final notifications = state.notifications;
-
-                if (notifications.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        emtpyImage,
-                        const SizedBox(height: 10),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "لا توجد إشعارات حالياً.\nسنعرض لك هنا أي تحديثات أو تنبيهات فور توفرها",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
 
                 return ListView.builder(
                   padding: const EdgeInsets.all(16),

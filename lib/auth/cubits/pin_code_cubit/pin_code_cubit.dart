@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PinCodeCubit extends Cubit<PinCodeStates> {
   PinCodeCubit() : super(PinCodeinilation());
+
+  //التابع المسؤول عن التحقق تبع pin code
   Future<void> checkCode({
     required String email,
     required String code,
@@ -14,6 +16,7 @@ class PinCodeCubit extends Cubit<PinCodeStates> {
     emit(PinCodeLoading());
 
     try {
+      final token = sharedPreferences.getString('token');
       final response = await Api().post(
         url: "http://$localhost/api/verifyEmail",
         body: {

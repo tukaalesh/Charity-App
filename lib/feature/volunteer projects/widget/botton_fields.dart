@@ -1,8 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class BottonMonthlyDonation extends StatelessWidget {
-  BottonMonthlyDonation({super.key, this.onPressed, required this.text});
+class BottonFields extends StatelessWidget {
+  BottonFields({super.key, this.onPressed, required this.text});
 
   void Function()? onPressed;
   final String text;
@@ -17,15 +19,15 @@ class BottonMonthlyDonation extends StatelessWidget {
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: colorScheme.secondary),
+            side: BorderSide(color: colorScheme.primary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 13),
+            padding: const EdgeInsets.symmetric(vertical: 6),
           ),
           child: Text(
             text,
-            style: TextStyle(color: colorScheme.secondary, fontSize: 14),
+            style: TextStyle(color: colorScheme.primary, fontSize: 13),
           ),
         ),
       ),

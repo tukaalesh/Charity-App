@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
   ChangePasswordCubit() : super(ChangePasswordinilation());
-
+//التابع المسؤول عن تغيير كلمة السر
   Future<void> changePasswordFunction({
     required newPasswordController,
     required confirmationNewPasswordController,
@@ -15,7 +15,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
     emit(ChangePasswordLoading());
 
     try {
-      print("$token");
+      final token = sharedPreferences.getString('token');
       final response = await Api().put(
         url: "http://$localhost/api/editpassword",
         body: {
@@ -33,7 +33,6 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
         emit(ChangePasswordFailure());
       }
     } catch (ex) {
-      print('Exception: $ex');
       emit(ChangePasswordFailure());
     }
   }

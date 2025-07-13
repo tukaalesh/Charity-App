@@ -1,5 +1,5 @@
 import 'package:charity_app/core/extensions/context_extensions.dart';
-import 'package:charity_app/feature/volunteer%20projects/widget/botton_monthly_donation.dart';
+import 'package:charity_app/feature/volunteer%20projects/widget/botton_fields.dart';
 import 'package:flutter/material.dart';
 
 class ContainerFields extends StatelessWidget {
@@ -12,9 +12,7 @@ class ContainerFields extends StatelessWidget {
   });
 
   final void Function()? onPressed;
-
   final String text;
-
   final String buttomtext;
   final ImageProvider image;
 
@@ -58,15 +56,11 @@ class ContainerFields extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 19),
-          Botton(
+          BottonFields(
             text: "فرص التطوع",
             onPressed: onPressed,
           ),
-          // Button(
-          //   buttonText: "فرص التطوع",
-          //   onPressed: onPressed,
-          //   color: colorScheme.primary,
-          // ),
+         
           const SizedBox(height: 19),
         ],
       ),

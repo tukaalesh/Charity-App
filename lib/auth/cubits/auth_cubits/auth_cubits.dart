@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print
 
 import 'package:bloc/bloc.dart';
 import 'package:charity_app/auth/cubits/auth_cubits/auth_states.dart';
@@ -7,8 +7,7 @@ import 'package:charity_app/main.dart';
 
 class AuthCubits extends Cubit<AuthStates> {
   AuthCubits() : super(InitializeState());
-//  UserModel? currentUser;
-
+//التابع تبع إنشاء حساب
   Future<void> signUpFunction(
       {required fullNameController,
       required emailController,
@@ -18,7 +17,6 @@ class AuthCubits extends Cubit<AuthStates> {
     emit(LoadingStates());
     try {
       final responseData = await Api().post(
-        //10.0.2.2:8000
         url: "http://$localhost/api/register",
         body: {
           "full_name": fullNameController.text,
@@ -29,18 +27,18 @@ class AuthCubits extends Cubit<AuthStates> {
         },
         token: '',
       );
+      //اخدت الإميل وخزنتو هون لحتى اقدر ابعتو ضمن لريكوست تبع pin
       final email = responseData['user']['email'];
       await sharedPreferences.setString('email', email);
 
-      // final currentUser = UserModel.fromJson(responseData['user']);
-      // print(currentUser.fullName);
-
       emit(RegisterSuccessState());
     } catch (e) {
+      print('ERROR CONTENT: ${e.toString()}');
+      // RegiterAndEmailisUsed
       emit(RegisterFailureState(e.toString()));
     }
   }
-
+//التابع تبع تسجيل دخول
   Future<void> logInFunction({
     required emailController,
     required passwordController,
@@ -56,39 +54,27 @@ class AuthCubits extends Cubit<AuthStates> {
         },
         token: '',
       );
-      // final user = response['user'];
+     
       final token = response['token'];
-      final balance = response['user']['balance'];
-      final points = response['user']['points'];
-      final unread_count =
-          int.tryParse(response['unread_count'].toString()) ?? 0;
-
-      //الرصيد أنا معرفتو مرتين مرة هون ومرا جوا الكيوبت يلي  بالمحفظة
-      //في فكرة أنو انا بدي الرصيد فورا يتحدث أنا وعم عبي ف هاد الشي عم يساعدني فيه الرصيد يلي جوا المحفظة
-      //أما لما عم اعمل لوغ اوت عم يصفر الرصيد أو يرجعلي بنل  فعرفت كمان الرصيد يلي جوا اللوغ ان
       await sharedPreferences.setString('token', token);
-      await sharedPreferences.setString('balance', balance.toString());
-      await sharedPreferences.setString('points', points.toString());
-      await sharedPreferences.setString(
-          'unread_count', unread_count.toString());
-
+      print("$token");
       emit(LoginSuccessState());
     } catch (e) {
       emit(LoginFailureState(e.toString()));
     }
   }
-
+//التابع تبع تسجيل خروج
   Future<void> logOutFunction() async {
     emit(LoadingStates());
     try {
+      final token = sharedPreferences.getString('token');
+
       final response = await Api().post(
           url: "http://$localhost/api/logout", body: null, token: "$token");
       if (response["message"] == 'Logout successful') {
         emit(LogOutSuccess());
-        print(response);
       } else {
         emit(LogOutFailure());
-        print(response);
       }
     } catch (ex) {
       emit(LogOutFailure());

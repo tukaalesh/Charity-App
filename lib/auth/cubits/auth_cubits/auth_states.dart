@@ -1,4 +1,4 @@
-//Auth : for log in screen aand sign up screen >>..<<
+//Auth : for log in screen aand sign up screen  and log out >>..<<
 //تحديد الستيتس يلي رح تاخدهم لسكرين اثناء لوغ ان او الساين اب
 
 abstract class AuthStates {}
@@ -15,6 +15,8 @@ class RegisterFailureState extends AuthStates {
   final String error;
   RegisterFailureState(this.error);
 }
+
+// class RegiterAndEmailisUsed extends AuthStates {}
 
 class LoginSuccessState extends AuthStates {}
 

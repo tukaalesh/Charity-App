@@ -5,6 +5,7 @@ class UserModel {
   final String email;
   final int points;
   final int unreadNotifications;
+  final int balance;
 
   UserModel({
     required this.id,
@@ -13,6 +14,7 @@ class UserModel {
     required this.email,
     required this.points,
     required this.unreadNotifications,
+    required this.balance,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -23,41 +25,35 @@ class UserModel {
       fullName: jsonUserData['full_name'] ?? '',
       email: jsonUserData['email'] ?? '',
       phoneNumber: jsonUserData['phone_number'] ?? '',
+    balance: (jsonUserData["balance"] is int)
+          ? jsonUserData["balance"]
+          : int.tryParse(jsonUserData["balance"]?.toString() ?? '0') ?? 0,
+
       points: (jsonUserData['points'] is int)
           ? jsonUserData['points']
           : int.tryParse(jsonUserData['points']?.toString() ?? '0') ?? 0,
       unreadNotifications: json['number of unread notifications'] ?? 0,
     );
   }
+  //هاد الشي المسؤول عن التعديل
+  //تبع عداد الرسائل
+  UserModel copyWith({
+    int? id,
+    int? balance,
+    String? fullName,
+    String? phoneNumber,
+    String? email,
+    int? points,
+    int? unreadNotifications,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      email: email ?? this.email,
+      points: points ?? this.points,
+      balance :balance?? this.balance,
+      unreadNotifications: unreadNotifications ?? this.unreadNotifications,
+    );
+  }
 }
-// بالموديل في ششي لليوزر وفي شي للرسائل الغير مقروءة
-// {
-//     "user": {
-//         "id": 1,
-//         "full_name": "tuka",
-//         "phone_number": "0999999999",
-//         "email": "tukaaalesh8@gmail.com",
-//         "verification_code": "1111",
-//         "verified": 1,
-//         "date_of_birth": null,
-//         "gender": null,
-//         "role": "متبرع",
-//         "balance": 299.5,
-//         "points": 51,
-//         "beneficiary_last_order": null,
-//         "beneficiary_status": null,
-//         "monthly_donation": 100.5,
-//         "last_monthly_donation": "2025-06-25",
-//         "ban": 0,
-//         "volunteer_status": null,
-//         "is_working": 0,
-//         "purpose_of_volunteering": null,
-//         "current_location": null,
-//         "volunteering_hours": null,
-//         "education": null,
-//         "email_verified_at": null,
-//         "created_at": "2025-06-24T20:01:59.000000Z",
-//         "updated_at": "2025-06-29T18:02:07.000000Z"
-//     },
-//     "number of unread notifications": 0
-// }

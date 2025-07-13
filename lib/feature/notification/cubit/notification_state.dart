@@ -16,3 +16,5 @@ class NotificationError extends NotificationState {
   final String message;
   NotificationError(this.message);
 }
+
+class NotificationEmpty extends NotificationState {}

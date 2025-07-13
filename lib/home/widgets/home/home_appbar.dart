@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/home/widgets/initial_circle.dart';
 import 'package:charity_app/main.dart';
@@ -15,6 +17,8 @@ class appBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final unReadPoits = sharedPreferences.getString("unreadPoints");
+
     final colorScheme = context.colorScheme;
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -34,41 +38,41 @@ class appBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 },
               ),
               const SizedBox(width: 8),
-              Stack(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.notifications_none),
-                    color: colorScheme.primary,
-                    iconSize: 30,
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'Notification');
-                    },
-                  ),
-                  Positioned(
-                    right: 4,
-                    top: 4,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Text(
-                        // "$unread_count".toString(),
-                        "1",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              // Stack(
+              //   children: [
+              //     IconButton(
+              //       icon: const Icon(Icons.notifications_none),
+              //       color: colorScheme.primary,
+              //       iconSize: 30,
+              //       onPressed: () {
+              //         print("$unReadPoits");
+              //         Navigator.pushNamed(context, 'Notification');
+              //       },
+              //     ),
+              //     Positioned(
+              //       right: 4,
+              //       top: 4,
+              //       child: Container(
+              //         width: 20,
+              //         height: 20,
+              //         alignment: Alignment.center,
+              //         decoration: const BoxDecoration(
+              //           color: Color.fromRGBO(223, 0, 0, 0.737),
+              //           shape: BoxShape.circle,
+              //         ),
+              //         child: Text(
+              //           "$unReadPoits",
+              //           style: const TextStyle(
+              //             color: Colors.white,
+              //             fontSize: 12,
+              //             fontWeight: FontWeight.bold,
+              //           ),
+              //           textAlign: TextAlign.center,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // )
             ],
           ),
         ),

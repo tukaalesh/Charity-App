@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 class projectModel {
   final String title;
   final String imageUrl;

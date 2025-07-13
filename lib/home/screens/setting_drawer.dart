@@ -2,7 +2,7 @@ import 'package:charity_app/auth/cubits/auth_cubits/auth_cubits.dart';
 import 'package:charity_app/auth/cubits/auth_cubits/auth_states.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
-import 'package:charity_app/auth/widgets/alert_dialog.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/home/widgets/initial_circle.dart';
 import 'package:charity_app/home/widgets/settings_rowItem.dart';
@@ -19,8 +19,8 @@ class SettingDrawer extends StatelessWidget {
     final isDark = context.isDarkMode;
     final theme = context.theme;
     final colorScheme = context.colorScheme;
-    final token = sharedPreferences.getString('token');
-//س=هون مابدي ياه يبني شي بس بدي ياه يعمل لوغ اوت
+    // final unReadPoits = sharedPreferences.getString("unreadPoints");
+
     return BlocListener<AuthCubits, AuthStates>(
       listener: (context, state) {
         if (state is LogOutSuccess) {
@@ -35,15 +35,14 @@ class SettingDrawer extends StatelessWidget {
       },
       child: Drawer(
         backgroundColor: colorScheme.surface,
-
-        //ليش بلوك بيلدر ؟؟
-        // لانو انا حسب كل حالة عم تنبنى ui جديدة
-
         child: BlocBuilder<UserCubit, UserState>(
           builder: (context, state) {
             if (state is UserInitialState) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                context.read<UserCubit>().getUserData(token!);
+                final token = sharedPreferences.getString('token');
+                if (token != null && token.isNotEmpty) {
+                  context.read<UserCubit>().getUserData(token);
+                }
               });
               return Center(child: SpinKitCircle(color: colorScheme.primary));
             }
@@ -58,148 +57,247 @@ class SettingDrawer extends StatelessWidget {
 
             if (state is UserSuccessState) {
               final user = state.user;
-
-              return ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                children: [
-                  const SizedBox(height: 30),
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Row(
-                      children: [
-                        Initialcircle(
-                          text: (user.fullName.isNotEmpty
-                              ? user.fullName[0].toUpperCase()
-                              : '?'),
-                        ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                user.phoneNumber.isNotEmpty
-                                    ? user.phoneNumber
-                                    : "09xxxxxxxx",
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                              Text(
-                                user.email.isNotEmpty
-                                    ? user.email
-                                    : "البريد غير متوفر",
-                                style: const TextStyle(fontSize: 12),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
+             
+              return RefreshIndicator(
+                onRefresh: () async {
+                  final token = sharedPreferences.getString('token');
+                  if (token != null && token.isNotEmpty) {
+                    try {
+                      await context.read<UserCubit>().getUserData(token);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("فشل التحديث")),
+                      );
+                    }
+                  } else {}
+                },
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  children: [
+                    const SizedBox(height: 30),
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        children: [
+                          Initialcircle(
+                            text: (user.fullName.isNotEmpty
+                                ? user.fullName[0].toUpperCase()
+                                : '?'),
                           ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: Text(
+                                  user.email.isNotEmpty
+                                      ? user.email
+                                      : "البريد غير متوفر",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: Text(
+                                  "رصيدك الحالي: ${user.balance} ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Divider(color: theme.dividerColor),
+                    SettingsRowItem(
+                      onTap: () =>
+                          Navigator.pushNamed(context, 'ChangePassword'),
+                      text: "تغيير كلمة السر",
+                      icon: Icon(Icons.lock_open_outlined,
+                          color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    Stack(
+                      children: [
+                        SettingsRowItem(
+                          onTap: () async {
+                            await Navigator.pushNamed(context, 'Notification');
+                            context.read<UserCubit>().clearUnreadPoints();
+                          },
+                          text: "الإشعارات",
+                          icon: Icon(Icons.notifications_none_outlined,
+                              color: colorScheme.onSurface),
+                          color: colorScheme.onSurface,
+                        ),
+                        if (user.unreadNotifications != 0)
+                          Positioned(
+                            right: -0.6,
+                            bottom: 12,
+                            child: Container(
+                              width: 17,
+                              height: 17,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(223, 0, 0, 0.763),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                user.unreadNotifications.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    SettingsRowItem(
+                      text: "سجل التبرع",
+                      icon: Icon(Icons.history, color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    SettingsRowItem(
+                      text: "التبرع لاحقاً",
+                      icon: Icon(Icons.bookmark_outline,
+                          color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              activeTrackColor: colorScheme.primary,
+                              activeColor: colorScheme.surface,
+                              inactiveThumbColor: const Color(0xFF919593),
+                              inactiveTrackColor: Colors.white,
+                              value: isDark,
+                              onChanged: (_) =>
+                                  context.themeCubit.toggleTheme(),
+                            ),
+                          ),
+                        ),
+                        SettingsRowItem(
+                          text: "الوضع الليلي",
+                          icon: Icon(Icons.dark_mode_outlined,
+                              color: colorScheme.onSurface),
+                          color: colorScheme.onSurface,
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Divider(color: theme.dividerColor),
-                  SettingsRowItem(
-                    onTap: () => Navigator.pushNamed(context, 'ChangePassword'),
-                    text: "تغيير كلمة السر",
-                    icon: Icon(Icons.lock_open_outlined,
-                        color: colorScheme.onSurface),
-                    color: colorScheme.onSurface,
-                  ),
-                  SettingsRowItem(
-                    onTap: () => Navigator.pushNamed(context, 'Notification'),
-                    text: "الإشعارات",
-                    icon: Icon(Icons.notifications_none_outlined,
-                        color: colorScheme.onSurface),
-                    color: colorScheme.onSurface,
-                  ),
-                  SettingsRowItem(
-                    // onTap: () =>
-                    //     Navigator.pushNamed(context, 'MonthlyDonation'),
-                    text: "سجل التبرع",
-                    icon: Icon(Icons.history, color: colorScheme.onSurface),
-                    color: colorScheme.onSurface,
-                  ),
-                  SettingsRowItem(
-                    text: "التبرع لاحقاً",
-                    icon: Icon(Icons.bookmark_outline,
-                        color: colorScheme.onSurface),
-                    color: colorScheme.onSurface,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 30.0,
-                        ),
-                        child: Transform.scale(
-                          scale: 0.8,
-                          child: Switch(
-                            activeTrackColor: colorScheme.primary,
-                            activeColor: colorScheme.surface,
-                            inactiveThumbColor: const Color(0xFF919593),
-                            inactiveTrackColor: Colors.white,
-                            value: isDark,
-                            onChanged: (_) => context.themeCubit.toggleTheme(),
-                          ),
-                        ),
-                      ),
-                      SettingsRowItem(
-                        text: "الوضع الليلي",
-                        icon: Icon(Icons.dark_mode_outlined,
-                            color: colorScheme.onSurface),
-                        color: colorScheme.onSurface,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 28.0, left: 10),
-                          child: Text(
-                            "نقطة ${user.points}",
-                            style: TextStyle(
-                              color: colorScheme.secondary,
-                              fontSize: 15,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 28.0, left: 10),
+                            child: Text(
+                              "نقطة ${user.points}",
+                              style: TextStyle(
+                                  color: colorScheme.primary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                      ),
-                      SettingsRowItem(
-                        text: "عدد نقاطك",
-                        icon: Icon(Icons.emoji_events_outlined,
-                            color: colorScheme.onSurface),
-                        color: colorScheme.onSurface,
-                      ),
-                    ],
-                  ),
-                  SettingsRowItem(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => CustomAlertDialog(
-                          title: "هل تريد بالتأكيد تسجيل الخروج",
-                          textButton: "تأكيد",
-                          onPressed: () {
-                            Navigator.pop(context);
-                            context.read<AuthCubits>().logOutFunction();
-                          },
-                          textButton1: "إلغاء",
-                          onPressed1: () => Navigator.pop(context),
+                        SettingsRowItem(
+                          text: "عدد نقاطك",
+                          icon: Icon(Icons.emoji_events_outlined,
+                              color: colorScheme.onSurface),
+                          color: colorScheme.onSurface,
                         ),
-                      );
-                    },
-                    text: "تسجيل الخروج",
-                    icon: Icon(Icons.logout_outlined,
-                        color: colorScheme.onSurface),
-                    color: colorScheme.onSurface,
-                  ),
-                 
-                ],
+                      ],
+                    ),
+                    SettingsRowItem(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialog(
+                            title: "تسجيل الخروج",
+                            content: "هل تريد بالتأكيد تسجيل الخروج",
+                            confirmText: "تأكيد",
+                            cancelText: "إلغاء",
+                            onConfirm: () {
+                              Navigator.pop(context);
+                              context.read<AuthCubits>().logOutFunction();
+                            },
+                            onCancel: () => Navigator.of(context).pop(),
+                          ),
+                        );
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (_) => CustomAlertDialog(
+                        //     title: "هل تريد بالتأكيد تسجيل الخروج",
+                        //     textButton: "تأكيد",
+                        //     onPressed: () {
+                        //       Navigator.pop(context);
+                        //       context.read<AuthCubits>().logOutFunction();
+                        //     },
+                        //     textButton1: "إلغاء",
+                        //     onPressed1: () => Navigator.pop(context),
+                        //   ),
+                        // );
+                      },
+                      text: "تسجيل الخروج",
+                      icon: Icon(Icons.logout_outlined,
+                          color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    SettingsRowItem(
+                      onTap: () =>
+                          Navigator.pushNamed(context, 'EnableMonthlyOnation'),
+                      text: " التبرع الشهري",
+                      icon: Icon(Icons.history, color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    const SizedBox(height: 6),
+                    SettingsRowItem(
+                      onTap: () =>
+                          Navigator.pushNamed(context, 'VolunteeringFields'),
+                      text: "المشاريع التطوعية",
+                      icon: Icon(Icons.person, color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    const SizedBox(height: 6),
+                    SettingsRowItem(
+                      onTap: () => Navigator.pushNamed(context, 'Gift'),
+                      text: "الهدية",
+                      icon: Icon(Icons.wallet_giftcard,
+                          color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    const SizedBox(height: 6),
+                    SettingsRowItem(
+                      onTap: () =>
+                          Navigator.pushNamed(context, 'CompletedProjects'),
+                      text: "المشاريع المنجزة",
+                      icon: Icon(Icons.person, color: colorScheme.onSurface),
+                      color: colorScheme.onSurface,
+                    ),
+                    const SizedBox(height: 6),
+                  ],
+                ),
               );
             }
 

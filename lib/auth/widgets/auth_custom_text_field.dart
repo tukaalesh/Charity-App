@@ -1,7 +1,7 @@
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class Customtextfield extends StatefulWidget {
+class AuthCustomTextField extends StatefulWidget {
   final String hint;
   final Icon icon;
   final TextInputType inputType;
@@ -11,7 +11,7 @@ class Customtextfield extends StatefulWidget {
 
   final Color color;
 
-  const Customtextfield({
+  const AuthCustomTextField({
     super.key,
     required this.hint,
     required this.icon,
@@ -23,10 +23,10 @@ class Customtextfield extends StatefulWidget {
   });
 
   @override
-  State<Customtextfield> createState() => _CustomtextfieldState();
+  State<AuthCustomTextField> createState() => _CustomtextfieldState();
 }
 
-class _CustomtextfieldState extends State<Customtextfield> {
+class _CustomtextfieldState extends State<AuthCustomTextField> {
   bool _obscureText = true;
 
   @override

@@ -1,12 +1,12 @@
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget {
+class VolunterButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onPressed;
   final Color? color;
 
-  const Button({
+  const VolunterButton({
     super.key,
     required this.buttonText,
     this.onPressed,

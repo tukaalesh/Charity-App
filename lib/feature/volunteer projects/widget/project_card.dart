@@ -1,8 +1,11 @@
-// ignore_for_file: non_constant_identifier_names, must_be_immutable
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
-import 'package:charity_app/feature/volunteer%20request/widgets/buttom.dart';
+import 'package:charity_app/feature/volunteer%20projects/cubit/join_to_project/join_to_project_cubit.dart';
+import 'package:charity_app/feature/volunteer%20projects/widget/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProjectCard extends StatelessWidget {
   const ProjectCard({
@@ -14,6 +17,7 @@ class ProjectCard extends StatelessWidget {
     required this.volunteer_hours,
     required this.required_tasks,
     required this.current_amount,
+    required this.id,
   });
 
   final String name;
@@ -23,6 +27,8 @@ class ProjectCard extends StatelessWidget {
   final String volunteer_hours;
   final String required_tasks;
   final int current_amount;
+  final int id;
+
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
@@ -37,9 +43,9 @@ class ProjectCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: const Color.fromARGB(255, 46, 46, 46).withOpacity(0.05),
               blurRadius: 10,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -67,193 +73,92 @@ class ProjectCard extends StatelessWidget {
                           name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 13,
+                            fontSize: 14,
                           ),
                         ),
-                        const SizedBox(height: 9),
-                        Text(
-                          "الموقع $location",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12,
-                              color: Colors.grey),
-                        ),
-                        const SizedBox(height: 2),
-                        // Text(
-                        //   "مطلوب $total_amount متطوعين"
-                        //   "  تطوع $current_amount",
-                        //   style: const TextStyle(
-                        //       fontWeight: FontWeight.w300,
-                        //       fontSize: 13,
-                        //       color: Colors.grey),
-                        // ),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "مطلوب $total_amount متطوعين  ",
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on_outlined,
+                                size: 15, color: colorScheme.secondary),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                location,
                                 style: const TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
+                                  fontSize: 13,
+                                  color: Colors.grey,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.group_outlined,
+                                size: 15, color: colorScheme.secondary),
+                            const SizedBox(width: 4),
+                            Text(
+                              "مطلوب $total_amount متطوعين",
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.access_time,
+                                size: 15, color: colorScheme.secondary),
+                            const SizedBox(width: 4),
+                            Text(
+                              "عدد ساعات التطوع: $volunteer_hours",
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.task_outlined,
+                                size: 15, color: colorScheme.secondary),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                "المهام المطلوبة: $required_tasks",
+                                style: const TextStyle(
+                                  fontSize: 13,
                                   color: Colors.grey,
                                 ),
                               ),
-                              // TextSpan(
-                              //   text: "تطوع $current_amount",
-                              //   style: const TextStyle(
-                              //     fontWeight: FontWeight.w300,
-                              //     fontSize: 13,
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "عدد ساعات التطوع: $volunteer_hours",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12,
-                              color: Colors.grey),
+                        const SizedBox(height: 12),
+                        VolunterButton(
+                          buttonText: "تطوع الآن",
+                          onPressed: () {
+                            context
+                                .read<JoinToProjectCubit>()
+                                .joinToProject(id: id);
+                          },
+                          color: colorScheme.secondary,
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 13),
-              Row(
-                children: [
-                  Expanded(
-                    child: Button(
-                      buttonText: "عرض التفاصيل",
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
-                          builder: (context) {
-                            return NewWidget(
-                                isDark: isDark,
-                                screenWidth: screenWidth,
-                                name: name,
-                                colorScheme: colorScheme,
-                                description: description,
-                                required_tasks: required_tasks);
-                          },
-                        );
-                      },
-                      color: colorScheme.secondary,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                ],
-              ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class NewWidget extends StatelessWidget {
-  const NewWidget({
-    super.key,
-    required this.isDark,
-    required this.screenWidth,
-    required this.name,
-    required this.colorScheme,
-    required this.description,
-    required this.required_tasks,
-  });
-
-  final bool isDark;
-  final double screenWidth;
-  final String name;
-  final ColorScheme colorScheme;
-  final String description;
-  final String required_tasks;
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 50,
-                height: 5,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? Colors.grey[850]
-                      : const Color.fromARGB(255, 204, 204, 204),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: SizedBox(
-                    width: screenWidth * 0.24,
-                    height: screenWidth * 0.24,
-                    child: charityLogoImage,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                            color: colorScheme.secondary
-                            // color: colorScheme.onSurface,
-                            ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(description,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: colorScheme.onSurface,
-                          )),
-                      const SizedBox(height: 8),
-                      Text(
-                        "المهام المطلوبة: $required_tasks",
-                        style: const TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      // Text(
-                      //     "عدد ساعات التطوع: $volunteer_hours"),
-                      Button(
-                        buttonText: "تطوع الآن",
-                        onPressed: () {},
-                        color: colorScheme.secondary,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
         ),
       ),
     );

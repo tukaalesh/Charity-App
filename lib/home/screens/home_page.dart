@@ -1,5 +1,4 @@
 import 'package:charity_app/auth/model/user_model.dart';
-import 'package:charity_app/auth/screens/change_password_screen.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/helper/api.dart';
 import 'package:charity_app/home/cubits/project_cubit/donation_cubit.dart';
