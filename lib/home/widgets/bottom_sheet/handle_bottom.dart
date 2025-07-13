@@ -1,3 +1,4 @@
+import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class HandleBottom extends StatelessWidget {
@@ -5,11 +6,12 @@ class HandleBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
     return Container(
       width: 50,
       height: 5,
       decoration: BoxDecoration(
-        color: Colors.grey[400],
+          color:  isDark ? const Color(0xFFF3F4F6) : Colors.grey[400],
         borderRadius: BorderRadius.circular(2),
       ),
     );

@@ -13,12 +13,11 @@ class HomeNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final colorScheme = context.colorScheme;
-
+    final ColorScheme =context.colorScheme;
     return BlocBuilder<NavigationCubit, int>(
       builder: (context, selectedIndex) {
         return BottomNavigationBar(
-          selectedItemColor: colorScheme.secondary,
+          selectedItemColor: ColorScheme.primary,
           unselectedItemColor: Colors.grey,
           currentIndex: selectedIndex,
           onTap: (index) => navigate(context, index),
@@ -30,8 +29,8 @@ class HomeNavigationBar extends StatelessWidget {
                 icon: Icon(Icons.account_balance_wallet_outlined),
                 label: 'المحفظة'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events),
-                 label: 'الانجازات'),
+                icon: Icon(Icons.wallet_giftcard_outlined),
+                 label: 'الهدية'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.groups),
                  label: 'فرص التبرع'),

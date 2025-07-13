@@ -1,23 +1,22 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/home/cubits/slider_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeSlider extends StatelessWidget {
   const HomeSlider({super.key});
 
   final List<String> imagePaths = const [
-    'assets/images/slider2.jpg',
-    'assets/images/1.png',
-    'assets/images/slider3.jpg',
+    'assets/images/slider2.png',
+    "assets/images/1.png",
+    'assets/images/slider3.png',
   ];
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = context.colorScheme;
-
+    final ColorScheme = context.colorScheme;
     return BlocProvider(
       create: (_) => SliderCubit(),
       child: Scaffold(
@@ -65,7 +64,7 @@ class HomeSlider extends StatelessWidget {
                       dotWidth: 8,
                       spacing: 6,
                       dotColor: Colors.grey.shade300,
-                      activeDotColor: colorScheme.primary,
+                      activeDotColor: ColorScheme.primary,
                     ),
                   );
                 },

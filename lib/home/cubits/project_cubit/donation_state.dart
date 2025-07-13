@@ -8,7 +8,7 @@ class DonationInitial extends DonationState {}
 class DonationLoading extends DonationState {}
 
 class DonationLoaded extends DonationState {
-  final List<projectModel> projects;
+  final List<DonationModel> projects;
 
   DonationLoaded(this.projects);
 }

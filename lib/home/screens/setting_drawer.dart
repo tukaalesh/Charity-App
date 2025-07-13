@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:charity_app/auth/cubits/auth_cubits/auth_cubits.dart';
 import 'package:charity_app/auth/cubits/auth_cubits/auth_states.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
@@ -57,7 +59,7 @@ class SettingDrawer extends StatelessWidget {
 
             if (state is UserSuccessState) {
               final user = state.user;
-             
+
               return RefreshIndicator(
                 onRefresh: () async {
                   final token = sharedPreferences.getString('token');
@@ -122,6 +124,7 @@ class SettingDrawer extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Divider(color: theme.dividerColor),
+
                     SettingsRowItem(
                       onTap: () =>
                           Navigator.pushNamed(context, 'ChangePassword'),
@@ -168,41 +171,21 @@ class SettingDrawer extends StatelessWidget {
                       ],
                     ),
                     SettingsRowItem(
+                      onTap: () {
+                        Navigator.pushNamed(context, ' DonationHistory');
+                      },
                       text: "سجل التبرع",
                       icon: Icon(Icons.history, color: colorScheme.onSurface),
                       color: colorScheme.onSurface,
                     ),
                     SettingsRowItem(
-                      text: "التبرع لاحقاً",
+                      onTap: () {
+                        Navigator.pushNamed(context, 'savedProject');
+                      },
+                      text: "المشاريع المحفوظة",
                       icon: Icon(Icons.bookmark_outline,
                           color: colorScheme.onSurface),
                       color: colorScheme.onSurface,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          child: Transform.scale(
-                            scale: 0.8,
-                            child: Switch(
-                              activeTrackColor: colorScheme.primary,
-                              activeColor: colorScheme.surface,
-                              inactiveThumbColor: const Color(0xFF919593),
-                              inactiveTrackColor: Colors.white,
-                              value: isDark,
-                              onChanged: (_) =>
-                                  context.themeCubit.toggleTheme(),
-                            ),
-                          ),
-                        ),
-                        SettingsRowItem(
-                          text: "الوضع الليلي",
-                          icon: Icon(Icons.dark_mode_outlined,
-                              color: colorScheme.onSurface),
-                          color: colorScheme.onSurface,
-                        ),
-                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -228,6 +211,35 @@ class SettingDrawer extends StatelessWidget {
                         ),
                       ],
                     ),
+
+                    // const SizedBox(height: 6),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: Switch(
+                              activeTrackColor: colorScheme.primary,
+                              activeColor: colorScheme.surface,
+                              inactiveThumbColor: const Color(0xFF919593),
+                              inactiveTrackColor: Colors.white,
+                              value: isDark,
+                              onChanged: (_) =>
+                                  context.themeCubit.toggleTheme(),
+                            ),
+                          ),
+                        ),
+                        SettingsRowItem(
+                          text: "الوضع الليلي",
+                          icon: Icon(Icons.dark_mode_outlined,
+                              color: colorScheme.onSurface),
+                          color: colorScheme.onSurface,
+                        ),
+                      ],
+                    ),
+
                     SettingsRowItem(
                       onTap: () {
                         showDialog(
@@ -245,57 +257,12 @@ class SettingDrawer extends StatelessWidget {
                             onCancel: () => Navigator.of(context).pop(),
                           ),
                         );
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (_) => CustomAlertDialog(
-                        //     title: "هل تريد بالتأكيد تسجيل الخروج",
-                        //     textButton: "تأكيد",
-                        //     onPressed: () {
-                        //       Navigator.pop(context);
-                        //       context.read<AuthCubits>().logOutFunction();
-                        //     },
-                        //     textButton1: "إلغاء",
-                        //     onPressed1: () => Navigator.pop(context),
-                        //   ),
-                        // );
                       },
                       text: "تسجيل الخروج",
                       icon: Icon(Icons.logout_outlined,
                           color: colorScheme.onSurface),
                       color: colorScheme.onSurface,
                     ),
-                    SettingsRowItem(
-                      onTap: () =>
-                          Navigator.pushNamed(context, 'EnableMonthlyOnation'),
-                      text: " التبرع الشهري",
-                      icon: Icon(Icons.history, color: colorScheme.onSurface),
-                      color: colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 6),
-                    SettingsRowItem(
-                      onTap: () =>
-                          Navigator.pushNamed(context, 'VolunteeringFields'),
-                      text: "المشاريع التطوعية",
-                      icon: Icon(Icons.person, color: colorScheme.onSurface),
-                      color: colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 6),
-                    SettingsRowItem(
-                      onTap: () => Navigator.pushNamed(context, 'Gift'),
-                      text: "الهدية",
-                      icon: Icon(Icons.wallet_giftcard,
-                          color: colorScheme.onSurface),
-                      color: colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 6),
-                    SettingsRowItem(
-                      onTap: () =>
-                          Navigator.pushNamed(context, 'CompletedProjects'),
-                      text: "المشاريع المنجزة",
-                      icon: Icon(Icons.person, color: colorScheme.onSurface),
-                      color: colorScheme.onSurface,
-                    ),
-                    const SizedBox(height: 6),
                   ],
                 ),
               );

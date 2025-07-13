@@ -44,6 +44,7 @@ class ConstAppBar1 extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = context.colorScheme;
+    final isDark = context.isDarkMode;
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: colorScheme.surface,
@@ -55,6 +56,11 @@ class ConstAppBar1 extends StatelessWidget implements PreferredSizeWidget {
           fontWeight: FontWeight.bold,
           color: colorScheme.onSurface,
         ),
+      ),
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios_new,
+            color: isDark ? Colors.grey[400] : Colors.black),
+        onPressed: () {},
       ),
       elevation: 0,
     );

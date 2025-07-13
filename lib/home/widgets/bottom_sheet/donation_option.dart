@@ -10,9 +10,8 @@ class DonationOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme=context.colorScheme;
     final donationCubit = context.read<ModalCubit>();
-        final colorScheme = context.colorScheme;
-
     return Wrap(
       spacing: 12,
       runSpacing: 12,
@@ -23,11 +22,11 @@ class DonationOptions extends StatelessWidget {
             donationCubit.selectAmount(amount.toString());
           },
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: colorScheme.primary),
+            side: BorderSide(color: ColorScheme.primary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            foregroundColor: colorScheme.primary,
+            foregroundColor: ColorScheme.primary,
           ),
           child: Text("\$$amount"),
         );

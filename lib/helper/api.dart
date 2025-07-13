@@ -79,4 +79,24 @@ class Api {
   //         'ther ia a problem  ${response.statusCode} with body ${jsonDecode(response.body)}');
   //   }
   // }
+  Future<dynamic> delete({required String url, required String? token}) async {
+    Map<String, String> headers = {};
+    if (token != null) {
+      headers.addAll({'Authorization': 'Bearer $token'});
+    }
+
+    http.Response response =
+        await http.delete(Uri.parse(url), headers: headers);
+
+    if (response.statusCode == 200 || response.statusCode == 204) {
+      if (response.body.isNotEmpty) {
+        return jsonDecode(response.body);
+      } else {
+        return null;
+      }
+    } else {
+      throw Exception(
+          'هناك مشكلة في الحذف، رمز الحالة: ${response.statusCode} مع نص الرد: ${response.body}');
+    }
+  }
 }

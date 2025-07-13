@@ -20,9 +20,7 @@ class SettingsRowItem extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Column(
         children: [
-          const SizedBox(
-            height: 28,
-          ),
+          const SizedBox(height: 20),
           GestureDetector(
             onTap: onTap,
             child: Row(

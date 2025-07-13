@@ -37,8 +37,10 @@ class _DonateFieldState extends State<DonateField> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: non_constant_identifier_names
+    final ColorScheme=context.colorScheme;
+      final isDark = context.isDarkMode;
     final cubit = context.read<ModalCubit>();
-    final colorScheme = context.colorScheme;
 
     return TextFormField(
       controller: controller,
@@ -51,7 +53,7 @@ class _DonateFieldState extends State<DonateField> {
           padding: const EdgeInsets.all(12.0),
           child: Icon(
             Icons.attach_money,
-            color: colorScheme.secondary,
+            color: ColorScheme.secondary,
             size: 24,
           ),
         ),
@@ -70,7 +72,9 @@ class _DonateFieldState extends State<DonateField> {
           borderSide: const BorderSide(
               color: Colors.grey, width: 1.4), // البوردر شغال   
         ),
+         fillColor:  isDark ? Colors.grey[850] :  Colors.grey[100],
       ),
+      
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى إدخال المبلغ';
@@ -83,6 +87,7 @@ class _DonateFieldState extends State<DonateField> {
       onChanged: (value) {
         cubit.selectAmount(value);
       },
+      
     );
   }
 }
