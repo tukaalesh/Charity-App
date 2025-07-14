@@ -118,6 +118,16 @@ class DonateButton extends StatelessWidget {
                       ),
                     );
                   });
+                } else if (state is BalanceNotEnough) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Center(
+                          child: Text(
+                              "ليس لديك رصيد كافٍ لإتمام هذه العملية، الرجاء شحن المحفظة وإعادة المحاولة.")),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
                 } else if (state is DonationButtonFailure) {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(

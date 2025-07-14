@@ -10,6 +10,8 @@ class DonationButtonLoading extends DonationButtonState {}
 
 class DonationButtonSuccess extends DonationButtonState {}
 
+class BalanceNotEnough extends DonationButtonState {}
+
 class DonationButtonFailure extends DonationButtonState {
   final String message;
   DonationButtonFailure(this.message);
@@ -18,22 +20,39 @@ class DonationButtonFailure extends DonationButtonState {
 class DonationButtonCubit extends Cubit<DonationButtonState> {
   DonationButtonCubit() : super(DonationButtonInitial());
 
-  Future<void> donateToProject({required int projectId, required int amount}) async {
+  Future<void> donateToProject(
+      {required int projectId, required int amount}) async {
     emit(DonationButtonLoading());
 
     try {
       final response = await Api().post(
-  url: "http://$localhost/api/donor/donateToProject/?id=$projectId&amount=$amount",
-  token: "$token",
-  body: {}, 
-);
+        url:
+            "http://$localhost/api/donor/donateToProject/?id=$projectId&amount=$amount",
+        token: "$token",
+        body: {},
+      );
 
+// "ليس لديك رصيد كافٍ لإتمام هذه العملية، الرجاء شحن المحفظة وإعادة المحاولة."
 
       print("Donation response: $response");
 
       emit(DonationButtonSuccess());
     } catch (e) {
-      print("Donation error: $e");
+      print('ERROR CONTENT: ${e.toString()}');
+
+      final errorString = e.toString();
+
+      final match = RegExp(r'message: (.*?)\}').firstMatch(errorString);
+      final message = match?.group(1);
+
+      if (message != null) {
+        if (message ==
+            "ليس لديك رصيد كافٍ لإتمام هذه العملية، الرجاء شحن المحفظة وإعادة المحاولة.") {
+          emit(BalanceNotEnough());
+          return;
+        }
+      }
+
       emit(DonationButtonFailure("فشل التبرع: $e"));
     }
   }
