@@ -57,9 +57,9 @@ final token = sharedPreferences.get("token");
 //
 //مشان ونحنا عم نعدل بين ايميوليتر و ويندوز
 
-// const String localhost = "10.0.2.2:8000";
+const String localhost = "10.0.2.2:8000";
 
-const String localhost = "127.0.0.1:8000";
+// const String localhost = "127.0.0.1:8000";
 // const String localhost = " 192.168.59.180:8000";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
             //     child: child!,
             //   );
             // },
-            initialRoute: "PinCode",
+            initialRoute: "Splash",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),
