@@ -124,7 +124,7 @@ class DonateButton extends StatelessWidget {
                     const SnackBar(
                       content: Center(
                           child: Text(
-                              "ليس لديك رصيد كافٍ لإتمام هذه العملية، الرجاء شحن المحفظة وإعادة المحاولة.")),
+                              "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
                       backgroundColor: Colors.red,
                     ),
                   );

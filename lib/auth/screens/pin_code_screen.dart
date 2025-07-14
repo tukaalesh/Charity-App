@@ -10,6 +10,7 @@ import 'package:charity_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PinCodeScreen extends StatelessWidget {
   PinCodeScreen({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class PinCodeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = context.colorScheme;
     final size = MediaQuery.of(context).size;
-
+    final isDark = context.isDarkMode;
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: BlocConsumer<PinCodeCubit, PinCodeStates>(
@@ -68,18 +69,60 @@ class PinCodeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Customtextfields(
-                        hint: "رمز التأكيد مكون من 4 أرقام",
-                        inputType: TextInputType.number,
-                        mycontroller: verificationController,
-                        valid: (value) {
-                          if (value == null || value.length != 4) {
-                            return "يُرجى إدخال الرمز المكون من 4 أرقام";
-                          }
-                          return null;
-                        },
+                      // Customtextfields(
+                      //   hint: "رمز التأكيد مكون من 4 أرقام",
+                      //   inputType: TextInputType.number,
+                      //   mycontroller: verificationController,
+                      //   valid: (value) {
+                      //     if (value == null || value.length != 4) {
+                      //       return "يُرجى إدخال الرمز المكون من 4 أرقام";
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: PinCodeTextField(
+                          appContext: context,
+                          length: 4,
+                          controller: verificationController,
+                          keyboardType: TextInputType.number,
+                          animationType: AnimationType.scale,
+                          cursorColor: colorScheme.secondary,
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                          ),
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(12),
+                            fieldHeight: 50,
+                            fieldWidth: 50,
+                            activeFillColor:
+                                isDark ? Colors.grey[800]! : Colors.white,
+                            inactiveFillColor:
+                                isDark ? Colors.grey[700]! : Colors.white,
+                            selectedFillColor: isDark
+                                ? colorScheme.secondary.withOpacity(0.2)
+                                : colorScheme.secondary.withOpacity(0.1),
+                            activeColor: colorScheme.secondary,
+                            inactiveColor: colorScheme.secondary,
+                            selectedColor: colorScheme.secondary,
+                          ),
+                          enableActiveFill: true,
+                          animationDuration: const Duration(milliseconds: 250),
+                          validator: (value) {
+                            if (value == null || value.length != 4) {
+                              return "يُرجى إدخال الرمز المكون من 4 أرقام";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {},
+                        ),
                       ),
-                      const SizedBox(height: 15),
+
+                      const SizedBox(height: 10),
                       Authbutton(
                         buttonText: "تأكيد",
                         onPressed: () {

@@ -92,7 +92,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => CancleMonthlyDonationCubit()),
         BlocProvider(create: (context) => JoinToProjectCubit()),
 
-
         BlocProvider(create: (context) => DonationCubit(DonationRepositry())),
         BlocProvider(create: (context) => NavigationCubit()),
         BlocProvider(create: (context) => TheBestCubit()),
@@ -122,7 +121,7 @@ class MyApp extends StatelessWidget {
             //     child: child!,
             //   );
             // },
-            initialRoute: "Splash",
+            initialRoute: "PinCode",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),
