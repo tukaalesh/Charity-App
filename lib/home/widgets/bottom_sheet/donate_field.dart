@@ -38,8 +38,8 @@ class _DonateFieldState extends State<DonateField> {
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-    final ColorScheme=context.colorScheme;
-      final isDark = context.isDarkMode;
+    final ColorScheme = context.colorScheme;
+    final isDark = context.isDarkMode;
     final cubit = context.read<ModalCubit>();
 
     return TextFormField(
@@ -64,30 +64,39 @@ class _DonateFieldState extends State<DonateField> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:
-              const BorderSide(color: Colors.grey), // البوردر مو شغال
+          borderSide: const BorderSide(color: Colors.grey), // البوردر مو شغال
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-              color: Colors.grey, width: 1.4), // البوردر شغال   
+          borderSide:
+              const BorderSide(color: Colors.grey, width: 1.4), // البوردر شغال
         ),
-         fillColor:  isDark ? Colors.grey[850] :  Colors.grey[100],
+        fillColor: isDark ? Colors.grey[850] : Colors.grey[100],
       ),
-      
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى إدخال المبلغ';
         }
-        if (double.tryParse(value) == null) {
+
+        final trimmed = value.trim();
+        if (RegExp(r'^0\d+').hasMatch(trimmed)) {
+          return 'لا يمكن أن يبدأ المبلغ بـ 0';
+        }
+
+        final parsed = double.tryParse(trimmed);
+        if (parsed == null) {
           return 'يرجى إدخال رقم صالح';
         }
+
+        if (parsed <= 0) {
+          return 'الرجاء إدخال مبلغ أكبر من 0';
+        }
+
         return null;
       },
       onChanged: (value) {
         cubit.selectAmount(value);
       },
-      
     );
   }
 }

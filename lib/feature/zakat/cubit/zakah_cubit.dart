@@ -1,4 +1,3 @@
-// zakah_cubit.dart
 import 'package:bloc/bloc.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_state.dart';
 import 'package:charity_app/helper/api.dart';
@@ -18,14 +17,6 @@ class ZakahCubit extends Cubit<ZakahState> {
     emit(ZakahLoading());
 
     try {
-      final balanceString = sharedPreferences.getString('balance') ?? '0';
-      final balance = double.tryParse(balanceString) ?? 0.0;
-
-      if (amount > balance) {
-        emit(ZakahFailure("الرصيد غير كافٍ"));
-        return;
-      }
-
       final response = await Api().post(
         url: "http://$localhost/api/donor/giveZakat",
         body: {
@@ -34,19 +25,19 @@ class ZakahCubit extends Cubit<ZakahState> {
         },
         token: "$token",
       );
-      if (response is Map && response.containsKey('message')) {
-        final message = response['message'];
 
-        if (message.contains('نجاح') || message.contains('تمت')) {
-          final newBalance = balance - amount;
-          await sharedPreferences.setString('balance', newBalance.toString());
-          emit(ZakahSuccess(newBalance));
+      if (response is Map && response.containsKey('message')) {
+        final msg = response['message'].toString();
+
+        if (msg.contains('تم استلام الزكاة') ||
+            msg.contains('تم التبرع بنجاح')) {
+          emit(ZakahSuccess());
         } else {
-          emit(ZakahFailure(message));
+          emit(ZakahFailure(msg));
         }
       }
-    } catch (ex) {
-      emit(ZakahFailure("حدث خطأ أثناء التبرع بالزكاة"));
+    } catch (e) {
+      emit(ZakahFailure("حدث خطأ أثناء إرسال الزكاة"));
     }
   }
 }

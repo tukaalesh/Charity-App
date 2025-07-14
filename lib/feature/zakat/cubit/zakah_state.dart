@@ -1,14 +1,10 @@
-// zakah_state.dart
 abstract class ZakahState {}
 
 class ZakahInitial extends ZakahState {}
 
 class ZakahLoading extends ZakahState {}
 
-class ZakahSuccess extends ZakahState {
-  final double newBalance;
-  ZakahSuccess(this.newBalance);
-}
+class ZakahSuccess extends ZakahState {}
 
 class ZakahFailure extends ZakahState {
   final String message;

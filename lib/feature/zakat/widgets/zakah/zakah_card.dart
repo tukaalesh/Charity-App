@@ -1,3 +1,7 @@
+// ignore_for_file: sized_box_for_whitespace
+
+import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
+import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_cubit.dart';
@@ -5,6 +9,7 @@ import 'package:charity_app/feature/zakat/cubit/zakah_state.dart';
 import 'package:charity_app/home/widgets/project_donation/donation_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// ... نفس الـ imports
 
 class ZakahCard extends StatelessWidget {
   ZakahCard({super.key});
@@ -25,37 +30,53 @@ class ZakahCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme = context.colorScheme;
     final isDark = context.isDarkMode;
+
     return BlocConsumer<ZakahCubit, ZakahState>(
       listener: (context, state) {
         ScaffoldMessenger.of(context).clearSnackBars();
+        print("الحالة الحالية: $state");
 
         if (state is ZakahLoading) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('جاري تنفيذ التبرع')),
+            const SnackBar(
+              content: Text('جاري تنفيذ التبرع'),
+              backgroundColor: Colors.grey,
+            ),
           );
         } else if (state is ZakahSuccess) {
+          final donatedAmount =
+              double.tryParse(customAmountController.text) ?? 0;
+
+          // خصم الرصيد من UserCubit
+          final userCubit = context.read<UserCubit>();
+          if (userCubit.state is UserSuccessState) {
+            final user = (userCubit.state as UserSuccessState).user;
+            final newBalance = (user.balance - donatedAmount).toInt();
+            userCubit.updateBalance(newBalance);
+          }
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Center(
-                child: Text(
-                    'تم التبرع بنجاح'),
-              ),
+              content: const Text('تم التبرع بنجاح.'),
               backgroundColor: ColorScheme.secondary,
             ),
           );
+
           customAmountController.clear();
           formKey.currentState?.reset();
         } else if (state is ZakahFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
           );
         }
       },
       builder: (context, state) {
         bool isLoading = state is ZakahLoading;
         final cubit = context.read<ZakahCubit>();
-        final selectedCategory =
-            cubit.selectedCategory; //يقرا القيمة من كيوبت دغري
+        final selectedCategory = cubit.selectedCategory;
 
         return Container(
           padding: const EdgeInsets.all(16),
@@ -118,7 +139,6 @@ class ZakahCard extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-
                 const SizedBox(height: 16),
                 DonationField(
                   controller: customAmountController,
@@ -129,6 +149,9 @@ class ZakahCard extends StatelessWidget {
                     final parsedAmount = double.tryParse(value.trim());
                     if (parsedAmount == null) {
                       return "الرجاء إدخال رقم صالح";
+                    }
+                    if (RegExp(r'^0\d+').hasMatch(value.trim())) {
+                      return 'لا يمكن أن يبدأ المبلغ بـ 0';
                     }
                     if (parsedAmount <= 0) {
                       return "يرجى إدخال مبلغ صالح أكبر من 0";
@@ -149,7 +172,6 @@ class ZakahCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 12),
-                // ignore: sized_box_for_whitespace
                 Container(
                   width: double.infinity,
                   child: Directionality(

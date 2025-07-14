@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print
+import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
+import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
 import 'package:charity_app/constants/const_appBar.dart';
@@ -26,16 +28,28 @@ class GiftScreen extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: BlocConsumer<SendGiftCubit, SendGiftStates>(
             listener: (context, state) {
+          final userCubit = context.read<UserCubit>();
+          final userState = userCubit.state;
+
           if (state is SendGiftSuccess) {
+            final donatedAmount = double.tryParse(moneyController.text) ?? 0;
+
+            if (userState is UserSuccessState) {
+              final currentBalance = userState.user.balance;
+              final newBalance = currentBalance - donatedAmount.toInt();
+              userCubit.updateBalance(newBalance);
+            }
+
             nameController.clear();
             phoneController.clear();
+            moneyController.clear();
 
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("تم إرسال الإهداء جزالك الله خيراً"),
+              content: Text("تم إرسال الإهداء جزاك الله خيراً"),
             ));
-            moneyController.clear();
           }
+
           if (state is InsufficientBalance) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -44,6 +58,7 @@ class GiftScreen extends StatelessWidget {
                   "لا يوجد لديك رصيد كافي للقيام بهذه العملية، الرجاء شحن المحفظة والمحاولة مرة أخرى"),
             ));
           }
+
           if (state is UnregisteredBeneficiary) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -52,6 +67,7 @@ class GiftScreen extends StatelessWidget {
                   "لقد حدث خطأ! يبدو أن هذا المحتاج غير مسجل لدينا في التطبيق، يمكنك دعوته للتسجيل على صفحة الويب الخاصة بنا"),
             ));
           }
+
           if (state is SendGiftFailure) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

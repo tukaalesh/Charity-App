@@ -39,4 +39,32 @@ class UserCubit extends Cubit<UserState> {
       emit(UserSuccessState(updatedUser));
     }
   }
+
+  // تحديث الرصيد
+  void updateBalance(int newBalance) {
+    final currentState = state;
+    if (currentState is UserSuccessState) {
+      final updatedUser = currentState.user.copyWith(balance: newBalance);
+      emit(UserSuccessState(updatedUser));
+    }
+  }
+
+// تحديث عدد النقاط
+  void updatePoints(int newPoints) {
+    final currentState = state;
+    if (currentState is UserSuccessState) {
+      final updatedUser = currentState.user.copyWith(points: newPoints);
+      emit(UserSuccessState(updatedUser));
+    }
+  }
+
+// تحديث عدد الإشعارات
+  void updateNotifications(int newCount) {
+    final currentState = state;
+    if (currentState is UserSuccessState) {
+      final updatedUser =
+          currentState.user.copyWith(unreadNotifications: newCount);
+      emit(UserSuccessState(updatedUser));
+    }
+  }
 }

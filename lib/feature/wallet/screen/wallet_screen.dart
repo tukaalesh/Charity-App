@@ -1,3 +1,5 @@
+import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
+import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
 import 'package:charity_app/constants/const_appBar.dart';
@@ -33,6 +35,15 @@ class WalletScreen extends StatelessWidget {
             bankAccountController.clear();
             passwordController.clear();
             moneyController.clear();
+
+            //تحديث الرصيد فوراً 
+            final userCubit = context.read<UserCubit>();
+            final userState = userCubit.state;
+            if (userState is UserSuccessState) {
+              final currentBalance = userState.user.balance;
+              final newBalance = currentBalance + int.parse(chargedAmount);
+              userCubit.updateBalance(newBalance);
+            }
 
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(

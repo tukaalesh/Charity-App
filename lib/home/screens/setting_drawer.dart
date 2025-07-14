@@ -66,6 +66,7 @@ class SettingDrawer extends StatelessWidget {
                   if (token != null && token.isNotEmpty) {
                     try {
                       await context.read<UserCubit>().getUserData(token);
+                     
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("فشل التحديث")),
@@ -172,7 +173,7 @@ class SettingDrawer extends StatelessWidget {
                     ),
                     SettingsRowItem(
                       onTap: () {
-                        Navigator.pushNamed(context, ' DonationHistory');
+                        Navigator.pushNamed(context, 'DonationHistory');
                       },
                       text: "سجل التبرع",
                       icon: Icon(Icons.history, color: colorScheme.onSurface),
