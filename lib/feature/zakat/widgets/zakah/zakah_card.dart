@@ -9,7 +9,6 @@ import 'package:charity_app/feature/zakat/cubit/zakah_state.dart';
 import 'package:charity_app/home/widgets/project_donation/donation_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ... نفس الـ imports
 
 class ZakahCard extends StatelessWidget {
   ZakahCard({super.key});
