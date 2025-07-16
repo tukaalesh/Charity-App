@@ -25,6 +25,8 @@ class DonationButtonCubit extends Cubit<DonationButtonState> {
     emit(DonationButtonLoading());
 
     try {
+      final token = sharedPreferences.get("token");
+
       final response = await Api().post(
         url:
             "http://$localhost/api/donor/donateToProject/?id=$projectId&amount=$amount",

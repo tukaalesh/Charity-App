@@ -11,6 +11,8 @@ class DonationHistoryCubit extends Cubit<DonationHistoryState> {
     emit(DonationHistoryLoading());
 
     try {
+      final token = sharedPreferences.get("token");
+
       final response = await Api().get(
         url: "http://$localhost/api/donations/user",
         token: "$token",

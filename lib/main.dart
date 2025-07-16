@@ -51,15 +51,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPreferences;
-final token = sharedPreferences.get("token");
+// final token = sharedPreferences.get("token");
 
 // String? token;
 //
 //مشان ونحنا عم نعدل بين ايميوليتر و ويندوز
 
-const String localhost = "10.0.2.2:8000";
+// const String localhost = "10.0.2.2:8000";
 
-// const String localhost = "127.0.0.1:8000";
+const String localhost = "127.0.0.1:8000";
 // const String localhost = " 192.168.59.180:8000";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

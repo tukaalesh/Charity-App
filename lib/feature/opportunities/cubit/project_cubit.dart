@@ -11,6 +11,8 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     emit(ProjectsLoading());
 
     try {
+      final token = sharedPreferences.get("token");
+
       final response = await Api().get(
         url: "http://$localhost/api/donor/projects/$type",
         token: "$token",

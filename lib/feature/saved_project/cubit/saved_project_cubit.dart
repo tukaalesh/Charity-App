@@ -10,6 +10,8 @@ class SavedProjectsCubit extends Cubit<SavedProjectsState> {
   Future<void> fetchSavedProjects({String? query}) async {
     emit(SavedProjectsLoading());
     try {
+      final token = sharedPreferences.get("token");
+
       final url = (query != null && query.trim().isNotEmpty)
           ? "http://$localhost/api/favourite/search?query=${Uri.encodeComponent(query.trim())}"
           : "http://$localhost/api/favourite";
@@ -31,6 +33,8 @@ class SavedProjectsCubit extends Cubit<SavedProjectsState> {
 
   Future<void> removeSavedProject(int projectId) async {
     try {
+      final token = sharedPreferences.get("token");
+
       final url = "http://$localhost/api/favourite/?project_id=$projectId";
       await Api().delete(
         url: url,

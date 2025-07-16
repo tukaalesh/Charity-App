@@ -34,29 +34,37 @@ class CompletedProjectBox extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ClipRRect(
+              //   borderRadius: BorderRadius.circular(12),
+              //   child: SizedBox(
+              //     width: 120, // ضروري
+              //     child: AspectRatio(
+              //       aspectRatio: 4 / 3,
+              //       child: Image.network(
+              //         project.photo_url,
+              //         fit: BoxFit.cover,
+              //         errorBuilder: (context, error, stackTrace) => Container(
+              //           color: Colors.grey[200],
+              //           child: const Center(
+              //             child: Icon(Icons.broken_image,
+              //                 size: 40, color: Colors.grey),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: SizedBox(
-                  width: screenWidth.width * 0.35,
-                  height: screenWidth.height * 0.30,
-                  child: project.photo_url.isNotEmpty
-                      ? Image.network(
-                          project.photo_url,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
-                              Icons.broken_image,
-                              size: 40,
-                              color: Colors.grey,
-                            );
-                          },
-                        )
-                      : const Icon(
-                          Icons.image_not_supported,
-                          size: 40,
-                          color: Colors.grey,
-                        ),
-                ),
+                    width: screenWidth.width * 0.35,
+                    height: screenWidth.height * 0.30,
+                    child: Image.network(
+                      project.photo_url,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image, size: 40),
+                    )),
               ),
               const SizedBox(width: 12),
               Expanded(

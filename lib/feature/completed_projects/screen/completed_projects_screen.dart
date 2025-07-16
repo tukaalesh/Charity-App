@@ -22,31 +22,34 @@ class CompletedProjectsScreen extends StatelessWidget {
         body: BlocProvider(
           create: (context) =>
               CompletedProjectsCubit()..fetchCompletedProject(),
-          //ليش بيلدر؟؟
-          //لانو عندي اكتر من حالة وبناء على كل حالة رح يكون في يو اي مختلف
-          //مو كونسيومر لأن مابدي سمع لولا حالة
-
           child: BlocBuilder<CompletedProjectsCubit, CompletedProjectsStates>(
             builder: (context, state) {
               if (state is CompletedProjectsLoading) {
                 return Center(
-                    child: SpinKitCircle(
-                  color: colorscheme.secondary,
-                  size: 45,
-                ));
+                  child: SpinKitCircle(
+                    color: colorscheme.primary,
+                    size: 45,
+                  ),
+                );
               } else if (state is CompletedProjectsSuccess) {
                 final cubit = context.read<CompletedProjectsCubit>();
-                return ListView.builder(
-                  itemCount: cubit.completedProjects.length,
-                  itemBuilder: (context, index) {
-                    final project = cubit.completedProjects[index];
-                    return CompletedProjectBox(project: project);
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await cubit.fetchCompletedProject();
                   },
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: cubit.completedProjects.length,
+                    itemBuilder: (context, index) {
+                      final project = cubit.completedProjects[index];
+                      return CompletedProjectBox(project: project);
+                    },
+                  ),
                 );
               } else if (state is CompletedProjectsError) {
-                return Center(child: Text('خطأ: $state'));
+                return Center(child: Text('خطأ: ${state.message}'));
               } else {
-                return const Center(child: Text("هناك خطأ في جلب البيانات "));
+                return const Center(child: Text("هناك خطأ في جلب البيانات"));
               }
             },
           ),

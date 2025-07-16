@@ -16,13 +16,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 // ignore: must_be_immutable
 class GiftScreen extends StatelessWidget {
   GiftScreen({super.key});
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController moneyController = TextEditingController();
-  GlobalKey<FormState> fromKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController moneyController = TextEditingController();
+    GlobalKey<FormState> fromKey = GlobalKey();
     final colorScheme = context.colorScheme;
     return Directionality(
         textDirection: TextDirection.rtl,

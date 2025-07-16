@@ -22,14 +22,16 @@ class SavedButtonCubit extends Cubit<SavedState> {
   Future<void> addProjectToFavorites(ProjectModel project) async {
     emit(FavoriteLoading());
     try {
+      final token = sharedPreferences.get("token");
+
       final url = "http://$localhost/api/favourite?project_id=${project.id}";
 
       final response = await Api().post(
         url: url,
         token: "$token",
         body: {
-        "project_id": project.id.toString(), 
-      },
+          "project_id": project.id.toString(),
+        },
       );
 
       print("Add to favorites response: $response");

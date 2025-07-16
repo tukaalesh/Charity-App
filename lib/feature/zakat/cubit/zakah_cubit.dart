@@ -17,6 +17,8 @@ class ZakahCubit extends Cubit<ZakahState> {
     emit(ZakahLoading());
 
     try {
+      final token = sharedPreferences.get("token");
+
       final response = await Api().post(
         url: "http://$localhost/api/donor/giveZakat",
         body: {

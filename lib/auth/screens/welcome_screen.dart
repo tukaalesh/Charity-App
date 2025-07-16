@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
             width: double.infinity,
             height: size.height * 0.55,
             child: Image.asset(
-              'assets/images/welcome.jpg',
+              'assets/images/welcome_test.jpg',
               fit: BoxFit.cover,
             ),
           ),

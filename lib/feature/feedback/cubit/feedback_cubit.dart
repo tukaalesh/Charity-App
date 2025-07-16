@@ -11,6 +11,8 @@ class FeedbackCubit extends Cubit<FeedbackState> {
     emit(FeedbackLoading());
 
     try {
+      final token = sharedPreferences.get("token");
+
       final response = await Api().get(
         url: "http://$localhost/api/getAcceptedFeedbacks",
         token: "$token",
