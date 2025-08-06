@@ -17,7 +17,7 @@ class AuthCubits extends Cubit<AuthStates> {
     emit(LoadingStates());
     try {
       final responseData = await Api().post(
-        url: "http://$localhost/api/register",
+        url: "$baseUrl/api/register",
         body: {
           "full_name": fullNameController.text,
           "email": emailController.text,
@@ -38,6 +38,7 @@ class AuthCubits extends Cubit<AuthStates> {
       emit(RegisterFailureState(e.toString()));
     }
   }
+
 //التابع تبع تسجيل دخول
   Future<void> logInFunction({
     required emailController,
@@ -47,14 +48,14 @@ class AuthCubits extends Cubit<AuthStates> {
 
     try {
       final response = await Api().post(
-        url: "http://$localhost/api/login",
+        url: "$baseUrl/api/login",
         body: {
           "email": emailController.text,
           "password": passwordController.text,
         },
         token: '',
       );
-     
+
       final token = response['token'];
       await sharedPreferences.setString('token', token);
       print("$token");
@@ -63,14 +64,15 @@ class AuthCubits extends Cubit<AuthStates> {
       emit(LoginFailureState(e.toString()));
     }
   }
+
 //التابع تبع تسجيل خروج
   Future<void> logOutFunction() async {
     emit(LoadingStates());
     try {
       final token = sharedPreferences.getString('token');
 
-      final response = await Api().post(
-          url: "http://$localhost/api/logout", body: null, token: "$token");
+      final response = await Api()
+          .post(url: "$baseUrl/api/logout", body: null, token: "$token");
       if (response["message"] == 'Logout successful') {
         emit(LogOutSuccess());
       } else {

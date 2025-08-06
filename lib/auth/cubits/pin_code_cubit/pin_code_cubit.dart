@@ -18,7 +18,7 @@ class PinCodeCubit extends Cubit<PinCodeStates> {
     try {
       final token = sharedPreferences.getString('token');
       final response = await Api().post(
-        url: "http://$localhost/api/verifyEmail",
+        url: "$baseUrl/api/verifyEmail",
         body: {
           "email": email,
           "verification_code": code,

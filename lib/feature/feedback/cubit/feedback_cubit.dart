@@ -14,12 +14,12 @@ class FeedbackCubit extends Cubit<FeedbackState> {
       final token = sharedPreferences.get("token");
 
       final response = await Api().get(
-        url: "http://$localhost/api/getAcceptedFeedbacks",
+        url: "$baseUrl/api/getAcceptedFeedbacks",
         token: "$token",
       );
 
       final List<dynamic> feedbackList = response['Feedbacks'];
-      final List<FeedbackModel> feedbacks = 
+      final List<FeedbackModel> feedbacks =
           feedbackList.map((item) => FeedbackModel.fromJson(item)).toList();
 
       emit(FeedbackLoaded(feedbacks));

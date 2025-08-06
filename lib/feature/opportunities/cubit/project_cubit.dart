@@ -14,7 +14,7 @@ class ProjectsCubit extends Cubit<ProjectsState> {
       final token = sharedPreferences.get("token");
 
       final response = await Api().get(
-        url: "http://$localhost/api/donor/projects/$type",
+        url: "$baseUrl/api/donor/projects/$type",
         token: "$token",
       );
 
@@ -26,17 +26,18 @@ class ProjectsCubit extends Cubit<ProjectsState> {
       emit(ProjectsError('حدث خطأ: $e'));
     }
   }
-  void updateProject(ProjectModel updatedProject) {
-  if (state is ProjectsLoaded) {
-    final currentProjects = (state as ProjectsLoaded).projects;
-    final index = currentProjects.indexWhere((p) => p.id == updatedProject.id);
 
-    if (index != -1) {
-      final updatedList = List<ProjectModel>.from(currentProjects);
-      updatedList[index] = updatedProject;
-      emit(ProjectsLoaded(updatedList));
+  void updateProject(ProjectModel updatedProject) {
+    if (state is ProjectsLoaded) {
+      final currentProjects = (state as ProjectsLoaded).projects;
+      final index =
+          currentProjects.indexWhere((p) => p.id == updatedProject.id);
+
+      if (index != -1) {
+        final updatedList = List<ProjectModel>.from(currentProjects);
+        updatedList[index] = updatedProject;
+        emit(ProjectsLoaded(updatedList));
+      }
     }
   }
-}
-
 }

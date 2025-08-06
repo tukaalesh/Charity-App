@@ -16,7 +16,7 @@ class MonthlyDonationCubit extends Cubit<MonthlyDonationStates> {
       final token = sharedPreferences.getString('token');
 
       final response = await Api().post(
-          url: "http://$localhost/api/donor/monthlyDonation",
+          url: "$baseUrl/api/donor/monthlyDonation",
           body: {
             "amount": moneyController.text,
             "type": selectedCategory ?? "",
@@ -40,9 +40,8 @@ class MonthlyDonationCubit extends Cubit<MonthlyDonationStates> {
           emit(MonthlyDonationUpdateFailed());
           return;
         }
-
       }
-              emit(MothlyDonationFailure());
+      emit(MothlyDonationFailure());
     }
   }
 }

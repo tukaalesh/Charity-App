@@ -24,7 +24,7 @@ class SavedButtonCubit extends Cubit<SavedState> {
     try {
       final token = sharedPreferences.get("token");
 
-      final url = "http://$localhost/api/favourite?project_id=${project.id}";
+      final url = "$baseUrl/api/favourite?project_id=${project.id}";
 
       final response = await Api().post(
         url: url,

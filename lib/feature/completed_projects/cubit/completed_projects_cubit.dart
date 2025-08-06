@@ -9,7 +9,7 @@ class CompletedProjectsCubit extends Cubit<CompletedProjectsStates> {
 
   List<CompletedProjectsModel> completedProjects = [];
 
-//التباع المسؤول عن إرجاع المشاريع المنجزة 
+//التباع المسؤول عن إرجاع المشاريع المنجزة
 
   Future<void> fetchCompletedProject() async {
     if (isClosed) return;
@@ -19,7 +19,7 @@ class CompletedProjectsCubit extends Cubit<CompletedProjectsStates> {
 
       final response = await Api().get(
         token: "$token",
-        url: 'http://$localhost/api/projects/completed',
+        url: '$baseUrl/api/projects/completed',
       );
 
       completedProjects = (response as List)

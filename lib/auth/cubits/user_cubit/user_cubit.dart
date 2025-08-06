@@ -12,8 +12,8 @@ class UserCubit extends Cubit<UserState> {
     try {
       final token = sharedPreferences.getString('token');
       emit(UserLoadingState());
-      final response = await Api()
-          .get(url: "http://$localhost/api/getUser", token: "$token");
+      final response =
+          await Api().get(url: "$baseUrl/api/getUser", token: "$token");
 
       final data = Map<String, dynamic>.from(response);
 

@@ -14,22 +14,24 @@ class EmptyDonationHistory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/empty.png',
+              'assets/images/emptyscreen.png',
               height: 150,
             ),
             const SizedBox(height: 24),
             Text(
               'سجلك خالٍ من التبرعات حتى الآن',
-              style: TextStyle(fontSize: 18,
-              color: isDark ? Colors.grey[400] : Colors.black,
-               fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 18,
+                  color: isDark ? Colors.grey[400] : Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               'ابدأ رحلتك بالعطاء وأضف أول بصمة خير',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, 
-              color: isDark ? Colors.grey[400] :  Colors.grey,
+              style: TextStyle(
+                fontSize: 16,
+                color: isDark ? Colors.grey[400] : Colors.grey,
               ),
             ),
           ],

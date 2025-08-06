@@ -16,7 +16,7 @@ class SendGiftCubit extends Cubit<SendGiftStates> {
       final token = sharedPreferences.getString('token');
 
       final response = await Api().post(
-        url: "http://$localhost/api/donor/giveGift",
+        url: "$baseUrl/api/donor/giveGift",
         body: {
           "beneficiary_name": nameController.text,
           "phone_number": phoneController.text,

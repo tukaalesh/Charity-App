@@ -36,7 +36,7 @@ class WalletScreen extends StatelessWidget {
             passwordController.clear();
             moneyController.clear();
 
-            //تحديث الرصيد فوراً 
+            //تحديث الرصيد فوراً
             final userCubit = context.read<UserCubit>();
             final userState = userCubit.state;
             if (userState is UserSuccessState) {

@@ -20,7 +20,7 @@ class VoluntaryCubits extends Cubit<VoluntaryState> {
     try {
       final token = sharedPreferences.get("token");
       await Api().post(
-        url: "http://$localhost/api/donor/volunteerRequest",
+        url: "$baseUrl/api/donor/volunteerRequest",
         body: {
           "phone_number": phoneController.text,
           "age": birthDateController.text,

@@ -12,7 +12,7 @@ class WalletCubit extends Cubit<WalletStates> {
     try {
       final token = sharedPreferences.getString('token');
       await Api().post(
-          url: "http://$localhost/api/donor/addToBalance",
+          url: "$baseUrl/api/donor/addToBalance",
           body: {
             "card_number": bankAccountController.text,
             "amount": moneyController.text,

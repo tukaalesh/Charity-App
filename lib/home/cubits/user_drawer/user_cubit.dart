@@ -11,8 +11,8 @@ class UserCubit extends Cubit<UserState> {
   Future<void> getUserData(String token) async {
     try {
       emit(UserLoadingState());
-      final response = await Api()
-          .get(url: "http://$localhost/api/getUser", token: token);
+      final response =
+          await Api().get(url: "$baseUrl/api/getUser", token: token);
       final data = Map<String, dynamic>.from(response);
       final user = UserModel.fromJson(data['user']);
       emit(UserSuccessState(user));

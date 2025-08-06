@@ -13,8 +13,8 @@ class SavedProjectsCubit extends Cubit<SavedProjectsState> {
       final token = sharedPreferences.get("token");
 
       final url = (query != null && query.trim().isNotEmpty)
-          ? "http://$localhost/api/favourite/search?query=${Uri.encodeComponent(query.trim())}"
-          : "http://$localhost/api/favourite";
+          ? "$baseUrl/api/favourite/search?query=${Uri.encodeComponent(query.trim())}"
+          : "$baseUrl/api/favourite";
 
       final response = await Api().get(
         url: url,
@@ -35,7 +35,7 @@ class SavedProjectsCubit extends Cubit<SavedProjectsState> {
     try {
       final token = sharedPreferences.get("token");
 
-      final url = "http://$localhost/api/favourite/?project_id=$projectId";
+      final url = "$baseUrl/api/favourite/?project_id=$projectId";
       await Api().delete(
         url: url,
         token: "$token",
@@ -45,6 +45,7 @@ class SavedProjectsCubit extends Cubit<SavedProjectsState> {
       emit(SavedProjectsError(e.toString()));
     }
   }
+
   void updateProjectAmount(int projectId, int currentAmount) {
     final currentState = state;
     if (currentState is SavedProjectsLoaded) {

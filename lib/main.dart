@@ -57,10 +57,21 @@ late SharedPreferences sharedPreferences;
 //
 //مشان ونحنا عم نعدل بين ايميوليتر و ويندوز
 
+// const String localhost = " 192.168.59.180:8000";
+
+//للإيموليرتر
+
 // const String localhost = "10.0.2.2:8000";
 
+//للربط عن بعد مع الباك
+
+// const String localhost = "ffa3e8341e13.ngrok-free.app";
+
+//للويندوز
+
 const String localhost = "127.0.0.1:8000";
-// const String localhost = " 192.168.59.180:8000";
+
+const String baseUrl = "http://$localhost";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
@@ -121,7 +132,7 @@ class MyApp extends StatelessWidget {
             //     child: child!,
             //   );
             // },
-            initialRoute: "Splash",
+            initialRoute: "SignUp",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),

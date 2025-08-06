@@ -14,7 +14,7 @@ class TheBestCubit extends Cubit<TheBestState> {
       final token = sharedPreferences.get("token");
 
       final response = await Api().get(
-        url: "http://$localhost/api/getTopDonors",
+        url: "$baseUrl/api/getTopDonors",
         token: "$token",
       );
 

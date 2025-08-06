@@ -13,7 +13,7 @@ class JoinToProjectCubit extends Cubit<JoinToProjectStates> {
     emit(JoinToProjectLoding());
     try {
       final response = await Api().post(
-        url: "http://$localhost/api/volunteer/volunteerInProject/",
+        url: "$baseUrl/api/volunteer/volunteerInProject/",
         body: {
           "id": id.toString(),
         },
@@ -22,8 +22,8 @@ class JoinToProjectCubit extends Cubit<JoinToProjectStates> {
       print('object1');
       emit(JoinToProjectSuccess());
     } catch (e) {
-      //حالات التطوع كلها معالجة بأذن الله 
-      
+      //حالات التطوع كلها معالجة بأذن الله
+
       print('ERROR CONTENT: ${e.toString()}');
 
       final errorString = e.toString();

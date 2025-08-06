@@ -17,7 +17,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
     try {
       final token = sharedPreferences.getString('token');
       final response = await Api().put(
-        url: "http://$localhost/api/editpassword",
+        url: "$baseUrl/api/editpassword",
         body: {
           "new_password": newPasswordController.text,
           "new_password_confirmation": confirmationNewPasswordController.text

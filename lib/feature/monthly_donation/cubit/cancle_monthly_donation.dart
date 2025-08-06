@@ -15,7 +15,7 @@ class CancleMonthlyDonationCubit extends Cubit<CancleMonthlyDonationState> {
       final token = sharedPreferences.getString('token');
 
       final response = await Api().put(
-        url: "http://$localhost/api/donor/cancelMonthlyDonation",
+        url: "$baseUrl/api/donor/cancelMonthlyDonation",
         token: "$token",
         body: null,
       );

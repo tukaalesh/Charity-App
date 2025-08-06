@@ -15,7 +15,7 @@ class VolunteerProjectsCubit extends Cubit<VolunteerProjectsState> {
       final response = await Api().get(
         token: "$token",
         url:
-            'http://$localhost/api/getVolunteerProjectsByType/${Uri.encodeComponent(type)}',
+            '$baseUrl/api/getVolunteerProjectsByType/${Uri.encodeComponent(type)}',
       );
 
       final List<VoluntterProjectModel> projects = (response as List)
