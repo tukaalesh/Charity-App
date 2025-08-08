@@ -44,82 +44,126 @@ class GlobalnetworkProjects extends StatelessWidget {
                   return const Center(child: Text("لا يوجد مشاريع حالياً"));
                 }
 
-                return BlocListener<JoinToProjectCubit, JoinToProjectStates>(
-                  listener: (context, state) {
-                    if (state is JoinToProjectSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text("تم إرسال طلب التطوع بنجاح!")),
-                      );
-                    } else if (state is JoinToProjectNoSurvey) {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => CustomAlertDialog(
-                          title: "مطلوب تعبئة استبيان التطوع",
-                          content:
-                              "يرجى تعبئة استبيان التطوع قبل الانضمام للمشاريع.",
-                          confirmText: "فتح الاستبيان",
-                          cancelText: "إلغاء",
-                          onConfirm: () {
-                            Navigator.of(context).pop();
-                            Navigator.pushNamed(context, 'VolunteerForm');
-                          },
-                          onCancel: () => Navigator.of(context).pop(),
-                        ),
-                      );
-                    } else if (state is JoinToProjectAlreadyApplied) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "عذراً، لا يمكن الانضمام لهذا المشروع حالياً بسبب تطوعك في مشروع آخر.")),
-                      );
-                    } else if (state is JoinToProjectPendingApproval) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "لا يزال طلب التطوع خاصتك قيد الدراسة، يمكنك البدء بالتطوع عندما يتم قبول طلبك")),
-                      );
-                    } else if (state is JoinToProjectBlocked) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "تم إيقاف تطوعك في الجمعية بسبب مخالفات في تنفيذ المهام التطوعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية")),
-                      );
-                    } else if (state is JoinToProjectRejected) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                " تم رفض طلب تطوعك في الجمعية لأسباب متعلقة بسياسة الجمعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية")),
-                      );
-                    } else if (state is JoinToProjectFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text("حدث خطأ، حاول لاحقاً.")),
-                      );
-                    }
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context
+                        .read<VolunteerProjectsCubit>()
+                        .fetchProjectsByType("عن بُعد");
                   },
-                  child: ListView.builder(
-                    itemCount: projects.length,
-                    itemBuilder: (context, index) {
-                      final project = projects[index];
-                      return ProjectCard(
-                        id: project.id,
-                        current_amount: project.current_amount ?? 0,
-                        description: project.description!,
-                        volunteer_hours: project.volunteer_hours,
-                        required_tasks: project.required_tasks,
-                        name: project.name,
-                        total_amount: project.total_amount ?? 0,
-                        location: project.location,
-                      );
+                  child: BlocListener<JoinToProjectCubit, JoinToProjectStates>(
+                    listener: (context, state) {
+                      if (state is JoinToProjectSuccess) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title:
+                                "تم استلام طلبكم للتطوع بنجاح، وسيتم مراجعتك في أقرب وقت.",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      } else if (state is JoinToProjectNoSurvey) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialog(
+                            title: "مطلوب تعبئة استبيان التطوع",
+                            content:
+                                "يرجى تعبئة استبيان التطوع قبل الانضمام للمشاريع.",
+                            confirmText: "فتح الاستبيان",
+                            cancelText: "إلغاء",
+                            onConfirm: () {
+                              Navigator.of(context).pop();
+                              Navigator.pushNamed(context, 'VolunteerForm');
+                            },
+                            onCancel: () => Navigator.of(context).pop(),
+                          ),
+                        );
+                      } else if (state is JoinToProjectAlreadyApplied) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title:
+                                "عذرًا، لا يمكنك الانضمام إلى هذا المشروع في الوقت الحالي نظرًا لمشاركتك في مشروع تطوعي آخر.",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      } else if (state is JoinToProjectPendingApproval) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title:
+                                "لا يزال طلب التطوع خاصتك قيد الدراسة، وسيتم إعلامك بنتيجة الطلب بمجرد الانتهاء من المراجعة، ويمكنك البدء بالتطوع بمجرد قبوله.",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      } else if (state is JoinToProjectBlocked) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title:
+                                "تم إيقاف تطوعك في الجمعية بسبب مخالفات في تنفيذ المهام التطوعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      } else if (state is JoinToProjectRejected) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title:
+                                " تم رفض طلب تطوعك في الجمعية لأسباب متعلقة بسياسة الجمعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      } else if (state is JoinToProjectFailure) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => CustomAlertDialogNoConfirm(
+                            title: "حدث خطأ، حاول لاحقاً.",
+                            cancelText: "إغلاق",
+                            onCancel: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      }
                     },
+                    child: ListView.builder(
+                      itemCount: projects.length,
+                      itemBuilder: (context, index) {
+                        final project = projects[index];
+                        return ProjectCard(
+                          id: project.id,
+                          current_amount: project.current_amount ?? 0,
+                          description: project.description!,
+                          volunteer_hours: project.volunteer_hours,
+                          required_tasks: project.required_tasks,
+                          name: project.name,
+                          total_amount: project.total_amount ?? 0,
+                          location: project.location,
+                        );
+                      },
+                    ),
                   ),
                 );
               } else {

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/gift/widget/button_out_line.dart';
@@ -46,45 +47,89 @@ class _EnableMonthlyOnationState extends State<EnableMonthlyDonation> {
           BlocListener<MonthlyDonationCubit, MonthlyDonationStates>(
             listener: (context, state) {
               if (state is MothlyDonationSuccess) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                      "تم تفعيل التبرع الشهري بنجاح، سيتم اقتطاع ${moneyController.text} من حسابك في بداية كل شهر، جزاك الله خيراً🙏🏻"),
-                ));
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title:
+                        "تم تفعيل التبرع الشهري بنجاح، سيتم اقتطاع ${moneyController.text} من حسابك في بداية كل شهر، جزاك الله خيراً🙏🏻",
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                );
+
                 moneyController.clear();
               }
               if (state is MonthlyDonationUpdateFailed) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text(
-                      "إن هذه الميزة مفعلة لديك سابقاً، إذا كنت تريد تعديل المبلغ أو نوع التبرع، يمكنك إلغاء الميزة أولاً ثم إعادة تفعيلها من جديد"),
-                ));
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title:
+                        "إن هذه الميزة مفعلة لديك سابقاً، إذا كنت تريد تعديل المبلغ أو نوع التبرع، يمكنك إلغاء الميزة أولاً ثم إعادة تفعيلها من جديد",
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                );
+                moneyController.clear();
               }
               if (state is MothlyDonationFailure) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("هناك مشكلة ما ! يُرجى المحاولة لاحقاً"),
-                ));
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title: "هناك مشكلة ما ! يُرجى المحاولة لاحقاً",
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                );
+                moneyController.clear();
               }
             },
           ),
           BlocListener<CancleMonthlyDonationCubit, CancleMonthlyDonationState>(
             listener: (context, state) {
               if (state is success) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('تم إلغاء التبرع الشهري بنجاح')),
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title: 'تم إلغاء التبرع الشهري بنجاح',
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 );
               } else if (state is alreadyCanceled) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("الميزة غير مفعلة حالياً")),
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title: "الميزة غير مفعلة حالياً",
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 );
               } else if (state is failure) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('هناك خطأ ما يُرجى المحاولة فيما بعد')),
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => CustomAlertDialogNoConfirm(
+                    title: "هناك مشكلة ما ! يُرجى المحاولة لاحقاً",
+                    cancelText: "إغلاق",
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 );
               }
             },

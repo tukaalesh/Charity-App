@@ -1,3 +1,4 @@
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/feature/volunteer_form/cubit_request/voluntary_cubits.dart';
 import 'package:charity_app/feature/volunteer_form/cubit_request/voluntary_states.dart';
 import 'package:charity_app/feature/volunteer_form/widget/form_page_one.dart';
@@ -82,30 +83,56 @@ class _FormScreenState extends State<FormScreen> {
     return BlocConsumer<VoluntaryCubits, VoluntaryState>(
       listener: (context, state) {
         if (state is VolunteeringSubmittedSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text(
-                    " تم إرسال استبيان التطوّع بنجاح. سيصلك قريباً إشعار بخصوص حالة طلبك.")),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title:
+                  " تم إرسال استبيان التطوّع بنجاح. سيصلك قريباً إشعار بخصوص حالة طلبك.",
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+                Navigator.pushNamed(context, 'NavigationMain');
+              },
+            ),
           );
-          Navigator.pop(context);
         } else if (state is VolunteeringSubmittedAlredySend) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                duration: Duration(seconds: 4),
-                content: Text(
-                    "لقد قمت بالتسجيل على استبيان التطوع مسبقًا ولا يمكنك التسجيل مرة أخرى.")),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title:
+                  "لقد قمت بالتسجيل على استبيان التطوع مسبقًا ولا يمكنك التسجيل مرة أخرى.",
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+                Navigator.pushNamed(context, 'NavigationMain');
+              },
+            ),
           );
         } else if (state is PhoneNumberAlredyUsed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                duration: Duration(seconds: 4),
-                content: Text("رقم الهاتف مستخدم بالفعل من قبل مستخدم آخر")),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title: "رقم الهاتف مستخدم بالفعل من قبل مستخدم آخر",
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+              },
+            ),
           );
         } else if (state is VolunteeringSubmittedFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                duration: Duration(seconds: 3),
-                content: Text("حصل خطأ يُرجى المحاولة لاحقاً !")),
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title: "حصل خطأ يُرجى المحاولة لاحقاً !",
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+              },
+            ),
           );
         }
       },

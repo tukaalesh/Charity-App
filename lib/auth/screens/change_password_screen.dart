@@ -3,6 +3,8 @@ import 'package:charity_app/auth/cubits/change_password/change_password_states.d
 import 'package:charity_app/auth/widgets/alert_dialog.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart'
+    hide CustomAlertDialog;
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
@@ -29,11 +31,23 @@ class ChangePasswordScreen extends StatelessWidget {
       child: BlocConsumer<ChangePasswordCubit, ChangePasswordStates>(
         listener: (context, state) {
           if (state is ChangePasswordSuccess) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("تم تغيير كلمة السر")),
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "تم تغيير كلمة السر",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, 'NavigationMain');
+                },
+              ),
             );
-            Navigator.pushNamed(context, 'NavigationMain');
+            // ScaffoldMessenger.of(context).clearSnackBars();
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(content: Text("تم تغيير كلمة السر")),
+            // );
+            // Navigator.pushNamed(context, 'NavigationMain');
           }
           if (state is ChangePasswordFailure) {
             ScaffoldMessenger.of(context).clearSnackBars();

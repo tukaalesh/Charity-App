@@ -3,6 +3,7 @@
 import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_cubit.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_state.dart';
@@ -54,22 +55,44 @@ class ZakahCard extends StatelessWidget {
             userCubit.updateBalance(newBalance);
           }
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('تم التبرع بنجاح.'),
-              backgroundColor: ColorScheme.secondary,
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title: 'تم التبرع بنجاح.',
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+              },
             ),
           );
-
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: const Text('تم التبرع بنجاح.'),
+          //     backgroundColor: ColorScheme.secondary,
+          //   ),
+          // );
           customAmountController.clear();
           formKey.currentState?.reset();
         } else if (state is ZakahFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => CustomAlertDialogNoConfirm(
+              title: state.message,
+              cancelText: "إغلاق",
+              onCancel: () {
+                Navigator.of(context).pop();
+              },
             ),
           );
+          // ScaffoldMessenger.of(context).showSnackBar(
+
+          //   SnackBar(
+          //     content: Text(state.message),
+          //     backgroundColor: Colors.red,
+          //   ),
+          // );
         }
       },
       builder: (context, state) {

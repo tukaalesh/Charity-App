@@ -3,6 +3,7 @@
 import 'package:charity_app/auth/cubits/pin_code_cubit/pin_code_cubit.dart';
 import 'package:charity_app/auth/cubits/pin_code_cubit/pin_code_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/feature/volunteer%20projects/widget/custom_text.dart';
@@ -33,13 +34,17 @@ class PinCodeScreen extends StatelessWidget {
               Navigator.pushReplacementNamed(context, 'LogIn');
             });
           } else if (state is PinCodeFailure) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text("رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى"),
-                ),
-              );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
           }
         },
         builder: (context, state) {

@@ -41,17 +41,20 @@ class OnSiteProjects extends StatelessWidget {
               } else if (state is VolunteerProjectsSuccess) {
                 final projects = state.projects;
 
-                if (projects.isEmpty) {
-                  return const Center(child: Text("لا يوجد مشاريع حالياً"));
-                }
-
                 return BlocListener<JoinToProjectCubit, JoinToProjectStates>(
                   listener: (context, state) {
                     if (state is JoinToProjectSuccess) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text("تم إرسال طلب التطوع بنجاح!")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title:
+                              "تم استلام طلبكم للتطوع بنجاح، وسيتم مراجعتك في أقرب وقت.",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     } else if (state is JoinToProjectNoSurvey) {
                       showDialog(
@@ -71,56 +74,103 @@ class OnSiteProjects extends StatelessWidget {
                         ),
                       );
                     } else if (state is JoinToProjectAlreadyApplied) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "عذراً، لا يمكن الانضمام لهذا المشروع حالياً بسبب تطوعك في مشروع آخر.")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title:
+                              "عذرًا، لا يمكنك الانضمام إلى هذا المشروع في الوقت الحالي نظرًا لمشاركتك في مشروع تطوعي آخر.",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     } else if (state is JoinToProjectPendingApproval) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "لا يزال طلب التطوع خاصتك قيد الدراسة، يمكنك البدء بالتطوع عندما يتم قبول طلبك")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title:
+                              "لا يزال طلب التطوع خاصتك قيد الدراسة، وسيتم إعلامك بنتيجة الطلب بمجرد الانتهاء من المراجعة، ويمكنك البدء بالتطوع بمجرد قبوله.",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     } else if (state is JoinToProjectBlocked) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                "تم إيقاف تطوعك في الجمعية بسبب مخالفات في تنفيذ المهام التطوعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title:
+                              "تم إيقاف تطوعك في الجمعية بسبب مخالفات في تنفيذ المهام التطوعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     } else if (state is JoinToProjectRejected) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text(
-                                " تم رفض طلب تطوعك في الجمعية لأسباب متعلقة بسياسة الجمعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title:
+                              " تم رفض طلب تطوعك في الجمعية لأسباب متعلقة بسياسة الجمعية، لمتابعة التفاصيل أو الاعتراض، يُرجى التواصل مع إدارة التطبيق على صفحة الفيسبوك الخاصة بالجمعية",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     } else if (state is JoinToProjectFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            duration: Duration(seconds: 4),
-                            content: Text("حدث خطأ، حاول لاحقاً.")),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => CustomAlertDialogNoConfirm(
+                          title: "حدث خطأ، حاول لاحقاً.",
+                          cancelText: "إغلاق",
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       );
                     }
                   },
-                  child: ListView.builder(
-                    itemCount: projects.length,
-                    itemBuilder: (context, index) {
-                      final project = projects[index];
-                      return ProjectCard(
-                        id: project.id,
-                        current_amount: project.current_amount ?? 0,
-                        description: project.description!,
-                        volunteer_hours: project.volunteer_hours,
-                        required_tasks: project.required_tasks,
-                        name: project.name,
-                        total_amount: project.total_amount ?? 0,
-                        location: project.location,
-                      );
+                  child: RefreshIndicator(
+                    color: colorScheme.primary,
+                    onRefresh: () async {
+                      await context
+                          .read<VolunteerProjectsCubit>()
+                          .fetchProjectsByType("ميداني");
                     },
+                    child: projects.isEmpty
+                        ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(height: 200),
+                              Center(child: Text("لا يوجد مشاريع حالياً")),
+                            ],
+                          )
+                        : ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: projects.length,
+                            itemBuilder: (context, index) {
+                              final project = projects[index];
+                              return ProjectCard(
+                                id: project.id,
+                                current_amount: project.current_amount ?? 0,
+                                description: project.description!,
+                                volunteer_hours: project.volunteer_hours,
+                                required_tasks: project.required_tasks,
+                                name: project.name,
+                                total_amount: project.total_amount ?? 0,
+                                location: project.location,
+                              );
+                            },
+                          ),
                   ),
                 );
               } else {

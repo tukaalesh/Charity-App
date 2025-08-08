@@ -27,13 +27,6 @@ class Section3 extends StatelessWidget {
         },
       ),
       SectionItem(
-        title: "التبرع الشهري",
-        image: "assets/images/costs.png",
-        onTap: () {
-          Navigator.pushNamed(context, 'EnableMonthlyOnation');
-        },
-      ),
-      SectionItem(
         title: "أبرز المحسنين",
         image: "assets/images/section2.png",
         onTap: () {
@@ -58,6 +51,13 @@ class Section3 extends StatelessWidget {
         image: "assets/images/complete-task.png",
         onTap: () {
           Navigator.pushNamed(context, 'CompletedProjects');
+        },
+      ),
+      SectionItem(
+        title: "التبرع الشهري",
+        image: "assets/images/costs.png",
+        onTap: () {
+          Navigator.pushNamed(context, 'EnableMonthlyOnation');
         },
       ),
     ];

@@ -3,6 +3,7 @@ import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/gift/cubit/send_gift_cubit.dart';
@@ -43,47 +44,72 @@ class GiftScreen extends StatelessWidget {
             nameController.clear();
             phoneController.clear();
             moneyController.clear();
-
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("تم إرسال الإهداء جزاك الله خيراً"),
-            ));
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "تم إرسال الإهداء جزاك الله خيراً",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
           }
 
           if (state is InsufficientBalance) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              duration: Duration(seconds: 3),
-              content: Text(
-                  "لا يوجد لديك رصيد كافي للقيام بهذه العملية، الرجاء شحن المحفظة والمحاولة مرة أخرى"),
-            ));
+            nameController.clear();
+            phoneController.clear();
+            moneyController.clear();
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title:
+                    "لا يوجد لديك رصيد كافي للقيام بهذه العملية، الرجاء شحن المحفظة والمحاولة مرة أُخرى",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
           }
 
           if (state is UnregisteredBeneficiary) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              duration: Duration(seconds: 3),
-              content: Text(
-                  "لقد حدث خطأ! يبدو أن هذا المحتاج غير مسجل لدينا في التطبيق، يمكنك دعوته للتسجيل على صفحة الويب الخاصة بنا"),
-            ));
+            nameController.clear();
+            phoneController.clear();
+            moneyController.clear();
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title:
+                    "لقد حدث خطأ! يبدو أن هذا المحتاج غير مسجل لدينا في التطبيق، يمكنك دعوته للتسجيل على صفحة الويب الخاصة بنا",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
           }
 
           if (state is SendGiftFailure) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              duration: Duration(seconds: 3),
-              content: Text("حدث خطأ يُرجى المحاولة فيما بعد"),
-            ));
+            nameController.clear();
+            phoneController.clear();
+            moneyController.clear();
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "حدث خطأ يُرجى المحاولة فيما بعد",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            );
           }
         }, builder: (context, state) {
-          // if (state is SendGiftLoading) {
-          //   return Center(
-          //     child: SpinKitCircle(
-          //       color: colorScheme.secondary,
-          //       size: 45,
-          //     ),
-          //   );
-          // }
           return Stack(
             children: [
               Scaffold(

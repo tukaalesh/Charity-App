@@ -2,6 +2,7 @@ import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
+import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
@@ -45,26 +46,38 @@ class WalletScreen extends StatelessWidget {
               userCubit.updateBalance(newBalance);
             }
 
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  "تم شحن المحفظة بمبلغ $chargedAmount \$",
-                  textDirection: TextDirection.rtl,
-                ),
-                backgroundColor: colorScheme.onSurface,
+            // ScaffoldMessenger.of(context).clearSnackBars();
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(
+            //     content: Text(
+            //       "تم شحن المحفظة بمبلغ $chargedAmount \$",
+            //       textDirection: TextDirection.rtl,
+            //     ),
+            //     backgroundColor: colorScheme.onSurface,
+            //   ),
+            // );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "تم شحن المحفظة بمبلغ $chargedAmount \$",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
               ),
             );
           }
           if (state is WalletFailure) {
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                duration: Duration(seconds: 4),
-                content: Text(
-                  "حدث خطأ ما ! يُرجى إاعادة المحاولة",
-                  textDirection: TextDirection.rtl,
-                ),
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => CustomAlertDialogNoConfirm(
+                title: "حدث خطأ ما ! يُرجى إاعادة المحاولة",
+                cancelText: "إغلاق",
+                onCancel: () {
+                  Navigator.of(context).pop();
+                },
               ),
             );
           }

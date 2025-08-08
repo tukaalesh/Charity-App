@@ -30,6 +30,17 @@ class SettingDrawer extends StatelessWidget {
           Navigator.pushNamedAndRemoveUntil(
               context, 'Welcom', (route) => false);
         } else if (state is LogOutFailure) {
+          // showDialog(
+          //   context: context,
+          //   barrierDismissible: false,
+          //   builder: (context) => CustomAlertDialogNoConfirm(
+          //     title: "فشل تسجيل الخروج",
+          //     cancelText: "إغلاق",
+          //     onCancel: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          // );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("فشل تسجيل الخروج")),
           );
@@ -66,7 +77,6 @@ class SettingDrawer extends StatelessWidget {
                   if (token != null && token.isNotEmpty) {
                     try {
                       await context.read<UserCubit>().getUserData(token);
-                     
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("فشل التحديث")),
