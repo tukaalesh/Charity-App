@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
             //     child: child!,
             //   );
             // },
-            initialRoute: "Splash",
+            initialRoute: "SignUp",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),

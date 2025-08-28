@@ -14,18 +14,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   WalletScreen({super.key});
 
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
   final TextEditingController bankAccountController = TextEditingController();
+
   final TextEditingController moneyController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final colorScheme = context.colorScheme;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -46,40 +54,50 @@ class WalletScreen extends StatelessWidget {
               userCubit.updateBalance(newBalance);
             }
 
-            // ScaffoldMessenger.of(context).clearSnackBars();
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(
-            //     content: Text(
-            //       "تم شحن المحفظة بمبلغ $chargedAmount \$",
-            //       textDirection: TextDirection.rtl,
-            //     ),
-            //     backgroundColor: colorScheme.onSurface,
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "تم شحن المحفظة بمبلغ $chargedAmount \$",
+                  textDirection: TextDirection.rtl,
+                ),
+                backgroundColor: colorScheme.onSurface,
+              ),
+            );
+            // showDialog(
+            //   context: context,
+            //   barrierDismissible: false,
+            //   builder: (context) => CustomAlertDialogNoConfirm(
+            //     title: "تم شحن المحفظة بمبلغ $chargedAmount \$",
+            //     cancelText: "إغلاق",
+            //     onCancel: () {
+            //       Navigator.of(context).pop();
+            //     },
             //   ),
             // );
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => CustomAlertDialogNoConfirm(
-                title: "تم شحن المحفظة بمبلغ $chargedAmount \$",
-                cancelText: "إغلاق",
-                onCancel: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            );
           }
           if (state is WalletFailure) {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => CustomAlertDialogNoConfirm(
-                title: "حدث خطأ ما ! يُرجى إاعادة المحاولة",
-                cancelText: "إغلاق",
-                onCancel: () {
-                  Navigator.of(context).pop();
-                },
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text(
+                  "حدث خطأ ما ! يُرجى إاعادة المحاولة",
+                  textDirection: TextDirection.rtl,
+                ),
+                backgroundColor: colorScheme.onSurface,
               ),
             );
+            // showDialog(
+            //   context: context,
+            //   barrierDismissible: false,
+            //   builder: (context) => CustomAlertDialogNoConfirm(
+            //     title: "حدث خطأ ما ! يُرجى إاعادة المحاولة",
+            //     cancelText: "إغلاق",
+            //     onCancel: () {
+            //       Navigator.of(context).pop();
+            //     },
+            //   ),
+            // );
           }
         },
         builder: (context, state) {
