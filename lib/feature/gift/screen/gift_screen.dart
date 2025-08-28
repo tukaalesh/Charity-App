@@ -16,7 +16,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
 class GiftScreen extends StatelessWidget {
-  GiftScreen({super.key});
+  const GiftScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

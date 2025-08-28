@@ -32,9 +32,6 @@ class DonationButtonCubit extends Cubit<DonationButtonState> {
         token: "$token",
         body: {},
       );
-
-// "ليس لديك رصيد كافٍ لإتمام هذه العملية، الرجاء شحن المحفظة وإعادة المحاولة."
-
       print("Donation response: $response");
 
       emit(DonationButtonSuccess());

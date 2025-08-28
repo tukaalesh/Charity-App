@@ -60,7 +60,7 @@ class CustomAlertDialogNoConfirm extends StatelessWidget {
       child: AlertDialog(
         title: Text(
           title,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
         actions: [
           TextButton(

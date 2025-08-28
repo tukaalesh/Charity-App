@@ -31,8 +31,7 @@ class DonateButton extends StatelessWidget {
                 bool alreadySaved = false;
 
                 if (savedProjectsState is SavedProjectsLoaded) {
-                  alreadySaved = savedProjectsState.projects
-                      .any((p) => p.id == project.id);
+                  alreadySaved = savedProjectsState.projects.any((p) => p.id == project.id);
                 }
 
                 if (alreadySaved) {

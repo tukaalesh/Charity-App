@@ -39,7 +39,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme = context.colorScheme;
+    final colorScheme = context.colorScheme;
     final fullDescription =
         widget.project.description ?? 'لا يوجد وصف متوفر لهذا المشروع.';
 
@@ -53,6 +53,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       child: BlocProvider(
         create: (_) => DescriptionCubit(),
         child: Scaffold(
+          backgroundColor: colorScheme.surface,
           appBar: const ConstAppBar(
             title: "تفاصيل المشروع",
           ),
@@ -88,7 +89,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 return LinearProgressIndicator(
                                   value: value,
                                   color: value > 0
-                                      ? ColorScheme.secondary
+                                      ? colorScheme.secondary
                                       : Colors.grey,
                                   backgroundColor: Colors.grey[300],
                                   minHeight: 8,
@@ -142,7 +143,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   showFullDescription
                                       ? Icons.expand_less
                                       : Icons.expand_more,
-                                  color: ColorScheme.primary,
+                                  color: colorScheme.primary,
                                 ),
                                 onPressed: () {
                                   context.read<DescriptionCubit>().toggle();
@@ -170,13 +171,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 customAmountController.text = amount.toString();
                               },
                               style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: ColorScheme.primary),
+                                side: BorderSide(color: colorScheme.primary),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                foregroundColor: ColorScheme.primary,
+                                foregroundColor: colorScheme.primary,
                                 backgroundColor: isSelected
-                                    ? ColorScheme.primary.withOpacity(0.1)
+                                    ? colorScheme.primary.withOpacity(0.1)
                                     : null,
                               ),
                               child: Text('\$$amount'),
@@ -218,7 +219,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text("تم التبرع بنجاح"),
+                              content: const Center(child: Text("تم التبرع بنجاح")),
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                             ),
@@ -229,11 +230,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         } else if (state is DonationButtonFailure) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text("حدث خطأ أثناء التبرع"),
+                              content: Center(child: Text("حدث خطأ أثناء التبرع")),
                               backgroundColor: Colors.red,
                             ),
                           );
                         }
+                         else if (state is BalanceNotEnough) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Center(
+                          child: Text(
+                              "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
                       },
                       builder: (context, state) {
                         final isLoading = state is DonationLoading;
@@ -242,9 +254,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         return SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: isLoading
-                                ? null
-                                : () {
+                            onPressed: isLoading ? null: () {
                                     if (formKey.currentState?.validate() ??
                                         false) {
                                       final amount = double.tryParse(
@@ -253,18 +263,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                              content: Text(
-                                                  'الرجاء إدخال مبلغ صالح')),
+                                              content: Center(
+                                                child: Text(
+                                                    'الرجاء إدخال مبلغ صالح'),
+                                              )),
                                         );
                                         return;
                                       }
-
-                                      context
-                                          .read<DonationButtonCubit>()
-                                          .donateToProject(
+                                      context.read<DonationButtonCubit>().donateToProject(
                                             projectId: widget.project.id,
-                                            amount: amount.toInt(),
-                                          );
+                                            amount: amount.toInt() );
                                     }
                                   },
                             style: ElevatedButton.styleFrom(

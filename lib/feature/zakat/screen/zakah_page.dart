@@ -15,10 +15,11 @@ class _ZakahPageState extends State<ZakahPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
-
+ final colorScheme =context.colorScheme;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+          backgroundColor: colorScheme.surface,
         // ignore: prefer_const_constructors
         appBar: ConstAppBar1(
           title: "الزكاة",

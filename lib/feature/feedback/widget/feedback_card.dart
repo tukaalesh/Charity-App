@@ -39,7 +39,7 @@ class FeedbackCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'اسم المرسل: $userName',
+                        ' اسم المرسل: $userName',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,

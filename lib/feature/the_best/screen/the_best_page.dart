@@ -16,12 +16,13 @@ class TheBestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: non_constant_identifier_names
-    final ColorScheme = context.colorScheme;
+    final colorScheme = context.colorScheme;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: BlocProvider(
         create: (_) => TheBestCubit()..fetchTheBest(),
         child: Scaffold(
+          backgroundColor: colorScheme.surface,
           appBar: const ConstAppBar(title: 'أبرز المحسنين'),
           body: SafeArea(
             child: Padding(
@@ -49,7 +50,7 @@ class TheBestPage extends StatelessWidget {
                         if (state is TheBestLoading) {
                           return Center(
                             child: SpinKitCircle(
-                              color: ColorScheme.secondary,
+                              color: colorScheme.secondary,
                               size: 45,
                             ),
                           );
