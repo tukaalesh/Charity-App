@@ -120,7 +120,7 @@ class SettingDrawer extends StatelessWidget {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: Text(
-                                  "رصيدك الحالي: ${user.balance} ",
+                                  "رصيدك الحالي: ${user.balance} \$",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,

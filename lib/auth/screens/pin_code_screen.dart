@@ -65,7 +65,7 @@ class PinCodeScreen extends StatelessWidget {
                         child: pinCodeImage,
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
+                        padding: EdgeInsets.only(right: 50.0),
                         child: Text(
                           "الرجاء إدخال رمز التحقق المرسل إلى بريدك الإلكتروني",
                           style: TextStyle(
