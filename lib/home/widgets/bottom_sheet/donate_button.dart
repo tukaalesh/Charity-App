@@ -31,7 +31,8 @@ class DonateButton extends StatelessWidget {
                 bool alreadySaved = false;
 
                 if (savedProjectsState is SavedProjectsLoaded) {
-                  alreadySaved = savedProjectsState.projects.any((p) => p.id == project.id);
+                  alreadySaved = savedProjectsState.projects
+                      .any((p) => p.id == project.id);
                 }
 
                 if (alreadySaved) {
@@ -117,17 +118,32 @@ class DonateButton extends StatelessWidget {
                       ),
                     );
                   });
-                } else if (state is BalanceNotEnough) {
-                  Navigator.of(context).pop();
+                } else if (state is DonationAmountMoreThanTotal) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Center(
-                          child: Text(
-                              "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
+                        child: Text(
+                          "المبلغ المدخل أكبر من المبلغ المتبقي لإنهاء المشروع، المتبقي: ${state.remainingAmount}",
+                        ),
+                      ),
                       backgroundColor: Colors.red,
                     ),
                   );
-                } else if (state is DonationButtonFailure) {
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    Navigator.of(context).pop();
+                  });
+                }
+                 else if (state is BalanceNotEnough) {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Center(
+                                  child: Text(
+                                      "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else if (state is DonationButtonFailure) {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -152,6 +168,8 @@ class DonateButton extends StatelessWidget {
                                   .donateToProject(
                                     projectId: project.id,
                                     amount: selectedAmount,
+                                    totalAmount: project.totalAmount ?? 0,
+                                    currentAmount: project.currentAmount,
                                   );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(

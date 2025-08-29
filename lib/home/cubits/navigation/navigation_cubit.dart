@@ -11,7 +11,7 @@ class NavigationCubit extends Cubit<int> {
 
   final List<Widget> pages = [
     const ZakahPage(), // i0
-    WalletScreen(), //i1
+    const WalletScreen(), //i1
     const GiftScreen(), //i2
     const OpportunitiesScreen(), //i3
     const HomePage(), //i4

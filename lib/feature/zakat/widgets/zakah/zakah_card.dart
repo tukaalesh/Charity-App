@@ -70,7 +70,7 @@ class ZakahCard extends StatelessWidget {
             ),
           );
           customAmountController.clear();
-          formKey.currentState?.reset();
+         // formKey.currentState?.reset();
         }
          else if (state is ZakahFailure) {
           // showDialog(

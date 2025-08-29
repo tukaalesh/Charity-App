@@ -17,12 +17,28 @@ class DonationButtonFailure extends DonationButtonState {
   DonationButtonFailure(this.message);
 }
 
+class DonationAmountMoreThanTotal extends DonationButtonState {
+  final int remainingAmount;
+  DonationAmountMoreThanTotal(this.remainingAmount);
+}
+
+//cubit
 class DonationButtonCubit extends Cubit<DonationButtonState> {
   DonationButtonCubit() : super(DonationButtonInitial());
 
-  Future<void> donateToProject(
-      {required int projectId, required int amount}) async {
+  Future<void> donateToProject({
+    required int projectId,
+    required int amount,
+    required int totalAmount,
+    required int currentAmount,
+  }) async {
     emit(DonationButtonLoading());
+
+    final remainingAmount = totalAmount - currentAmount;
+    if (amount > remainingAmount) {
+      emit(DonationAmountMoreThanTotal(remainingAmount));
+      return;
+    }
 
     try {
       final token = sharedPreferences.get("token");
@@ -34,6 +50,11 @@ class DonationButtonCubit extends Cubit<DonationButtonState> {
       );
       print("Donation response: $response");
 
+      if (response['message'] != null &&
+          response['message'].toString().contains("أكبر من المبلغ المتبقي")) {
+        emit(DonationAmountMoreThanTotal(remainingAmount));
+        return;
+      }
       emit(DonationButtonSuccess());
     } catch (e) {
       print('ERROR CONTENT: ${e.toString()}');

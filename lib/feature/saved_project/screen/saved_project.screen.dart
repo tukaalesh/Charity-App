@@ -26,7 +26,6 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
     super.initState();
     context.read<SavedProjectsCubit>().fetchSavedProjects();
 
-    // مراقبة تغيرات البحث لإعادة تحميل النتائج
     searchController.addListener(() {
       final query = searchController.text.trim();
       context.read<SavedProjectsCubit>().fetchSavedProjects(query: query);
@@ -141,8 +140,8 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
                                   children: [
                                     ProjectCard(project: project),
                                     Positioned(
-                                      top: 2,
-                                      left: 8,
+                                      top: 1,
+                                      left: -3,
                                       child: IconButton(
                                         icon: const Icon(Icons.close,
                                             color: Colors.black),

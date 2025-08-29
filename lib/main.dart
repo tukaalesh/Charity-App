@@ -53,11 +53,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 late SharedPreferences sharedPreferences;
 
 // const String localhost = "192.168.1.105:8000";
+const String localhost = "10.0.2.2:8000";
 
- const String localhost = "10.0.2.2:8000";
-
-// const String localhost = "ffa3e8341e13.ngrok-free.app";
-
+ //const String localhost = "9d18891e48d8.ngrok-free.app";
 //const String localhost = "127.0.0.1:8000";
 
 const String baseUrl = "http://$localhost";
@@ -113,7 +111,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'IBMPlexSansArabic',
               ),
             ),
-            initialRoute: "Splash",
+            initialRoute: "Welcom",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),
@@ -126,7 +124,7 @@ class MyApp extends StatelessWidget {
               "VolunteerForm": (context) => const FormScreen(),
               "Gift": (context) => const GiftScreen(),
               "Setting": (context) => const SettingDrawer(),
-              "Wallet": (context) => WalletScreen(),
+              "Wallet": (context) => const WalletScreen(),
               "Notification": (context) => const NotificationScreen(),
               "VolunteeringFields": (context) => const VolunteeringFields(),
               "LearningProject": (context) => const LearningProject(),

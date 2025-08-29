@@ -219,7 +219,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Center(child: Text("تم التبرع بنجاح")),
+                              content:
+                                  const Center(child: Text("تم التبرع بنجاح")),
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                             ),
@@ -230,22 +231,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         } else if (state is DonationButtonFailure) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Center(child: Text("حدث خطأ أثناء التبرع")),
+                              content:
+                                  Center(child: Text("حدث خطأ أثناء التبرع")),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else if (state is DonationAmountMoreThanTotal) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Center(
+                                child: Text(
+                                  "المبلغ المدخل أكبر من المبلغ المتبقي لإنهاء المشروع، المتبقي: ${state.remainingAmount}",
+                                ),
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                              Future.delayed(const Duration(milliseconds: 300), () {
+                    Navigator.of(context).pop();
+                  });
+                        } else if (state is BalanceNotEnough) {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Center(
+                                  child: Text(
+                                      "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
                               backgroundColor: Colors.red,
                             ),
                           );
                         }
-                         else if (state is BalanceNotEnough) {
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Center(
-                          child: Text(
-                              "ليس لديك رصيد كافٍ، يرجى شحن المحفظة، وإعادة المحاولة")),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
                       },
                       builder: (context, state) {
                         final isLoading = state is DonationLoading;
@@ -254,7 +269,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         return SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: isLoading ? null: () {
+                            onPressed: isLoading
+                                ? null
+                                : () {
                                     if (formKey.currentState?.validate() ??
                                         false) {
                                       final amount = double.tryParse(
@@ -264,15 +281,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                             .showSnackBar(
                                           const SnackBar(
                                               content: Center(
-                                                child: Text(
-                                                    'الرجاء إدخال مبلغ صالح'),
-                                              )),
+                                            child:
+                                                Text('الرجاء إدخال مبلغ صالح'),
+                                          )),
                                         );
                                         return;
                                       }
-                                      context.read<DonationButtonCubit>().donateToProject(
+                                      context .read<DonationButtonCubit>() .donateToProject(
                                             projectId: widget.project.id,
-                                            amount: amount.toInt() );
+                                            amount: amount.toInt(),
+                                            totalAmount:widget.project.totalAmount ?? 0,
+                                            currentAmount: widget.project.currentAmount,
+                                          );
                                     }
                                   },
                             style: ElevatedButton.styleFrom(
