@@ -15,7 +15,7 @@ class search extends StatelessWidget {
       controller: controller,
       onChanged: onSearchChanged,
       decoration: InputDecoration(
-        hintText: 'ابحث عن مشروع محفوظ...',
+        hintText: 'ابحث عن مشروع محفوظ',
         prefixIcon: const Icon(Icons.search, color: Colors.grey),
         filled: true,
         fillColor:  isDark ? Colors.grey[850] : Colors.grey.shade300,

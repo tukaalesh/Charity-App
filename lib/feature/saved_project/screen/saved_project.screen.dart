@@ -141,8 +141,8 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
                                   children: [
                                     ProjectCard(project: project),
                                     Positioned(
-                                      top: 8,
-                                      right: 8,
+                                      top: 2,
+                                      left: 8,
                                       child: IconButton(
                                         icon: const Icon(Icons.close,
                                             color: Colors.black),
