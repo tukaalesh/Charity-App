@@ -64,8 +64,33 @@ class SettingDrawer extends StatelessWidget {
               return Center(child: SpinKitCircle(color: colorScheme.primary));
             }
 
+            // if (state is UserErrorState) {
+            //   return Center(child: Text("Error: ${state.message}"));
+            // }
             if (state is UserErrorState) {
-              return Center(child: Text("Error: ${state.message}"));
+              return RefreshIndicator(
+                onRefresh: () async {
+                  final token = sharedPreferences.getString('token');
+                  if (token != null && token.isNotEmpty) {
+                    try {
+                      await context.read<UserCubit>().getUserData(token);
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("فشل التحديث")),
+                      );
+                    }
+                  }
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                    const Center(
+                      child: Text("Error:فشل التحديث"),
+                    ),
+                  ],
+                ),
+              );
             }
 
             if (state is UserSuccessState) {

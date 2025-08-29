@@ -123,18 +123,18 @@ class GiftScreen extends StatelessWidget {
                           padding: EdgeInsets.only(right: 25.0, left: 5),
                           child: Text(
                             'كل تبرع هو بصمة خير تترك أثرًا في حياة شخص قريب هنا، بإمكانك أن تكون مصدر الأمل والفرح لمن تحب',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 15),
                           ),
                         ),
                         const SizedBox(
-                          height: 8,
+                          height: 12,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 25.0),
                           child: Text(
                             'بيانات المُهدى إليه ',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 15,
                                 color: colorScheme.secondary,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -156,7 +156,7 @@ class GiftScreen extends StatelessWidget {
                               }),
                         ),
                         const SizedBox(
-                          height: 14,
+                          height: 15,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 13.0, right: 13),
