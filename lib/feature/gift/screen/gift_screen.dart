@@ -123,7 +123,7 @@ class GiftScreen extends StatelessWidget {
                           padding: EdgeInsets.only(right: 25.0, left: 5),
                           child: Text(
                             'كل تبرع هو بصمة خير تترك أثرًا في حياة شخص قريب هنا، بإمكانك أن تكون مصدر الأمل والفرح لمن تحب',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
                         const SizedBox(
