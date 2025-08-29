@@ -51,25 +51,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences sharedPreferences;
-// final token = sharedPreferences.get("token");
 
-// String? token;
-//
-//مشان ونحنا عم نعدل بين ايميوليتر و ويندوز
+// const String localhost = "192.168.1.105:8000";
 
-// const String localhost = " 192.168.59.180:8000";
-
-//للإيموليرتر
-
-// const String localhost = "10.0.2.2:8000";
-
-//للربط عن بعد مع الباك
+ const String localhost = "10.0.2.2:8000";
 
 // const String localhost = "ffa3e8341e13.ngrok-free.app";
 
-//للويندوز
-
-const String localhost = "127.0.0.1:8000";
+//const String localhost = "127.0.0.1:8000";
 
 const String baseUrl = "http://$localhost";
 void main() async {
@@ -102,7 +91,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => UserCubit()),
         BlocProvider(create: (context) => CancleMonthlyDonationCubit()),
         BlocProvider(create: (context) => JoinToProjectCubit()),
-
         BlocProvider(create: (context) => DonationCubit(DonationRepositry())),
         BlocProvider(create: (context) => NavigationCubit()),
         BlocProvider(create: (context) => TheBestCubit()),
@@ -114,7 +102,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SavedProjectsCubit()),
         BlocProvider(create: (context) => SavedButtonCubit()),
         BlocProvider(create: (context) => DonationButtonCubit()),
-        // BlocProvider(create: (context) => BirthdateCubit())
       ],
       child: BlocBuilder<ThemeCubits, bool>(
         builder: (context, isDarkMode) {
@@ -126,13 +113,7 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'IBMPlexSansArabic',
               ),
             ),
-            // builder: (context, child) {
-            //   return Directionality(
-            //     textDirection: TextDirection.rtl,
-            //     child: child!,
-            //   );
-            // },
-            initialRoute: "SignUp",
+            initialRoute: "Splash",
             routes: {
               "Splash": (context) => const SplashScreen(),
               "NavigationMain": (context) => const NavigationMain(),
@@ -143,19 +124,17 @@ class MyApp extends StatelessWidget {
               "ChangePassword": (context) => ChangePasswordScreen(),
               "PinCode": (context) => PinCodeScreen(),
               "VolunteerForm": (context) => const FormScreen(),
-              "Gift": (context) => GiftScreen(),
+              "Gift": (context) => const GiftScreen(),
               "Setting": (context) => const SettingDrawer(),
               "Wallet": (context) => WalletScreen(),
               "Notification": (context) => const NotificationScreen(),
               "VolunteeringFields": (context) => const VolunteeringFields(),
               "LearningProject": (context) => const LearningProject(),
               "OnSiteProjects": (context) => const OnSiteProjects(),
-              "GlobalnetworkProjects": (context) =>
-                  const GlobalnetworkProjects(),
+              "GlobalnetworkProjects": (context) =>const GlobalnetworkProjects(),
               "HealtcareProjects": (context) => const HealtcareProjects(),
               "MonthlyDonation": (context) => const MonthlyDonationScreen(),
-              "EnableMonthlyOnation": (context) =>
-                  const EnableMonthlyDonation(),
+              "EnableMonthlyOnation": (context) =>const EnableMonthlyDonation(),
               "CompletedProjects": (context) => const CompletedProjectsScreen(),
               "DonationHistory": (context) => const DonationHistoryScreen(),
               "savedProject": (context) => const SavedProjectsScreen(),

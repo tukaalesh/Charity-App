@@ -57,8 +57,8 @@ class CompletedProjectBox extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: SizedBox(
-                    width: screenWidth.width * 0.35,
-                    height: screenWidth.height * 0.30,
+                    width: screenWidth.width * 0.30,
+                    height: screenWidth.height * 0.20,
                     child: Image.network(
                       project.photo_url,
                       fit: BoxFit.cover,

@@ -14,12 +14,13 @@ class FeedbackPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     final ColorScheme=context.colorScheme;
+     final colorScheme=context.colorScheme;
     return BlocProvider(
       create: (_) => FeedbackCubit()..fetchFeedbacks(),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          backgroundColor: colorScheme.surface,
           appBar: const ConstAppBar(title: 'آراء المستفيدين'),
           body: BlocConsumer<FeedbackCubit, FeedbackState>(
             listener: (context, state) {
@@ -38,7 +39,7 @@ class FeedbackPage extends StatelessWidget {
             builder: (context, state) {
               if (state is FeedbackLoading) {
                 return Center(
-                  child: SpinKitCircle(size: 45, color: ColorScheme.secondary),
+                  child: SpinKitCircle(size: 45, color: colorScheme.secondary),
                 );
               } else if (state is FeedbackLoaded) {
                 if (state.feedbacks.isEmpty) {

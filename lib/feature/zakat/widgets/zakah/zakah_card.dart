@@ -1,9 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace
-
 import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
-import 'package:charity_app/constants/const_alert_dilog.dart';
+// import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_cubit.dart';
 import 'package:charity_app/feature/zakat/cubit/zakah_state.dart';
@@ -37,17 +36,15 @@ class ZakahCard extends StatelessWidget {
         print("الحالة الحالية: $state");
 
         if (state is ZakahLoading) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('جاري تنفيذ التبرع'),
-              backgroundColor: Colors.grey,
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(
+          //     content: Text('جاري تنفيذ التبرع'),
+          //     backgroundColor: Colors.grey,
+          //   ),
+          // );
         } else if (state is ZakahSuccess) {
-          final donatedAmount =
-              double.tryParse(customAmountController.text) ?? 0;
+          final donatedAmount =double.tryParse(customAmountController.text) ?? 0;
 
-          // خصم الرصيد من UserCubit
           final userCubit = context.read<UserCubit>();
           if (userCubit.state is UserSuccessState) {
             final user = (userCubit.state as UserSuccessState).user;
@@ -55,46 +52,49 @@ class ZakahCard extends StatelessWidget {
             userCubit.updateBalance(newBalance);
           }
 
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => CustomAlertDialogNoConfirm(
-              title: 'تم التبرع بنجاح.',
-              cancelText: "إغلاق",
-              onCancel: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          );
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: const Text('تم التبرع بنجاح.'),
-          //     backgroundColor: ColorScheme.secondary,
+          // showDialog(
+          //   context: context,
+          //   barrierDismissible: false,
+          //   builder: (context) => CustomAlertDialogNoConfirm(
+          //     title: 'تم التبرع بنجاح.',
+          //     cancelText: "إغلاق",
+          //     onCancel: () {
+          //       Navigator.of(context).pop();
+          //     },
           //   ),
           // );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Center(child: Text('تم التبرع بنجاح')),
+              backgroundColor: ColorScheme.secondary,
+            ),
+          );
           customAmountController.clear();
           formKey.currentState?.reset();
-        } else if (state is ZakahFailure) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => CustomAlertDialogNoConfirm(
-              title: state.message,
-              cancelText: "إغلاق",
-              onCancel: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          );
-          // ScaffoldMessenger.of(context).showSnackBar(
-
-          //   SnackBar(
-          //     content: Text(state.message),
-          //     backgroundColor: Colors.red,
+        }
+         else if (state is ZakahFailure) {
+          // showDialog(
+          //   context: context,
+          //   barrierDismissible: false,
+          //   builder: (context) => CustomAlertDialogNoConfirm(
+          //     title: state.message,
+          //     cancelText: "إغلاق",
+          //     onCancel: () {
+          //       Navigator.of(context).pop();
+          //     },
           //   ),
           // );
+          ScaffoldMessenger.of(context).showSnackBar(
+
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
+        
       },
+      
       builder: (context, state) {
         bool isLoading = state is ZakahLoading;
         final cubit = context.read<ZakahCubit>();
@@ -215,8 +215,13 @@ class ZakahCard extends StatelessWidget {
                               CircleAvatar(
                                 radius: 24,
                                 backgroundColor: isSelected
-                                    ? ColorScheme.secondary
-                                    : Colors.grey[400],
+                                    ? Theme.of(context).colorScheme.secondary
+                                    : Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.grey[700]
+                                        : Colors.grey[400],
+
+                                // isSelected? ColorScheme.secondary: Colors.grey[400],
                                 child: Icon(
                                   categories[index]['icon'],
                                   color: Colors.white,
@@ -240,7 +245,8 @@ class ZakahCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  width: 480,
+                  width: 500,
+                  height: 90,
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Authbutton(

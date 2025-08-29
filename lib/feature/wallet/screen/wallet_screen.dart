@@ -2,7 +2,6 @@ import 'package:charity_app/auth/cubits/user_cubit/user_cubit.dart';
 import 'package:charity_app/auth/cubits/user_cubit/user_states.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
-import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/constants/const_image.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
@@ -15,7 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class WalletScreen extends StatefulWidget {
-  WalletScreen({super.key});
+  const WalletScreen({super.key});
 
   @override
   State<WalletScreen> createState() => _WalletScreenState();

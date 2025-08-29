@@ -9,14 +9,16 @@ class OpportunitiesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      final isDark = context.isDarkMode;
-     final ColorScheme =context.colorScheme;
+     final colorScheme =context.colorScheme;
     return DefaultTabController(
       length: 2, //عدد التابس
 
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          backgroundColor: colorScheme.surface,
           appBar: AppBar(
+              backgroundColor: colorScheme.surface,
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new, 
@@ -41,7 +43,7 @@ class OpportunitiesScreen extends StatelessWidget {
              // labelColor: Colors.black,
              unselectedLabelColor: isDark ? Colors.grey[400] : Colors.grey,
               // unselectedLabelColor: Colors.grey,
-              indicatorColor: ColorScheme.primary,
+              indicatorColor: colorScheme.primary,
               indicatorWeight: 3,
               indicatorPadding: const EdgeInsets.symmetric(horizontal: -11),
             ),

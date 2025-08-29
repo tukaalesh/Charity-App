@@ -6,7 +6,6 @@ import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/constants/const_alert_dilog.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
-import 'package:charity_app/feature/volunteer%20projects/widget/custom_text.dart';
 import 'package:charity_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

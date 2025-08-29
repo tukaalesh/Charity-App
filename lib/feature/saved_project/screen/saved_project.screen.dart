@@ -69,12 +69,13 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme = context.colorScheme;
+    final colorScheme = context.colorScheme;
     return RefreshIndicator(
       onRefresh: () => context.read<SavedProjectsCubit>().fetchSavedProjects(),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          backgroundColor: colorScheme.surface,
         appBar: const ConstAppBar(title: 'المشاريع المحفوظة'),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -95,7 +96,7 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
                       if (state is SavedProjectsLoading) {
                         return Center(
                           child: SpinKitCircle(
-                              size: 45, color: ColorScheme.secondary),
+                              size: 45, color: colorScheme.secondary),
                         );
                       } else if (state is SavedProjectsLoaded) {
                         if (state.projects.isEmpty) {
@@ -140,8 +141,8 @@ class _SavedProjectsScreenState extends State<SavedProjectsScreen> {
                                   children: [
                                     ProjectCard(project: project),
                                     Positioned(
-                                      top: 8,
-                                      right: 8,
+                                      top: 2,
+                                      left: 8,
                                       child: IconButton(
                                         icon: const Icon(Icons.close,
                                             color: Colors.black),

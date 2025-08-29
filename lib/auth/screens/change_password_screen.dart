@@ -3,8 +3,7 @@ import 'package:charity_app/auth/cubits/change_password/change_password_states.d
 import 'package:charity_app/auth/widgets/alert_dialog.dart';
 import 'package:charity_app/auth/widgets/auth_button.dart';
 import 'package:charity_app/auth/widgets/auth_custom_text_field.dart';
-import 'package:charity_app/constants/const_alert_dilog.dart'
-    hide CustomAlertDialog;
+import 'package:charity_app/constants/const_alert_dilog.dart' hide CustomAlertDialog;
 import 'package:charity_app/constants/const_appBar.dart';
 import 'package:charity_app/core/extensions/context_extensions.dart';
 import 'package:charity_app/constants/const_image.dart';
@@ -139,7 +138,7 @@ class ChangePasswordScreen extends StatelessWidget {
                                           onPressed: () {
                                             BlocProvider.of<
                                                 ChangePasswordCubit>(context)
-                                              ..changePasswordFunction(
+                                              .changePasswordFunction(
                                                 newPasswordController:
                                                     newPasswordController,
                                                 confirmationNewPasswordController:

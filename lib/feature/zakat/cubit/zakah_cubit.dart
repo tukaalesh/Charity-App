@@ -39,7 +39,7 @@ class ZakahCubit extends Cubit<ZakahState> {
         }
       }
     } catch (e) {
-      emit(ZakahFailure("حدث خطأ أثناء إرسال الزكاة"));
+      emit(ZakahFailure( "لا يوجد لديك رصيد كافي للقيام بهذه العملية، الرجاء شحن المحفظة والمحاولة مرة أخرى"));
     }
   }
 }

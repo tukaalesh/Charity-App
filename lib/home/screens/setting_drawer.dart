@@ -42,7 +42,7 @@ class SettingDrawer extends StatelessWidget {
           //   ),
           // );
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("فشل تسجيل الخروج")),
+            const SnackBar(content: Center(child: Text("فشل تسجيل الخروج",style: TextStyle(color: Colors.red),))),
           );
         }
       },
@@ -112,7 +112,7 @@ class SettingDrawer extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 50),
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: Row(

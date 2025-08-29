@@ -28,11 +28,12 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-      final ColorScheme=context.colorScheme;
+      final colorScheme=context.colorScheme;
     final isDark = context.isDarkMode;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: colorScheme.surface,
         appBar: const ConstAppBar(title: 'سجل التبرعات'),
         body: BlocConsumer<DonationHistoryCubit, DonationHistoryState>(
           listener: (context, state) {
@@ -58,7 +59,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
             if (state is DonationHistoryLoading ||
                 state is DonationHistoryInitial) {
               return Center(
-                child: SpinKitCircle(size: 45, color: ColorScheme.secondary),
+                child: SpinKitCircle(size: 45, color: colorScheme.secondary),
               );
             }
 

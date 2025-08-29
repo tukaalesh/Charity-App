@@ -52,7 +52,7 @@ class ConstAppBar1 extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 20,
+          fontSize: 24,
           fontWeight: FontWeight.bold,
           color: colorScheme.onSurface,
         ),

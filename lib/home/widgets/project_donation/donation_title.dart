@@ -1,5 +1,4 @@
 import 'package:charity_app/core/extensions/context_extensions.dart';
-import 'package:charity_app/feature/opportunities/screen/opportunities_screen.dart';
 import 'package:flutter/material.dart';
 
 class DonationTitle extends StatelessWidget {
@@ -19,22 +18,22 @@ class DonationTitle extends StatelessWidget {
               color: isDark ? Colors.grey[400] : Colors.black,
               fontWeight: FontWeight.bold),
         ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const OpportunitiesScreen()),
-            );
-          },
-          child: Text(
-            'عرض المزيد',
-            style: TextStyle(
+        // InkWell(
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => const OpportunitiesScreen()),
+        //     );
+        //   },
+        //   child: Text(
+        //     'عرض المزيد',
+        //     style: TextStyle(
           
-               color: isDark ? Colors.grey[400] : Colors.grey[800],
-              //  decoration: TextDecoration.underline,
-            ),
-          ),
-        )
+        //        color: isDark ? Colors.grey[400] : Colors.grey[800],
+        //       //  decoration: TextDecoration.underline,
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

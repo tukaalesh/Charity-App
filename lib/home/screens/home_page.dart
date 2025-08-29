@@ -31,8 +31,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme = context.colorScheme;
+    final colorScheme = context.colorScheme;
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       appBar: const appBarWidget(),
       drawer: const SettingDrawer(),
       body: BlocConsumer<DonationCubit, DonationState>(
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                               child: Center(
                                 child: SpinKitCircle(
                                   size: 45,
-                                  color: ColorScheme.secondary,
+                                  color: colorScheme.secondary,
                                 ),
                               ),
                             );
