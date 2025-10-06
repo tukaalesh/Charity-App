@@ -68,3 +68,7 @@ Launch the application on an attached device or emulator:
 flutter run
 ```
 
+## 📞 Contact 
+
+* **Email:** `tukaalesh8@gmail.com`
+
