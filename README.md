@@ -73,10 +73,3 @@ Launch the application on an attached device or emulator:
 flutter run
 ```
 
-### 📜 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for more details.
-
------
-
-**Contact:** [Your Email Address] | [Your LinkedIn/GitHub Profile]
