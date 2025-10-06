@@ -60,11 +60,7 @@ Download all required packages:
 flutter pub get
 ```
 
-### 3\. Configuration (Optional):
-
-If your project requires **API Keys** (e.g., payment gateway), set up your configuration file (e.g., `lib/config/api_keys.dart`) with your credentials.
-
-### 4\. Run the App:
+### 3\. Run the App:
 
 Launch the application on an attached device or emulator:
 
