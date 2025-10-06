@@ -49,8 +49,7 @@ Follow these steps to get the project running locally:
 Use the `git clone` command and navigate into the project directory:
 
 ```bash
-git clone https://github.com/yourusername/HandByHand.git
-cd HandByHand
+git clone https://github.com/tukaalesh/Charity-App.git
 ```
 
 ### 2\. Get Dependencies:
