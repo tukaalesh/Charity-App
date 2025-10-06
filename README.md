@@ -1,7 +1,7 @@
 
 # 🤝 Hand By Hand: Charity Management System
 
-A comprehensive, **cross-platform** mobile application built with **Flutter**, designed to revolutionize charitable work by seamlessly connecting donors and volunteers with impactful projects. It features a fully integrated financial system, including wallet management, guided **Zakat** calculation, and a unique **Time Donation** feature.
+A comprehensive mobile application built with **Flutter**, designed to revolutionize charitable work by seamlessly connecting donors and volunteers with impactful projects. It features a fully integrated financial system, including wallet management, guided **Zakat** calculation, and a unique **Time Donation** feature.
 
 
 ### ✨ Key Unique Features
